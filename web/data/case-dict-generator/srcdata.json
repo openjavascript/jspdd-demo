@@ -1,5 +1,11 @@
 {
     "message": "获取数据成功",
+    "null": null, 
+    "undefined": null, 
+    "obj": {
+        "test1": "test1"
+    }, 
+    "ar": [],
     "data": {
         "detail": {
             "base_config": {

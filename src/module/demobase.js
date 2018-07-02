@@ -70,18 +70,92 @@ export default class DemoBase {
 
         procBtn.on( 'click', function(){
 
+            let tmpSrc = JSON.parse( _this.getFormJsonVal( srcData) )
+                , tmpNew = JSON.parse( _this.getFormJsonVal( newData ) )
+                , tmpDesc  = JSON.parse( _this.getFormJsonVal( descData ) )
+                ;
+
+            console.clear();
+
+            //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
+
+            outputData.val( '' );
+            outputText.html( '' );
+
+            demo.update( tmpSrc, tmpNew, tmpDesc );
+
+            demo.alldata = alldata.prop( 'checked' ) ? 1 : 0;
+            demo.userName = ( userName.val() || '' ).trim();
+            demo.userId = ( userId.val() || '' ).trim();
+
+            if( $.isEmptyObject( tmpSrc ) && $.isEmptyObject( tmpNew ) ){
+                return;
+            }
+
+            demo.run( ( data, pdd )=>{
+                setTimeout( ()=>{
+
+                    let debugData = pdd.debugData();
+                    console.log( 'debugData', debugData );
+                    console.log( 'diffData', debugData.SRC.diffData );
+                    console.log( 'dictData', debugData.SRC.dictData );
+
+                    console.log( 'data', data );
+
+                    outputData.val( JSON.stringify( data, null, 4 ) );
+                    outputText.html( demo.outputHtml( data ) );
+
+                }, 500 );
+            });
+
         });
     }
 
     generatorDict( sdata, ndata, ddata ) {
-        let r = {};
+        let r, combData = this.clone( Object.assign( sdata, ndata ) );
 
-        console.log( sdata, ndata, ddata );
+        let cb = ( item, key, pnt ) => {
 
-        r = Object.assign( r, ddata );
+            switch( Object.prototype.toString.call( item ) ){
+                case '[object Array]': {
+                    let tmp = item;
+                    if( item.length && Object.prototype.toString.call( item[0] ) == '[object Object]' ){
+                        let tmp = JSON.parse( JSON.stringify( item[0] ) );
+                        jsonTraverser( tmp, cb );
+                        pnt[key] = { _array: tmp };
+                    }else{
+                        pnt[key] = {
+                            _array: {
+                                "label": key
+                           }
+                        };
+                    }
+
+                    break;
+                }
+                case '[object Object]': {
+                    //console.log( key, item );
+                    item.label = key;
+                    break;
+                }
+                default: {
+                    if( key == 'label' ) return;
+                    pnt[ key ] = {
+                        "label": key
+                    };
+                    break;
+                }
+            }
+
+        };
+
+        jsonTraverser( combData, cb );
+
+        r = Object.assign( combData, ddata );
 
         return r;
     }
+
 
     clone( json ){
         return JSON.parse( JSON.stringify( json ) );
@@ -185,3 +259,20 @@ export default class DemoBase {
     }
 
 }
+
+function jsonTraverser( json, cb ){
+    let keys = Object.keys( json );
+    keys.map( ( key ) => {
+        let item = json[key]
+            ;
+        switch( Object.prototype.toString.call( item ) ){
+            case '[object Array]': 
+            case '[object Object]': {
+                jsonTraverser( item, cb );
+                break;
+            }
+        }
+        cb && cb( item, key, json );
+    });
+}
+
