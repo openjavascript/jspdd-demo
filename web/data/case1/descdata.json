@@ -2,6 +2,11 @@
     "test1": {
         "label": "test data"
     },
+    "ar": {
+        "_array": {
+            "label": "ar desc"
+        }
+    },
     "data": {
         "label": "攻击发现与风险控制系统 - 策略中心",
         "detail": {
@@ -55,6 +60,12 @@
                             }
                         }
                     }
+                    , "testar5": {
+                        "_array": {
+                            "label": "测试数组-删除数据"
+                        }
+                    }
+
                 },
                 "upgrade": {
                     "label": "升级设置",

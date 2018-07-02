@@ -1,5 +1,6 @@
 {
     "message": "获取数据成功",
+    "ar": [],
     "data": {
         "detail": {
             "base_config": {
@@ -11,6 +12,7 @@
                     , "testar2": [ { "a": 111 } ]
                     , "testar3": [ 1111, 1112 ]
                     , "testar4": [ [11111] ]
+                    , "testar5": [ {"a": 1} ]
                 },
                 "upgrade": {
                     "inherit": "0",

@@ -56,6 +56,7 @@ export default class DemoBase {
         _this.alldata.prop( 'checked', !!demo.alldata );
 
         demo.fetchData( ( data  ) => {
+
             data[ 0 ] = this.clone( data[ 0 ] || {} );
             data[ 1 ] = this.clone( data[ 1 ] || {} );
             data[ 2 ] = this.clone( data[ 2 ] || {} );
@@ -63,7 +64,7 @@ export default class DemoBase {
             _this.srcData.val( JSON.stringify( data[0], null, 4 ) );
             _this.newData.val( JSON.stringify( data[1], null, 4 ) );
 
-            let generatedData = this.generatorDict( ...data );
+            let generatedData = this.generatorDict( data[0], data[1], data[2] );
             console.log( 'generatedData:', generatedData );
 
             _this.descData.val( JSON.stringify( generatedData, null, 4 ) );
@@ -76,52 +77,8 @@ export default class DemoBase {
         });
     }
 
-    initDictExec() {
-        let demo = this.demo;
-        let _this = this;
-
-        let tmpSrc = JSON.parse( _this.getFormJsonVal( _this.srcData) )
-            , tmpNew = JSON.parse( _this.getFormJsonVal( _this.newData ) )
-            , tmpDesc  = JSON.parse( _this.getFormJsonVal( _this.descData ) )
-            ;
-
-        console.clear();
-
-        //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
-
-        _this.outputData.val( '' );
-        _this.outputText.html( '' );
-
-        demo.update( tmpSrc, tmpNew, tmpDesc );
-
-        demo.alldata = _this.alldata.prop( 'checked' ) ? 1 : 0;
-        demo.userName = ( _this.userName.val() || '' ).trim();
-        demo.userId = ( _this.userId.val() || '' ).trim();
-
-        if( $.isEmptyObject( tmpSrc ) && $.isEmptyObject( tmpNew ) ){
-            return;
-        }
-
-        demo.run( ( data, pdd )=>{
-            setTimeout( ()=>{
-
-                let debugData = pdd.debugData();
-                console.log( 'debugData', debugData );
-                console.log( 'diffData', debugData.SRC.diffData );
-                console.log( 'dictData', debugData.SRC.dictData );
-
-                console.log( 'data', data );
-
-                _this.outputData.val( JSON.stringify( data, null, 4 ) );
-               _this. outputText.html( demo.outputHtml( data ) );
-
-            }, 500 );
-        });
-
-    }
-
     generatorDict( sdata, ndata, ddata ) {
-        let r, combData = this.clone( Object.assign( sdata, ndata ) );
+        let r, combData = $.extend( true, sdata, ndata );
 
         let cb = ( item, key, pnt ) => {
 
@@ -163,6 +120,50 @@ export default class DemoBase {
         r = Object.assign( combData, ddata );
 
         return r;
+    }
+
+
+    initDictExec() {
+        let demo = this.demo;
+        let _this = this;
+
+        let tmpSrc = JSON.parse( _this.getFormJsonVal( _this.srcData) )
+            , tmpNew = JSON.parse( _this.getFormJsonVal( _this.newData ) )
+            , tmpDesc  = JSON.parse( _this.getFormJsonVal( _this.descData ) )
+            ;
+
+
+        //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
+
+        _this.outputData.val( '' );
+        _this.outputText.html( '' );
+
+        demo.update( tmpSrc, tmpNew, tmpDesc );
+
+        demo.alldata = _this.alldata.prop( 'checked' ) ? 1 : 0;
+        demo.userName = ( _this.userName.val() || '' ).trim();
+        demo.userId = ( _this.userId.val() || '' ).trim();
+
+        if( $.isEmptyObject( tmpSrc ) && $.isEmptyObject( tmpNew ) ){
+            return;
+        }
+
+        demo.run( ( data, pdd )=>{
+            setTimeout( ()=>{
+
+                let debugData = pdd.debugData();
+                console.log( 'debugData', debugData );
+                console.log( 'diffData', debugData.SRC.diffData );
+                console.log( 'dictData', debugData.SRC.dictData );
+
+                console.log( 'data', data );
+
+                _this.outputData.val( JSON.stringify( data, null, 4 ) );
+               _this. outputText.html( demo.outputHtml( data ) );
+
+            }, 500 );
+        });
+
     }
 
 
