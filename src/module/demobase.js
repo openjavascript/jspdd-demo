@@ -80,6 +80,8 @@ export default class DemoBase {
     generatorDict( sdata, ndata, ddata ) {
         let r, combData = $.extend( true, sdata, ndata );
 
+        let prefix = "文字描述 ";
+
         let cb = ( item, key, pnt ) => {
 
             switch( Object.prototype.toString.call( item ) ){
@@ -88,12 +90,13 @@ export default class DemoBase {
                     if( item.length && Object.prototype.toString.call( item[0] ) == '[object Object]' ){
                         let tmp = JSON.parse( JSON.stringify( item[0] ) );
                         jsonTraverser( tmp, cb );
-                        pnt[key] = { _array: tmp };
+                        pnt[key] = { _array: tmp, "label": `${prefix}${key}` };
                     }else{
                         pnt[key] = {
                             _array: {
-                                "label": key
+                                "label": `${prefix}${key}`
                            }
+                           , "label": `${prefix}${key}`
                         };
                     }
 
@@ -101,13 +104,13 @@ export default class DemoBase {
                 }
                 case '[object Object]': {
                     //console.log( key, item );
-                    item.label = key;
+                    item.label = `${prefix}${key}`;
                     break;
                 }
                 default: {
                     if( key == 'label' ) return;
                     pnt[ key ] = {
-                        "label": key
+                        "label": `${prefix}${key}`
                     };
                     break;
                 }

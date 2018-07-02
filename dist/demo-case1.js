@@ -17269,6 +17269,8 @@
 	        var r = void 0,
 	            combData = _jquery2.default.extend(true, sdata, ndata);
 
+	        var prefix = "文字描述";
+
 	        var cb = function cb(item, key, pnt) {
 
 	            switch (Object.prototype.toString.call(item)) {
@@ -17278,12 +17280,13 @@
 	                        if (item.length && Object.prototype.toString.call(item[0]) == '[object Object]') {
 	                            var _tmp = JSON.parse((0, _stringify2.default)(item[0]));
 	                            jsonTraverser(_tmp, cb);
-	                            pnt[key] = { _array: _tmp };
+	                            pnt[key] = { _array: _tmp, "label": '' + prefix + key };
 	                        } else {
 	                            pnt[key] = {
 	                                _array: {
-	                                    "label": key
-	                                }
+	                                    "label": '' + prefix + key
+	                                },
+	                                "label": '' + prefix + key
 	                            };
 	                        }
 
@@ -17292,14 +17295,14 @@
 	                case '[object Object]':
 	                    {
 	                        //console.log( key, item );
-	                        item.label = key;
+	                        item.label = '' + prefix + key;
 	                        break;
 	                    }
 	                default:
 	                    {
 	                        if (key == 'label') return;
 	                        pnt[key] = {
-	                            "label": key
+	                            "label": '' + prefix + key
 	                        };
 	                        break;
 	                    }
@@ -18129,6 +18132,9 @@
 	                            } else {
 	                                if (typeof item == 'string') {
 	                                    slabel.push(item);
+	                                    _this3.DICT[fullpath].parentlabel = label;
+	                                    _this3.DICT[fullpath].fulllabel = slabel;
+	                                } else {
 	                                    _this3.DICT[fullpath].parentlabel = label;
 	                                    _this3.DICT[fullpath].fulllabel = slabel;
 	                                }
