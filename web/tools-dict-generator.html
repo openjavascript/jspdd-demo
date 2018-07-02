@@ -14,6 +14,11 @@
             <h1 >JSPDD dictionary generator</h1>
         </div>
         <div class="col-sm-8 text-right">
+            <label>
+                <input type="checkbox" id="alldata" />
+                输出所有数据(包含没在字典里的字段)
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="btn btn-default btn-primary" id="procBtn">开始生成字典</button>
         </div>
     </div>
@@ -65,13 +70,11 @@
 <script>
 
 
-    /*
     window.DATA_API = [ 
         "./data/case-dict-generator/srcdata.json"
         , "./data/case-dict-generator/newdata.json"
         , "./data/case-dict-generator/descdata.json"
     ];
-    */
     //DATA_API = [];
 </script>
 </body>

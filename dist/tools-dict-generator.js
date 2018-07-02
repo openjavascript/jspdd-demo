@@ -17182,6 +17182,7 @@
 	        }
 
 	        var demo = this.demo;
+	        var _this = this;
 
 	        /*
 	        console.log( demo.api );
@@ -17221,13 +17222,13 @@
 	        });
 
 	        procBtn.on('click', function () {
-	            var tmpSrc = JSON.parse(srcData.val()),
-	                tmpNew = JSON.parse(newData.val()),
-	                tmpDesc = JSON.parse(descData.val());
+	            var tmpSrc = JSON.parse(_this.getFormJsonVal(srcData)),
+	                tmpNew = JSON.parse(_this.getFormJsonVal(newData)),
+	                tmpDesc = JSON.parse(_this.getFormJsonVal(descData));
 
 	            console.clear();
 
-	            console.log(tmpSrc, tmpNew, tmpDesc, alldata.prop('checked'));
+	            //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
 
 	            outputData.val('');
 	            outputText.html('');
@@ -17238,7 +17239,9 @@
 	            demo.userName = (userName.val() || '').trim();
 	            demo.userId = (userId.val() || '').trim();
 
-	            console.log(demo.alldata, demo.userName, demo.userId);
+	            if (_jquery2.default.isEmptyObject(tmpSrc) && _jquery2.default.isEmptyObject(tmpNew)) {
+	                return;
+	            }
 
 	            demo.run(function (data, pdd) {
 	                setTimeout(function () {
@@ -17255,6 +17258,14 @@
 	                }, 500);
 	            });
 	        });
+	    };
+
+	    DemoBase.prototype.getFormJsonVal = function getFormJsonVal(item) {
+	        var r = (item.val() || '').trim();
+
+	        r = r || '{}';
+
+	        return r;
 	    };
 
 	    return DemoBase;

@@ -26,6 +26,7 @@ export default class DemoBase {
         }
 
         let demo = this.demo;
+        let _this = this;
 
         /*
         console.log( demo.api );
@@ -66,16 +67,15 @@ export default class DemoBase {
             outputText.html( demo.outputHtml( data ) );
         });
 
-
         procBtn.on( 'click', function(){
-            let tmpSrc = JSON.parse( srcData.val() )
-                , tmpNew = JSON.parse( newData.val() )
-                , tmpDesc  = JSON.parse( descData.val() )
+            let tmpSrc = JSON.parse( _this.getFormJsonVal( srcData) )
+                , tmpNew = JSON.parse( _this.getFormJsonVal( newData ) )
+                , tmpDesc  = JSON.parse( _this.getFormJsonVal( descData ) )
                 ;
 
             console.clear();
 
-            console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
+            //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
 
             outputData.val( '' );
             outputText.html( '' );
@@ -86,7 +86,9 @@ export default class DemoBase {
             demo.userName = ( userName.val() || '' ).trim();
             demo.userId = ( userId.val() || '' ).trim();
 
-            console.log( demo.alldata, demo.userName, demo.userId);
+            if( $.isEmptyObject( tmpSrc ) && $.isEmptyObject( tmpNew ) ){
+                return;
+            }
 
             demo.run( ( data, pdd )=>{
                 setTimeout( ()=>{
@@ -108,4 +110,13 @@ export default class DemoBase {
 
 
     }
+
+    getFormJsonVal( item ) {
+        let r = ( item.val() || '' ).trim();
+
+        r = r || '{}';
+
+        return r;
+    }
+
 }
