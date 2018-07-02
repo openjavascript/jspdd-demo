@@ -8,7 +8,7 @@ export default class DemoBase {
         this.demo = new Example();
     }
 
-    init() {
+    _globalVar() {
         if( window.DATA_API ) {
             this.demo.updateAPI( window.DATA_API );
         }
@@ -24,6 +24,71 @@ export default class DemoBase {
         if( window.ALLDATA ) {
             this.demo.alldata = window.ALLDATA;
         }
+    }
+
+    initDict() {
+        this._globalVar();
+
+        let demo = this.demo;
+        let _this = this;
+
+        /*
+        console.log( demo.api );
+        console.log( demo.userName );
+        console.log( demo.userId );
+        console.log( demo.alldata );
+        */
+
+        let srcData = $( '#srcData' )
+            , newData = $( '#newData' )
+            , descData = $( '#descData' )
+            , outputData = $( '#outputData' )
+            , procBtn = $( '#procBtn' )
+            , alldata = $( '#alldata' )
+            , userName = $( '#userName' )
+            , userId = $( '#userId' )
+            , outputText = $( '#outputText' )
+            ;
+
+        userName.val( demo.userName );
+        userId.val( demo.userId );
+        alldata.prop( 'checked', !!demo.alldata );
+
+        demo.fetchData( ( data  ) => {
+            data[ 0 ] = this.clone( data[ 0 ] || {} );
+            data[ 1 ] = this.clone( data[ 1 ] || {} );
+            data[ 2 ] = this.clone( data[ 2 ] || {} );
+
+            srcData.val( JSON.stringify( data[0], null, 4 ) );
+            newData.val( JSON.stringify( data[1], null, 4 ) );
+
+            let generatedData = this.generatorDict( ...data );
+            console.log( 'generatedData:', generatedData );
+
+            descData.val( JSON.stringify( generatedData, null, 4 ) );
+        });
+
+        procBtn.on( 'click', function(){
+
+        });
+    }
+
+    generatorDict( sdata, ndata, ddata ) {
+        let r = {};
+
+        console.log( sdata, ndata, ddata );
+
+        r = Object.assign( r, ddata );
+
+        return r;
+    }
+
+    clone( json ){
+        return JSON.parse( JSON.stringify( json ) );
+    }
+
+    init() {
+        this._globalVar();
 
         let demo = this.demo;
         let _this = this;

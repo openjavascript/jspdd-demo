@@ -33,6 +33,25 @@ export default class Example extends BaseData {
         })
     }
 
+    fetchData( doneCb ){
+        if( !( this.api && this.api.length ) ) {
+            
+            if( !(this.DATA && this.DATA.length ) ) return;
+            doneCb && doneCb( this.DATA );
+            return;
+        }
+        let item = this.api.shift();
+
+        fetch( item, { rnd: Date.now() } )
+        .then(function(response) {
+            return response.json()
+        }).then( ( json ) => {
+            //this.DATA[ item.type ] = json;
+            this.DATA.push( json );
+            this.fetchData( doneCb );
+        })
+    }
+
     updateAPI( api ) {
         this.api = api;
     }

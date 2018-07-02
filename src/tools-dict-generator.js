@@ -5,5 +5,5 @@ import $ from './module/jquery.js';
 
 $(document).ready( function(){
     let demobase = new DemoBase();
-        demobase.init();
+        demobase.initDict();
 });
