@@ -17269,7 +17269,7 @@
 	        var r = void 0,
 	            combData = _jquery2.default.extend(true, sdata, ndata);
 
-	        var prefix = "文字描述";
+	        var prefix = "文字描述 ";
 
 	        var cb = function cb(item, key, pnt) {
 
