@@ -17235,8 +17235,8 @@
 	            demo.update(tmpSrc, tmpNew, tmpDesc);
 
 	            demo.alldata = alldata.prop('checked') ? 1 : 0;
-	            demo.userName = userName.val().trim();
-	            demo.userId = userId.val().trim();
+	            demo.userName = (userName.val() || '').trim();
+	            demo.userId = (userId.val() || '').trim();
 
 	            console.log(demo.alldata, demo.userName, demo.userId);
 
@@ -17362,7 +17362,10 @@
 	        r.push('<div class="outputtext-box">');
 
 	        r.push('<div class="font-weight-bold">\u8BB0\u5F55\u65F6\u95F4: ' + data.date + ', \u8BB0\u5F55\u7C7B\u578B: ' + log_type + ', \u6570\u636E\u603B\u6570: ' + data.data.length + '\u6761</div>');
-	        r.push('<div class="font-weight-bold py-1">\u7528\u6237\u540D: ' + data.userName + ', \u7528\u6237ID: ' + data.userId + '</div>');
+
+	        if (data.userName || data.userId) {
+	            r.push('<div class="font-weight-bold py-1">\u7528\u6237\u540D: ' + data.userName + ', \u7528\u6237ID: ' + data.userId + '</div>');
+	        }
 
 	        r.push('<div class="list-color-desc">\n            <label class="font-weight-bold">\u989C\u8272\u8BF4\u660E:</label>&nbsp;\n            <span class="action-add">\u7EFF\u8272\u6587\u5B57\u4EE3\u8868\u65B0\u589E(add)</span>&nbsp; \n            <span class="action-edit">\u84DD\u8272\u6587\u5B57\u4EE3\u8868\u7F16\u8F91(edit)</span>&nbsp; \n            <span class="action-delete">\u7EA2\u8272\u6587\u5B57\u4EE3\u8868\u5220\u9664(delete)</span>&nbsp; \n            <span class="actiontype-array">\u7070\u8272\u80CC\u666F\u4EE3\u8868\u4FEE\u6539\u7684\u6570\u636E\u4E3A\u6570\u7EC4\u5B57\u6BB5(array)</span>\n        </div>');
 

@@ -65,7 +65,10 @@ export default class Example extends BaseData {
         r.push( `<div class="outputtext-box">` );
 
         r.push( `<div class="font-weight-bold">记录时间: ${data.date}, 记录类型: ${log_type}, 数据总数: ${data.data.length}条</div>` );
-        r.push( `<div class="font-weight-bold py-1">用户名: ${data.userName}, 用户ID: ${data.userId}</div>` );
+
+        if( data.userName || data.userId ){ 
+            r.push( `<div class="font-weight-bold py-1">用户名: ${data.userName}, 用户ID: ${data.userId}</div>` );
+        }
 
         r.push( `<div class="list-color-desc">
             <label class="font-weight-bold">颜色说明:</label>&nbsp;

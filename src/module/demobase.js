@@ -83,8 +83,8 @@ export default class DemoBase {
             demo.update( tmpSrc, tmpNew, tmpDesc );
 
             demo.alldata = alldata.prop( 'checked' ) ? 1 : 0;
-            demo.userName = userName.val().trim();
-            demo.userId = userId.val().trim();
+            demo.userName = ( userName.val() || '' ).trim();
+            demo.userId = ( userId.val() || '' ).trim();
 
             console.log( demo.alldata, demo.userName, demo.userId);
 

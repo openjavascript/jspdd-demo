@@ -1,0 +1,61 @@
+{
+    "test1": "1111",
+    "test2": "233",
+    "test3": { "t": 111 },
+    "message": "获取数据成功",
+    "data": {
+        "detail": {
+
+            "base_config": {
+                "time_sync": {
+                    "interval": "900",
+                    "inherit": "0"
+                    , "testar": [ { "t": 1 } ]
+                    , "testar1": [ 12 ]
+                    , "testar2": [ { "a": 112 } ]
+                    , "testar3": [ 1111, 1114 ]
+                    , "testar4": [ [11112] ]
+                },
+                "testNew": "new item"
+            },
+            "security_config": {
+                "scene_mode": {
+                    "inherit": "0",
+                    "mode": "deploy",
+                    "deploy_config": {
+                        "scanner_soft": {
+                            "open": "1",
+                            "ban_cycle": [
+                                {
+                                    "type": "0",
+                                    "etime": "18:00",
+                                    "stime": "17:00"
+                                }
+                            ],
+                            "types": [
+                                "exe",
+                                "msi"
+                            ],
+                            "inherit": "0"
+                        }
+                    },
+                    "production_config": {
+                        "window_notice": {
+                            "type": "1",
+                            "inherit": "0"
+                        }
+                    }
+                },
+                "scanner_types": {
+                    "inherit": "0",
+                    "types": [
+                        "exe",
+                        "msi",
+                        "bat"
+                    ]
+                }
+            }
+    }
+    },
+    "errorCode": 0
+}
