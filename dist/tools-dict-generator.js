@@ -17192,6 +17192,17 @@
 	    function DemoBase() {
 	        (0, _classCallCheck3.default)(this, DemoBase);
 
+
+	        this.srcData = (0, _jquery2.default)('#srcData');
+	        this.newData = (0, _jquery2.default)('#newData');
+	        this.descData = (0, _jquery2.default)('#descData');
+	        this.outputData = (0, _jquery2.default)('#outputData');
+	        this.procBtn = (0, _jquery2.default)('#procBtn');
+	        this.alldata = (0, _jquery2.default)('#alldata');
+	        this.userName = (0, _jquery2.default)('#userName');
+	        this.userId = (0, _jquery2.default)('#userId');
+	        this.outputText = (0, _jquery2.default)('#outputText');
+
 	        this.demo = new _example2.default();
 	    }
 
@@ -17228,71 +17239,69 @@
 	        console.log( demo.alldata );
 	        */
 
-	        var srcData = (0, _jquery2.default)('#srcData'),
-	            newData = (0, _jquery2.default)('#newData'),
-	            descData = (0, _jquery2.default)('#descData'),
-	            outputData = (0, _jquery2.default)('#outputData'),
-	            procBtn = (0, _jquery2.default)('#procBtn'),
-	            alldata = (0, _jquery2.default)('#alldata'),
-	            userName = (0, _jquery2.default)('#userName'),
-	            userId = (0, _jquery2.default)('#userId'),
-	            outputText = (0, _jquery2.default)('#outputText');
-
-	        userName.val(demo.userName);
-	        userId.val(demo.userId);
-	        alldata.prop('checked', !!demo.alldata);
+	        _this.userName.val(demo.userName);
+	        _this.userId.val(demo.userId);
+	        _this.alldata.prop('checked', !!demo.alldata);
 
 	        demo.fetchData(function (data) {
 	            data[0] = _this2.clone(data[0] || {});
 	            data[1] = _this2.clone(data[1] || {});
 	            data[2] = _this2.clone(data[2] || {});
 
-	            srcData.val((0, _stringify2.default)(data[0], null, 4));
-	            newData.val((0, _stringify2.default)(data[1], null, 4));
+	            _this.srcData.val((0, _stringify2.default)(data[0], null, 4));
+	            _this.newData.val((0, _stringify2.default)(data[1], null, 4));
 
 	            var generatedData = _this2.generatorDict.apply(_this2, data);
 	            console.log('generatedData:', generatedData);
 
-	            descData.val((0, _stringify2.default)(generatedData, null, 4));
+	            _this.descData.val((0, _stringify2.default)(generatedData, null, 4));
+
+	            _this.initDictExec();
 	        });
 
-	        procBtn.on('click', function () {
+	        _this.procBtn.on('click', function () {
+	            _this.initDictExec();
+	        });
+	    };
 
-	            var tmpSrc = JSON.parse(_this.getFormJsonVal(srcData)),
-	                tmpNew = JSON.parse(_this.getFormJsonVal(newData)),
-	                tmpDesc = JSON.parse(_this.getFormJsonVal(descData));
+	    DemoBase.prototype.initDictExec = function initDictExec() {
+	        var demo = this.demo;
+	        var _this = this;
 
-	            console.clear();
+	        var tmpSrc = JSON.parse(_this.getFormJsonVal(_this.srcData)),
+	            tmpNew = JSON.parse(_this.getFormJsonVal(_this.newData)),
+	            tmpDesc = JSON.parse(_this.getFormJsonVal(_this.descData));
 
-	            //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
+	        console.clear();
 
-	            outputData.val('');
-	            outputText.html('');
+	        //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
 
-	            demo.update(tmpSrc, tmpNew, tmpDesc);
+	        _this.outputData.val('');
+	        _this.outputText.html('');
 
-	            demo.alldata = alldata.prop('checked') ? 1 : 0;
-	            demo.userName = (userName.val() || '').trim();
-	            demo.userId = (userId.val() || '').trim();
+	        demo.update(tmpSrc, tmpNew, tmpDesc);
 
-	            if (_jquery2.default.isEmptyObject(tmpSrc) && _jquery2.default.isEmptyObject(tmpNew)) {
-	                return;
-	            }
+	        demo.alldata = _this.alldata.prop('checked') ? 1 : 0;
+	        demo.userName = (_this.userName.val() || '').trim();
+	        demo.userId = (_this.userId.val() || '').trim();
 
-	            demo.run(function (data, pdd) {
-	                setTimeout(function () {
+	        if (_jquery2.default.isEmptyObject(tmpSrc) && _jquery2.default.isEmptyObject(tmpNew)) {
+	            return;
+	        }
 
-	                    var debugData = pdd.debugData();
-	                    console.log('debugData', debugData);
-	                    console.log('diffData', debugData.SRC.diffData);
-	                    console.log('dictData', debugData.SRC.dictData);
+	        demo.run(function (data, pdd) {
+	            setTimeout(function () {
 
-	                    console.log('data', data);
+	                var debugData = pdd.debugData();
+	                console.log('debugData', debugData);
+	                console.log('diffData', debugData.SRC.diffData);
+	                console.log('dictData', debugData.SRC.dictData);
 
-	                    outputData.val((0, _stringify2.default)(data, null, 4));
-	                    outputText.html(demo.outputHtml(data));
-	                }, 500);
-	            });
+	                console.log('data', data);
+
+	                _this.outputData.val((0, _stringify2.default)(data, null, 4));
+	                _this.outputText.html(demo.outputHtml(data));
+	            }, 500);
 	        });
 	    };
 

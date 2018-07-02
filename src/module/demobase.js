@@ -5,6 +5,17 @@ import $ from './jquery.js';
 
 export default class DemoBase {
     constructor() {
+
+        this.srcData = $( '#srcData' )
+        this.newData = $( '#newData' )
+        this.descData = $( '#descData' )
+        this.outputData = $( '#outputData' )
+        this.procBtn = $( '#procBtn' )
+        this.alldata = $( '#alldata' )
+        this.userName = $( '#userName' )
+        this.userId = $( '#userId' )
+        this.outputText = $( '#outputText' )
+
         this.demo = new Example();
     }
 
@@ -39,76 +50,74 @@ export default class DemoBase {
         console.log( demo.alldata );
         */
 
-        let srcData = $( '#srcData' )
-            , newData = $( '#newData' )
-            , descData = $( '#descData' )
-            , outputData = $( '#outputData' )
-            , procBtn = $( '#procBtn' )
-            , alldata = $( '#alldata' )
-            , userName = $( '#userName' )
-            , userId = $( '#userId' )
-            , outputText = $( '#outputText' )
-            ;
 
-        userName.val( demo.userName );
-        userId.val( demo.userId );
-        alldata.prop( 'checked', !!demo.alldata );
+        _this.userName.val( demo.userName );
+        _this.userId.val( demo.userId );
+        _this.alldata.prop( 'checked', !!demo.alldata );
 
         demo.fetchData( ( data  ) => {
             data[ 0 ] = this.clone( data[ 0 ] || {} );
             data[ 1 ] = this.clone( data[ 1 ] || {} );
             data[ 2 ] = this.clone( data[ 2 ] || {} );
 
-            srcData.val( JSON.stringify( data[0], null, 4 ) );
-            newData.val( JSON.stringify( data[1], null, 4 ) );
+            _this.srcData.val( JSON.stringify( data[0], null, 4 ) );
+            _this.newData.val( JSON.stringify( data[1], null, 4 ) );
 
             let generatedData = this.generatorDict( ...data );
             console.log( 'generatedData:', generatedData );
 
-            descData.val( JSON.stringify( generatedData, null, 4 ) );
+            _this.descData.val( JSON.stringify( generatedData, null, 4 ) );
+
+            _this.initDictExec();
         });
 
-        procBtn.on( 'click', function(){
-
-            let tmpSrc = JSON.parse( _this.getFormJsonVal( srcData) )
-                , tmpNew = JSON.parse( _this.getFormJsonVal( newData ) )
-                , tmpDesc  = JSON.parse( _this.getFormJsonVal( descData ) )
-                ;
-
-            console.clear();
-
-            //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
-
-            outputData.val( '' );
-            outputText.html( '' );
-
-            demo.update( tmpSrc, tmpNew, tmpDesc );
-
-            demo.alldata = alldata.prop( 'checked' ) ? 1 : 0;
-            demo.userName = ( userName.val() || '' ).trim();
-            demo.userId = ( userId.val() || '' ).trim();
-
-            if( $.isEmptyObject( tmpSrc ) && $.isEmptyObject( tmpNew ) ){
-                return;
-            }
-
-            demo.run( ( data, pdd )=>{
-                setTimeout( ()=>{
-
-                    let debugData = pdd.debugData();
-                    console.log( 'debugData', debugData );
-                    console.log( 'diffData', debugData.SRC.diffData );
-                    console.log( 'dictData', debugData.SRC.dictData );
-
-                    console.log( 'data', data );
-
-                    outputData.val( JSON.stringify( data, null, 4 ) );
-                    outputText.html( demo.outputHtml( data ) );
-
-                }, 500 );
-            });
-
+        _this.procBtn.on( 'click', function(){
+            _this.initDictExec();
         });
+    }
+
+    initDictExec() {
+        let demo = this.demo;
+        let _this = this;
+
+        let tmpSrc = JSON.parse( _this.getFormJsonVal( _this.srcData) )
+            , tmpNew = JSON.parse( _this.getFormJsonVal( _this.newData ) )
+            , tmpDesc  = JSON.parse( _this.getFormJsonVal( _this.descData ) )
+            ;
+
+        console.clear();
+
+        //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
+
+        _this.outputData.val( '' );
+        _this.outputText.html( '' );
+
+        demo.update( tmpSrc, tmpNew, tmpDesc );
+
+        demo.alldata = _this.alldata.prop( 'checked' ) ? 1 : 0;
+        demo.userName = ( _this.userName.val() || '' ).trim();
+        demo.userId = ( _this.userId.val() || '' ).trim();
+
+        if( $.isEmptyObject( tmpSrc ) && $.isEmptyObject( tmpNew ) ){
+            return;
+        }
+
+        demo.run( ( data, pdd )=>{
+            setTimeout( ()=>{
+
+                let debugData = pdd.debugData();
+                console.log( 'debugData', debugData );
+                console.log( 'diffData', debugData.SRC.diffData );
+                console.log( 'dictData', debugData.SRC.dictData );
+
+                console.log( 'data', data );
+
+                _this.outputData.val( JSON.stringify( data, null, 4 ) );
+               _this. outputText.html( demo.outputHtml( data ) );
+
+            }, 500 );
+        });
+
     }
 
     generatorDict( sdata, ndata, ddata ) {
