@@ -17236,7 +17236,9 @@
 
 	            demo.alldata = alldata.prop('checked') ? 1 : 0;
 	            demo.userName = userName.val().trim();
-	            demo.userid = userId.val().trim();
+	            demo.userId = userId.val().trim();
+
+	            console.log(demo.alldata, demo.userName, demo.userId);
 
 	            demo.run(function (data, pdd) {
 	                setTimeout(function () {
@@ -19343,7 +19345,6 @@
 	            */
 
 	            var r = {};
-	            this.alldata = 1;
 	            r.data = this.alldata ? this.RESULT_ALL : this.RESULT_INDICT;
 	            r.alldata = this.alldata;
 	            r.ts = Date.now();

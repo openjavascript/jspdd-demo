@@ -12,6 +12,9 @@ module.exports = {
     },
     resolve: {
         extensions: ['', '.js']
+        , alias: {
+            //"jspdd": "/home/qiushaowei/udocs/website/jspdd-master/dist/jspdd.js"
+        }
     },
     module: {
         loaders: [
