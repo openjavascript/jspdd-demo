@@ -1,5 +1,5 @@
 # jspdd-demo
-(jspdd)[https://github.com/openjavascript/jspdd] 功能演示
+[jspdd](https://github.com/openjavascript/jspdd) 的功能演示
 
 ## 相关演示
 
