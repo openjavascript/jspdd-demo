@@ -2,6 +2,7 @@
 
 import Example from './example.js';
 import $ from './jquery.js';
+import JSPDD from 'jspdd';
 
 export default class DemoBase {
     constructor() {
@@ -17,6 +18,9 @@ export default class DemoBase {
         this.outputText = $( '#outputText' )
 
         this.demo = new Example();
+
+        console.log( 'for static member' );
+        console.log( JSPDD.generatorDict );
     }
 
     _globalVar() {
