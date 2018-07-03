@@ -20,6 +20,7 @@ export default class DemoBase {
         this.demo = new Example();
 
         console.log( 'for static member' );
+
     }
 
     _globalVar() {
