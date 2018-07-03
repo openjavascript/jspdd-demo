@@ -100,9 +100,9 @@ export default class Example extends BaseData {
         r.push( `<div class="list-box"><ul>` );
         data.data.map( ( v ) => {
             let actiontype = '';
+            v.desc[0] = `<b>${v.desc[0]}</b>`;
             v.actiontype && ( actiontype = `actiontype-${v.actiontype}`  );
             r.push( `<li class="action-${v.action} ${actiontype}">
-                <div class="font-weight-bold">数据路径: ${v.datakey.join('.')}</div>
                 <div>${v.desc.join('<br/>')}</div>
             </li>` );
         });

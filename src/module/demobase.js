@@ -2,6 +2,7 @@
 
 import Example from './example.js';
 import $ from './jquery.js';
+import JSPDD from 'jspdd';
 
 export default class DemoBase {
     constructor() {
@@ -64,7 +65,7 @@ export default class DemoBase {
             _this.srcData.val( JSON.stringify( data[0], null, 4 ) );
             _this.newData.val( JSON.stringify( data[1], null, 4 ) );
 
-            let generatedData = this.generatorDict( data[0], data[1], data[2] );
+            let generatedData = JSPDD.generatorDict( data[0], data[1], data[2] );
             console.log( 'generatedData:', generatedData );
 
             _this.descData.val( JSON.stringify( generatedData, null, 4 ) );
@@ -76,55 +77,6 @@ export default class DemoBase {
             _this.initDictExec();
         });
     }
-
-    generatorDict( sdata, ndata, ddata ) {
-        let r, combData = $.extend( true, sdata, ndata );
-
-        let prefix = "文字描述 ";
-
-        let cb = ( item, key, pnt ) => {
-
-            switch( Object.prototype.toString.call( item ) ){
-                case '[object Array]': {
-                    let tmp = item;
-                    if( item.length && Object.prototype.toString.call( item[0] ) == '[object Object]' ){
-                        let tmp = JSON.parse( JSON.stringify( item[0] ) );
-                        jsonTraverser( tmp, cb );
-                        pnt[key] = { _array: tmp, "label": `${prefix}${key}` };
-                    }else{
-                        pnt[key] = {
-                            _array: {
-                                "label": `${prefix}${key}`
-                           }
-                           , "label": `${prefix}${key}`
-                        };
-                    }
-
-                    break;
-                }
-                case '[object Object]': {
-                    //console.log( key, item );
-                    item.label = `${prefix}${key}`;
-                    break;
-                }
-                default: {
-                    if( key == 'label' ) return;
-                    pnt[ key ] = {
-                        "label": `${prefix}${key}`
-                    };
-                    break;
-                }
-            }
-
-        };
-
-        jsonTraverser( combData, cb );
-
-        r = Object.assign( combData, ddata );
-
-        return r;
-    }
-
 
     initDictExec() {
         let demo = this.demo;
@@ -271,21 +223,5 @@ export default class DemoBase {
         return r;
     }
 
-}
-
-function jsonTraverser( json, cb ){
-    let keys = Object.keys( json );
-    keys.map( ( key ) => {
-        let item = json[key]
-            ;
-        switch( Object.prototype.toString.call( item ) ){
-            case '[object Array]': 
-            case '[object Object]': {
-                jsonTraverser( item, cb );
-                break;
-            }
-        }
-        cb && cb( item, key, json );
-    });
 }
 
