@@ -1900,7 +1900,7 @@
 	            try {
 	                oldLocale = globalLocale._abbr;
 	                var aliasedRequire = require;
-	                __webpack_require__(214)("./" + name);
+	                __webpack_require__(215)("./" + name);
 	                getSetGlobalLocale(oldLocale);
 	            } catch (e) {}
 	        }
@@ -5055,21 +5055,25 @@
 	    };
 	}();
 
+	var _moment = __webpack_require__(1);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
 	var _deepDiff = __webpack_require__(211);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
-	var _jspddKind = __webpack_require__(213);
+	var _jspddKind = __webpack_require__(214);
 
 	var _jspddKind2 = _interopRequireDefault(_jspddKind);
 
-	var _jspddBasedata = __webpack_require__(212);
+	var _jspddBasedata = __webpack_require__(213);
 
 	var _jspddBasedata2 = _interopRequireDefault(_jspddBasedata);
 
-	var _moment = __webpack_require__(1);
+	var _jsonTraverser = __webpack_require__(212);
 
-	var _moment2 = _interopRequireDefault(_moment);
+	var _jsonTraverser2 = _interopRequireDefault(_jsonTraverser);
 
 	function _interopRequireDefault(obj) {
 	    return obj && obj.__esModule ? obj : { default: obj };
@@ -5092,6 +5096,7 @@
 	        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof2(superClass)));
 	    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
+
 	/*
 	const KIND = {
 	    'new':              'N'
@@ -5138,13 +5143,7 @@
 	        console.log( 'newData:', newData );
 	        console.log( 'descData:', descData  );
 	        */
-
 	        var _this = _possibleConstructorReturn(this, (JSPDD.__proto__ || Object.getPrototypeOf(JSPDD)).call(this));
-
-	        _this.api;
-	        _this.userName = '';
-	        _this.userId = '';
-	        _this.alldata = 1;
 
 	        _this.reset();
 
@@ -5240,19 +5239,21 @@
 	                r.label = dict.fulllabel;
 	            }
 
+	            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
+
 	            if (r.label.length) {
 	                r.indict = 1;
 
 	                r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
 
-	                r.desc.push("\u65B0\u589E" + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-	                r.desc.push("\u5B57\u6BB5\u63CF\u8FF0: " + r.label.slice(-1).join(''));
+	                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
 	            } else {
 	                r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-	                r.desc.push("\u65B0\u589E" + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
 	            }
-	            r.desc.push("\u6570\u636E\u7C7B\u578B: " + Object.prototype.toString.call(r.val));
-	            r.desc.push(dateItemUnit + "\u503C: " + this.getDataLiteral(r.val));
+	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
+	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.VAL + ': ' + this.getDataLiteral(r.val));
 
 	            this.RESULT_ALL.push(r);
 	            r.indict && this.RESULT_INDICT.push(r);
@@ -5289,18 +5290,20 @@
 	                r.label = dict.fulllabel;
 	            }
 
+	            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
+
 	            if (r.label.length) {
 	                r.indict = 1;
 
 	                r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
 
-	                r.desc.push("\u65B0\u589E" + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-	                r.desc.push("\u5B57\u6BB5\u63CF\u8FF0: " + r.label.slice(-1).join(''));
+	                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
 	            } else {
 	                r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-	                r.desc.push("\u65B0\u589E" + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
 	            }
-	            r.desc.push("\u6570\u636E\u7C7B\u578B: " + Object.prototype.toString.call(r.val));
+	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
 	            r.desc.push(dateItemUnit + "\u503C: " + this.getDataLiteral(r.val));
 
 	            this.RESULT_ALL.push(r);
@@ -5351,6 +5354,8 @@
 	                r.label = dict.fulllabel;
 	            }
 
+	            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
+
 	            var label = r.label;
 
 	            //console.log( label, item, dict );
@@ -5360,13 +5365,13 @@
 
 	                label.slice(0, -1).length && r.desc.push('' + label.slice(0, -1).join(', '));
 
-	                r.desc.push("\u5220\u9664" + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-	                r.desc.push("\u5B57\u6BB5\u63CF\u8FF0: " + label.slice(-1).join(''));
+	                r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + label.slice(-1).join(''));
 	            } else {
 	                r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-	                r.desc.push("\u5220\u9664" + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	                r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
 	            }
-	            r.desc.push("\u6570\u636E\u7C7B\u578B: " + Object.prototype.toString.call(r._val));
+	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r._val));
 	            r.desc.push(dateItemUnit + "\u503C: " + this.getDataLiteral(r._val));
 
 	            this.RESULT_ALL.push(r);
@@ -5390,20 +5395,22 @@
 	                r.label = dict.fulllabel;
 	            }
 
+	            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
+
 	            if (r.label.length) {
 	                r.indict = 1;
 
 	                r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
 
-	                r.desc.push("\u7F16\u8F91" + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-	                r.desc.push("\u5B57\u6BB5\u63CF\u8FF0: " + r.label.slice(-1).join(''));
+	                r.desc.push('' + JSPDD.TEXT.EDIT + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
 	            } else {
 	                r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-	                r.desc.push("\u7F16\u8F91" + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	                r.desc.push('' + JSPDD.TEXT.EDIT + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
 	            }
-	            r.desc.push("\u6570\u636E\u7C7B\u578B: " + Object.prototype.toString.call(r.val));
-	            r.desc.push(dateItemUnit + "\u65B0\u503C: " + this.getDataLiteral(r.val));
-	            r.desc.push(dateItemUnit + "\u65E7\u503C: " + this.getDataLiteral(r._val));
+	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
+	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDataLiteral(r.val));
+	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDataLiteral(r._val));
 
 	            this.RESULT_ALL.push(r);
 	            r.indict && this.RESULT_INDICT.push(r);
@@ -5414,10 +5421,10 @@
 	    }, {
 	        key: 'getDataItemUnit',
 	        value: function getDataItemUnit(item) {
-	            var r = '字段';
+	            var r = '' + JSPDD.TEXT.FIELD;
 
 	            if (item.path && item.path.length && typeof item.path[item.path.length - 1] == 'number') {
-	                r = '索引';
+	                r = '' + JSPDD.TEXT.INDEX;
 	            }
 
 	            return r;
@@ -5435,18 +5442,20 @@
 	                r.label = dict.fulllabel;
 	            }
 
+	            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
+
 	            if (r.label.length) {
 	                r.indict = 1;
 
 	                r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
 
-	                r.desc.push("\u5220\u9664" + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-	                r.desc.push("\u5B57\u6BB5\u63CF\u8FF0: " + r.label.slice(-1).join(''));
+	                r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
 	            } else {
 	                r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-	                r.desc.push("\u5220\u9664" + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	                r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
 	            }
-	            r.desc.push("\u6570\u636E\u7C7B\u578B: " + Object.prototype.toString.call(r._val));
+	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r._val));
 	            r.desc.push(dateItemUnit + "\u503C: " + this.getDataLiteral(r._val));
 
 	            this.RESULT_ALL.push(r);
@@ -5468,20 +5477,22 @@
 	                r.label = dict.fulllabel;
 	            }
 
+	            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
+
 	            if (r.label.length) {
 	                r.indict = 1;
 
 	                r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
 
-	                r.desc.push("\u7F16\u8F91" + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-	                r.desc.push("\u5B57\u6BB5\u63CF\u8FF0: " + r.label.slice(-1).join(''));
+	                r.desc.push('' + JSPDD.TEXT.EDIT + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
 	            } else {
 	                r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-	                r.desc.push("\u7F16\u8F91" + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	                r.desc.push('' + JSPDD.TEXT.EDIT + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
 	            }
-	            r.desc.push("\u6570\u636E\u7C7B\u578B: " + Object.prototype.toString.call(r.val));
-	            r.desc.push(dateItemUnit + "\u65B0\u503C: " + this.getDataLiteral(r.val));
-	            r.desc.push(dateItemUnit + "\u65E7\u503C: " + this.getDataLiteral(r._val));
+	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
+	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDataLiteral(r.val));
+	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDataLiteral(r._val));
 
 	            this.RESULT_ALL.push(r);
 	            r.indict && this.RESULT_INDICT.push(r);
@@ -5648,11 +5659,26 @@
 
 	exports.default = JSPDD;
 
+	JSPDD.TEXT = {
+	    "NEW": "新增",
+	    "EDIT": "编辑",
+	    "DELETE": "删除",
+	    "NEW_VAL": "新值",
+	    "OLD_VAL": "旧值",
+	    "FIELD_DETAIL": "字段描述",
+	    "DATA_TYPE": "数据类型",
+	    "DATA_PATH": "数据路径",
+	    "FIELD": "字段",
+	    "INDEX": "索引",
+	    "VAL": "值",
+
+	    "DEFAULT_DICT_TEXT": "文字描述 "
+	};
+
 	JSPDD.generatorDict = function (sdata, ndata, ddata) {
 	    var r = void 0,
 	        combData = $.extend(true, sdata, ndata);
-
-	    var prefix = "文字描述 ";
+	    var prefix = JSPDD.TEXT.DEFAULT_DICT_TEXT;
 
 	    var cb = function cb(item, key, pnt) {
 
@@ -5662,7 +5688,7 @@
 	                    var tmp = item;
 	                    if (item.length && Object.prototype.toString.call(item[0]) == '[object Object]') {
 	                        var _tmp2 = JSON.parse(JSON.stringify(item[0]));
-	                        jsonTraverser(_tmp2, cb);
+	                        (0, _jsonTraverser2.default)(_tmp2, cb);
 	                        pnt[key] = { _array: _tmp2, "label": '' + prefix + key };
 	                    } else {
 	                        pnt[key] = {
@@ -5692,28 +5718,12 @@
 	        }
 	    };
 
-	    jsonTraverser(combData, cb);
+	    (0, _jsonTraverser2.default)(combData, cb);
 
 	    r = Object.assign(combData, ddata);
 
 	    return r;
 	};
-
-	function jsonTraverser(json, cb) {
-	    var keys = Object.keys(json);
-	    keys.map(function (key) {
-	        var item = json[key];
-	        switch (Object.prototype.toString.call(item)) {
-	            case '[object Array]':
-	            case '[object Object]':
-	                {
-	                    jsonTraverser(item, cb);
-	                    break;
-	                }
-	        }
-	        cb && cb(item, key, json);
-	    });
-	}
 
 /***/ },
 /* 33 */
@@ -17865,8 +17875,6 @@
 	        this.outputText = (0, _jquery2.default)('#outputText');
 
 	        this.demo = new _example2.default();
-
-	        console.log('for static member');
 	    }
 
 	    DemoBase.prototype._globalVar = function _globalVar() {
@@ -18197,7 +18205,7 @@
 	        data.data.map(function (v) {
 	            var actiontype = '';
 	            v.actiontype && (actiontype = 'actiontype-' + v.actiontype);
-	            r.push('<li class="action-' + v.action + ' ' + actiontype + '">\n                <div class="font-weight-bold">\u6570\u636E\u8DEF\u5F84: ' + v.datakey.join('.') + '</div>\n                <div>' + v.desc.join('<br/>') + '</div>\n            </li>');
+	            r.push('<li class="action-' + v.action + ' ' + actiontype + '">\n                <div>' + v.desc.join('<br/>') + '</div>\n            </li>');
 	        });
 	        r.push('</ul></div>');
 	        r.push('</div>');
@@ -20080,6 +20088,32 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.default = jsonTraverser;
+	function jsonTraverser(json, cb) {
+	    var keys = Object.keys(json);
+	    keys.map(function (key) {
+	        var item = json[key];
+	        switch (Object.prototype.toString.call(item)) {
+	            case '[object Array]':
+	            case '[object Object]':
+	                {
+	                    jsonTraverser(item, cb);
+	                    break;
+	                }
+	        }
+	        cb && cb(item, key, json);
+	    });
+	}
+
+/***/ },
+/* 213 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -20097,7 +20131,7 @@
 	exports.default = BaseData;
 
 /***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20113,7 +20147,7 @@
 	};
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
@@ -20375,7 +20409,7 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 214;
+	webpackContext.id = 215;
 
 
 /***/ }

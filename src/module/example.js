@@ -102,7 +102,6 @@ export default class Example extends BaseData {
             let actiontype = '';
             v.actiontype && ( actiontype = `actiontype-${v.actiontype}`  );
             r.push( `<li class="action-${v.action} ${actiontype}">
-                <div class="font-weight-bold">数据路径: ${v.datakey.join('.')}</div>
                 <div>${v.desc.join('<br/>')}</div>
             </li>` );
         });

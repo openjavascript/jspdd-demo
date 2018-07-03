@@ -18,9 +18,6 @@ export default class DemoBase {
         this.outputText = $( '#outputText' )
 
         this.demo = new Example();
-
-        console.log( 'for static member' );
-
     }
 
     _globalVar() {
