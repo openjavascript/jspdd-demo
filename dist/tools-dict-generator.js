@@ -18204,6 +18204,7 @@
 	        r.push('<div class="list-box"><ul>');
 	        data.data.map(function (v) {
 	            var actiontype = '';
+	            v.desc[0] = '<b>' + v.desc[0] + '</b>';
 	            v.actiontype && (actiontype = 'actiontype-' + v.actiontype);
 	            r.push('<li class="action-' + v.action + ' ' + actiontype + '">\n                <div>' + v.desc.join('<br/>') + '</div>\n            </li>');
 	        });
