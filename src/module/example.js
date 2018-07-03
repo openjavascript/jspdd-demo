@@ -5,6 +5,9 @@ import BaseData from './basedata.js';
 
 import JSPDD from 'jspdd';
 
+Object.assign( JSPDD.TEXT, {
+});
+
 export default class Example extends BaseData {
     constructor( api ) {
         super();
