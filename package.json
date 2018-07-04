@@ -80,7 +80,7 @@
   },
   "dependencies": {
     "deep-diff": "^1.0.1",
-    "jspdd": "^1.0.8",
+    "jspdd": "^1.0.9",
     "jspdd-basedata": "^1.0.1",
     "jspdd-kind": "^1.0.1",
     "moment": "^2.22.2",
