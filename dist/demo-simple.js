@@ -17800,10 +17800,13 @@
 	    this.userId = '';
 	    this.alldata = 1;
 
+	    this.datakey_prefix = '';
+
 	    this.testkey = 'BaseData.testkey ' + Date.now();
 	};
 
 	exports.default = BaseData;
+
 
 /***/ },
 /* 175 */
