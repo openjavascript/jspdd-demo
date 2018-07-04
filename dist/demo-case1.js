@@ -16919,12 +16919,14 @@
 	            var ts = Date.now(),
 	                r = {
 	                "label": [],
-	                "datakey": item.path,
+	                "datakey": (item || []).path.slice(),
 	                "desc": [],
 	                "val": valField.rhs,
 	                "_val": valField.lhs,
 	                "indict": 0
 	            };
+
+	            r.datakey && this.datakey_prefix && r.datakey.unshift(this.datakey_prefix);
 
 	            return r;
 	        }
@@ -19032,9 +19034,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	(0, _assign2.default)(_jspdd2.default.TEXT, {
-	    "NEW": "new 2222"
-	});
+	(0, _assign2.default)(_jspdd2.default.TEXT, {});
 
 	var Example = function (_BaseData) {
 	    (0, _inherits3.default)(Example, _BaseData);
@@ -19107,6 +19107,8 @@
 	        this.pdd.userName = this.userName;
 	        this.pdd.userId = this.userId;
 	        this.pdd.alldata = this.alldata;
+
+	        //this.pdd.datakey_prefix = 'root';
 
 	        return this.pdd.proc();
 	    };
