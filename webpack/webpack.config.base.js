@@ -5,6 +5,8 @@ module.exports = {
         'tools-dict-generator': './src/tools-dict-generator.js'
 
         , 'demo-case1': './src/demo-case1.js'
+
+        , 'demo-simple': './src/demo-simple.js'
     }
     , output: {
         filename: '[name].js'

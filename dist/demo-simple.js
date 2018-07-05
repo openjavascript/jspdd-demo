@@ -16605,6 +16605,8 @@
 
 	            this.diffData = (0, _deepDiff2.default)(this.srcData, this.newData);
 
+	            !(this.diffData && this.diffData.length) && (this.diffData = []);
+
 	            this.diffData.map(function (v, k) {
 	                _this2.resolvePath(v);
 	                _this2.makeMapData(v);
@@ -16704,12 +16706,14 @@
 	            var ts = Date.now(),
 	                r = {
 	                "label": [],
-	                "datakey": item.path,
+	                "datakey": (item || []).path.slice(),
 	                "desc": [],
 	                "val": valField.rhs,
 	                "_val": valField.lhs,
 	                "indict": 0
 	            };
+
+	            r.datakey && this.datakey_prefix && r.datakey.unshift(this.datakey_prefix);
 
 	            return r;
 	        }
@@ -17798,10 +17802,13 @@
 	    this.userId = '';
 	    this.alldata = 1;
 
+	    this.datakey_prefix = '';
+
 	    this.testkey = 'BaseData.testkey ' + Date.now();
 	};
 
 	exports.default = BaseData;
+
 
 /***/ },
 /* 175 */
