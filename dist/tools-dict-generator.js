@@ -16820,6 +16820,8 @@
 
 	            this.diffData = (0, _deepDiff2.default)(this.srcData, this.newData);
 
+	            !(this.diffData && this.diffData.length) && (this.diffData = []);
+
 	            this.diffData.map(function (v, k) {
 	                _this2.resolvePath(v);
 	                _this2.makeMapData(v);
@@ -18849,11 +18851,7 @@
 
 	            _this.srcData.val((0, _stringify2.default)(data[0], null, 4));
 	            _this.newData.val((0, _stringify2.default)(data[1], null, 4));
-
-	            var generatedData = _jspdd2.default.generatorDict(data[0], data[1], data[2]);
-	            console.log('generatedData:', generatedData);
-
-	            _this.descData.val((0, _stringify2.default)(generatedData, null, 4));
+	            _this.descData.val((0, _stringify2.default)(data[2], null, 4));
 
 	            _this.initDictExec();
 	        });
@@ -18870,6 +18868,10 @@
 	        var tmpSrc = JSON.parse(_this.getFormJsonVal(_this.srcData)),
 	            tmpNew = JSON.parse(_this.getFormJsonVal(_this.newData)),
 	            tmpDesc = JSON.parse(_this.getFormJsonVal(_this.descData));
+
+	        tmpDesc = _jspdd2.default.generatorDict(this.clone(tmpSrc), this.clone(tmpNew), tmpDesc);
+
+	        _this.descData.val((0, _stringify2.default)(tmpDesc, null, 4));
 
 	        //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
 

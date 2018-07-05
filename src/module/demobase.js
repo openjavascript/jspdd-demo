@@ -64,11 +64,7 @@ export default class DemoBase {
 
             _this.srcData.val( JSON.stringify( data[0], null, 4 ) );
             _this.newData.val( JSON.stringify( data[1], null, 4 ) );
-
-            let generatedData = JSPDD.generatorDict( data[0], data[1], data[2] );
-            console.log( 'generatedData:', generatedData );
-
-            _this.descData.val( JSON.stringify( generatedData, null, 4 ) );
+            _this.descData.val( JSON.stringify( data[2], null, 4 ) );
 
             _this.initDictExec();
         });
@@ -86,6 +82,11 @@ export default class DemoBase {
             , tmpNew = JSON.parse( _this.getFormJsonVal( _this.newData ) )
             , tmpDesc  = JSON.parse( _this.getFormJsonVal( _this.descData ) )
             ;
+
+        tmpDesc = JSPDD.generatorDict( this.clone( tmpSrc ), this.clone( tmpNew ), tmpDesc );
+       
+
+        _this.descData.val( JSON.stringify( tmpDesc, null, 4 ) );
 
 
         //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));

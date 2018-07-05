@@ -16605,6 +16605,8 @@
 
 	            this.diffData = (0, _deepDiff2.default)(this.srcData, this.newData);
 
+	            !(this.diffData && this.diffData.length) && (this.diffData = []);
+
 	            this.diffData.map(function (v, k) {
 	                _this2.resolvePath(v);
 	                _this2.makeMapData(v);
