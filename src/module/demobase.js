@@ -17,6 +17,7 @@ export default class DemoBase {
         this.userId = $( '#userId' )
         this.outputText = $( '#outputText' )
         this.datalabelFormat = $( '#datalabelFormat' )
+        this.descMethodData = $( '#descMethodData' )
 
         this.demo = new Example();
     }
@@ -84,7 +85,7 @@ export default class DemoBase {
         if( this.datalabelFormat && this.datalabelFormat.length ){
             datalabelFormat = this.datalabelFormat.val().trim();
         }
-        console.log( 'datalabelFormat:', datalabelFormat );
+        //console.log( 'datalabelFormat:', datalabelFormat );
 
         let tmpSrc = JSON.parse( _this.getFormJsonVal( _this.srcData) )
             , tmpNew = JSON.parse( _this.getFormJsonVal( _this.newData ) )
@@ -98,13 +99,24 @@ export default class DemoBase {
         tmpDesc = JSPDD.generatorDict( 
             this.clone( tmpSrc )
             , this.clone( tmpNew )
-            , tmpDesc 
-            , datalabelFormat
+            , this.clone( tmpDesc )
         );
-       
-
         _this.descData.val( JSON.stringify( tmpDesc, null, 4 ) );
 
+        if( datalabelFormat && this.descMethodData && this.descMethodData.length ){
+            if( datalabelFormat ){
+                let tmpMethodDesc = JSPDD.generatorDict( 
+                    this.clone( tmpSrc )
+                    , this.clone( tmpNew )
+                    , this.clone( {} )
+                    , datalabelFormat
+                );
+                tmpMethodDesc = JSON.stringify( tmpMethodDesc, null, 4 );
+
+                this.descMethodData.val( tmpMethodDesc.replace( /"label"\:[\s]*?"(.*?)"/gi, '"label": $1' ) );
+            }
+        }
+       
 
         //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
 

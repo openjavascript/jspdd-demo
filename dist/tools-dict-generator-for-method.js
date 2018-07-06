@@ -16911,6 +16911,10 @@
 
 	var _jspddBasedata2 = _interopRequireDefault(_jspddBasedata);
 
+	var _jsonTraverser = __webpack_require__(173);
+
+	var _jsonTraverser2 = _interopRequireDefault(_jsonTraverser);
+
 	function _interopRequireDefault(obj) {
 	    return obj && obj.__esModule ? obj : { default: obj };
 	}
@@ -16932,8 +16936,6 @@
 	        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof2(superClass)));
 	    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
-
-	//import jsonTraverser from 'json-traverser';
 
 	/*
 	const KIND = {
@@ -17539,6 +17541,7 @@
 	            if (datapath && datapath.length) {
 	                label = label.replace(/{path}/gi, datapath.join('.'));
 	            }
+	            console.log(datapath);
 	        }
 
 	        switch (Object.prototype.toString.call(item)) {
@@ -17547,7 +17550,7 @@
 	                    var tmp = item;
 	                    if (item.length && Object.prototype.toString.call(item[0]) == '[object Object]') {
 	                        var _tmp2 = JSON.parse(JSON.stringify(item[0]));
-	                        jsonTraverser(_tmp2, cb);
+	                        (0, _jsonTraverser2.default)(_tmp2, cb);
 	                        pnt[key] = { _array: _tmp2, "label": label };
 	                    } else {
 	                        pnt[key] = {
@@ -17577,32 +17580,12 @@
 	        }
 	    };
 
-	    jsonTraverser(combData, cb);
+	    (0, _jsonTraverser2.default)(combData, cb);
 
 	    r = Object.assign(combData, ddata);
 
 	    return r;
 	};
-
-	function jsonTraverser(json, cb) {
-	    var datapath = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-
-	    var keys = Object.keys(json);
-	    keys.map(function (key) {
-	        var nextPath = datapath.slice();
-	        nextPath.push(key);
-	        var item = json[key];
-	        switch (Object.prototype.toString.call(item)) {
-	            case '[object Array]':
-	            case '[object Object]':
-	                {
-	                    jsonTraverser(item, cb, nextPath.slice());
-	                    break;
-	                }
-	        }
-	        cb && cb(item, key, json, nextPath);
-	    });
-	}
 
 /***/ },
 /* 156 */
@@ -18427,7 +18410,36 @@
 
 
 /***/ },
-/* 173 */,
+/* 173 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = jsonTraverser;
+	function jsonTraverser(json, cb) {
+	    var datapath = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+	    var keys = Object.keys(json);
+	    keys.map(function (key) {
+	        var nextPath = datapath.slice();
+	        nextPath.push(key);
+	        var item = json[key];
+	        switch (Object.prototype.toString.call(item)) {
+	            case '[object Array]':
+	            case '[object Object]':
+	                {
+	                    jsonTraverser(item, cb, nextPath.slice());
+	                    break;
+	                }
+	        }
+	        cb && cb(item, key, json, nextPath);
+	    });
+	}
+
+/***/ },
 /* 174 */
 /***/ function(module, exports) {
 
@@ -18809,6 +18821,7 @@
 	        this.userId = (0, _jquery2.default)('#userId');
 	        this.outputText = (0, _jquery2.default)('#outputText');
 	        this.datalabelFormat = (0, _jquery2.default)('#datalabelFormat');
+	        this.descMethodData = (0, _jquery2.default)('#descMethodData');
 
 	        this.demo = new _example2.default();
 	    }
@@ -18877,7 +18890,7 @@
 	        if (this.datalabelFormat && this.datalabelFormat.length) {
 	            datalabelFormat = this.datalabelFormat.val().trim();
 	        }
-	        console.log('datalabelFormat:', datalabelFormat);
+	        //console.log( 'datalabelFormat:', datalabelFormat );
 
 	        var tmpSrc = JSON.parse(_this.getFormJsonVal(_this.srcData)),
 	            tmpNew = JSON.parse(_this.getFormJsonVal(_this.newData)),
@@ -18887,9 +18900,17 @@
 	            tmpDesc = {};
 	        }
 
-	        tmpDesc = _jspdd2.default.generatorDict(this.clone(tmpSrc), this.clone(tmpNew), tmpDesc, datalabelFormat);
-
+	        tmpDesc = _jspdd2.default.generatorDict(this.clone(tmpSrc), this.clone(tmpNew), this.clone(tmpDesc));
 	        _this.descData.val((0, _stringify2.default)(tmpDesc, null, 4));
+
+	        if (datalabelFormat && this.descMethodData && this.descMethodData.length) {
+	            if (datalabelFormat) {
+	                var tmpMethodDesc = _jspdd2.default.generatorDict(this.clone(tmpSrc), this.clone(tmpNew), this.clone({}), datalabelFormat);
+	                tmpMethodDesc = (0, _stringify2.default)(tmpMethodDesc, null, 4);
+
+	                this.descMethodData.val(tmpMethodDesc.replace(/"label"\:[\s]*?"(.*?)"/gi, '"label": $1'));
+	            }
+	        }
 
 	        //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
 
