@@ -17104,12 +17104,26 @@
 	    var sdata = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	    var ndata = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 	    var ddata = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+	    var datalabelFormat = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
 
 	    var r = void 0,
 	        combData = $.extend(true, sdata, ndata);
 	    var prefix = JSPDD.TEXT.DEFAULT_DICT_TEXT;
 
-	    var cb = function cb(item, key, pnt) {
+	    //console.log( 'ddddddddddd datalabelFormat:', datalabelFormat );
+
+	    var cb = function cb(item, key, pnt, datapath) {
+
+	        var label = '' + prefix + key;
+
+	        if (datalabelFormat) {
+	            label = datalabelFormat;
+	            label = label.replace(/{key}/gi, key);
+	            if (datapath && datapath.length) {
+	                label = label.replace(/{path}/gi, datapath.join('.'));
+	            }
+	            console.log(datapath);
+	        }
 
 	        switch (Object.prototype.toString.call(item)) {
 	            case '[object Array]':
@@ -17118,13 +17132,13 @@
 	                    if (item.length && Object.prototype.toString.call(item[0]) == '[object Object]') {
 	                        var _tmp2 = JSON.parse(JSON.stringify(item[0]));
 	                        (0, _jsonTraverser2.default)(_tmp2, cb);
-	                        pnt[key] = { _array: _tmp2, "label": '' + prefix + key };
+	                        pnt[key] = { _array: _tmp2, "label": label };
 	                    } else {
 	                        pnt[key] = {
 	                            _array: {
-	                                "label": '' + prefix + key
+	                                "label": label
 	                            },
-	                            "label": '' + prefix + key
+	                            "label": label
 	                        };
 	                    }
 
@@ -17133,14 +17147,14 @@
 	            case '[object Object]':
 	                {
 	                    //console.log( key, item );
-	                    item.label = '' + prefix + key;
+	                    item.label = label;
 	                    break;
 	                }
 	            default:
 	                {
 	                    if (key == 'label') return;
 	                    pnt[key] = {
-	                        "label": '' + prefix + key
+	                        "label": label
 	                    };
 	                    break;
 	                }
@@ -17724,18 +17738,22 @@
 	});
 	exports.default = jsonTraverser;
 	function jsonTraverser(json, cb) {
+	    var datapath = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
 	    var keys = Object.keys(json);
 	    keys.map(function (key) {
+	        var nextPath = datapath.slice();
+	        nextPath.push(key);
 	        var item = json[key];
 	        switch (Object.prototype.toString.call(item)) {
 	            case '[object Array]':
 	            case '[object Object]':
 	                {
-	                    jsonTraverser(item, cb);
+	                    jsonTraverser(item, cb, nextPath.slice());
 	                    break;
 	                }
 	        }
-	        cb && cb(item, key, json);
+	        cb && cb(item, key, json, nextPath);
 	    });
 	}
 
