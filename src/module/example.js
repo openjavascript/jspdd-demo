@@ -65,11 +65,12 @@ export default class Example extends BaseData {
 
     proc() {
         //console.log( 'api data:', this.DATA );
-        this.pdd = new JSPDD( ...this.DATA );
+        this.pdd                    = new JSPDD( ...this.DATA );
 
-        this.pdd.userName   = this.userName;
-        this.pdd.userId     = this.userId;
-        this.pdd.alldata    = this.alldata;
+        this.pdd.userName           = this.userName;
+        this.pdd.userId             = this.userId;
+        this.pdd.alldata            = this.alldata;
+        //this.pdd.datalabelFormat    = this.datalabelFormat;
 
         //this.pdd.datakey_prefix = 'root';
 

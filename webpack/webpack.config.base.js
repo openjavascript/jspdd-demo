@@ -4,6 +4,8 @@ module.exports = {
     entry: {
         'tools-dict-generator': './src/tools-dict-generator.js'
 
+        , 'tools-dict-generator-for-method': './src/tools-dict-generator-for-method.js'
+
         , 'demo-case1': './src/demo-case1.js'
 
         , 'demo-simple': './src/demo-simple.js'

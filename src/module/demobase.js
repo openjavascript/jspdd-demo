@@ -16,6 +16,8 @@ export default class DemoBase {
         this.userName = $( '#userName' )
         this.userId = $( '#userId' )
         this.outputText = $( '#outputText' )
+        this.datalabelFormat = $( '#datalabelFormat' )
+        this.descMethodData = $( '#descMethodData' )
 
         this.demo = new Example();
     }
@@ -78,16 +80,43 @@ export default class DemoBase {
         let demo = this.demo;
         let _this = this;
 
+        let datalabelFormat = '';
+
+        if( this.datalabelFormat && this.datalabelFormat.length ){
+            datalabelFormat = this.datalabelFormat.val().trim();
+        }
+        //console.log( 'datalabelFormat:', datalabelFormat );
+
         let tmpSrc = JSON.parse( _this.getFormJsonVal( _this.srcData) )
             , tmpNew = JSON.parse( _this.getFormJsonVal( _this.newData ) )
             , tmpDesc  = JSON.parse( _this.getFormJsonVal( _this.descData ) )
             ;
 
-        tmpDesc = JSPDD.generatorDict( this.clone( tmpSrc ), this.clone( tmpNew ), tmpDesc );
-       
+        if( window.IGNORE_DEFAULT_DESC ){
+            tmpDesc = {};
+        }
 
+        tmpDesc = JSPDD.generatorDict( 
+            this.clone( tmpSrc )
+            , this.clone( tmpNew )
+            , this.clone( tmpDesc )
+        );
         _this.descData.val( JSON.stringify( tmpDesc, null, 4 ) );
 
+        if( datalabelFormat && this.descMethodData && this.descMethodData.length ){
+            if( datalabelFormat ){
+                let tmpMethodDesc = JSPDD.generatorDict( 
+                    this.clone( tmpSrc )
+                    , this.clone( tmpNew )
+                    , this.clone( {} )
+                    , datalabelFormat
+                );
+                tmpMethodDesc = JSON.stringify( tmpMethodDesc, null, 4 );
+
+                this.descMethodData.val( tmpMethodDesc.replace( /"label"\:[\s]*?"(.*?)"/gi, '"label": $1' ) );
+            }
+        }
+       
 
         //console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
 
