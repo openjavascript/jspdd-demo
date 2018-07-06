@@ -79,12 +79,28 @@ export default class DemoBase {
         let demo = this.demo;
         let _this = this;
 
+        let datalabelFormat = '';
+
+        if( this.datalabelFormat && this.datalabelFormat.length ){
+            datalabelFormat = this.datalabelFormat.val().trim();
+        }
+        console.log( 'datalabelFormat:', datalabelFormat );
+
         let tmpSrc = JSON.parse( _this.getFormJsonVal( _this.srcData) )
             , tmpNew = JSON.parse( _this.getFormJsonVal( _this.newData ) )
             , tmpDesc  = JSON.parse( _this.getFormJsonVal( _this.descData ) )
             ;
 
-        tmpDesc = JSPDD.generatorDict( this.clone( tmpSrc ), this.clone( tmpNew ), tmpDesc );
+        if( window.IGNORE_DEFAULT_DESC ){
+            tmpDesc = {};
+        }
+
+        tmpDesc = JSPDD.generatorDict( 
+            this.clone( tmpSrc )
+            , this.clone( tmpNew )
+            , tmpDesc 
+            , datalabelFormat
+        );
        
 
         _this.descData.val( JSON.stringify( tmpDesc, null, 4 ) );
@@ -100,10 +116,6 @@ export default class DemoBase {
         demo.alldata = _this.alldata.prop( 'checked' ) ? 1 : 0;
         demo.userName = ( _this.userName.val() || '' ).trim();
         demo.userId = ( _this.userId.val() || '' ).trim();
-
-        if( this.datalabelFormat && this.datalabelFormat.length ){
-            demo.datalabelFormat = this.datalabelFormat.val().trim();
-        }
 
         if( $.isEmptyObject( tmpSrc ) && $.isEmptyObject( tmpNew ) ){
             return;

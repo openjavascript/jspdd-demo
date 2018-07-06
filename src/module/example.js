@@ -70,7 +70,7 @@ export default class Example extends BaseData {
         this.pdd.userName           = this.userName;
         this.pdd.userId             = this.userId;
         this.pdd.alldata            = this.alldata;
-        this.pdd.datalabelFormat    = this.datalabelFormat;
+        //this.pdd.datalabelFormat    = this.datalabelFormat;
 
         //this.pdd.datakey_prefix = 'root';
 

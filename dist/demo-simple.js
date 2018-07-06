@@ -16519,10 +16519,6 @@
 
 	var _jspddBasedata2 = _interopRequireDefault(_jspddBasedata);
 
-	var _jsonTraverser = __webpack_require__(173);
-
-	var _jsonTraverser2 = _interopRequireDefault(_jsonTraverser);
-
 	function _interopRequireDefault(obj) {
 	    return obj && obj.__esModule ? obj : { default: obj };
 	}
@@ -16544,6 +16540,8 @@
 	        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof2(superClass)));
 	    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
+
+	//import jsonTraverser from 'json-traverser';
 
 	/*
 	const KIND = {
@@ -17131,12 +17129,25 @@
 	    var sdata = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	    var ndata = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 	    var ddata = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+	    var datalabelFormat = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
 
 	    var r = void 0,
 	        combData = $.extend(true, sdata, ndata);
 	    var prefix = JSPDD.TEXT.DEFAULT_DICT_TEXT;
 
-	    var cb = function cb(item, key, pnt) {
+	    //console.log( 'ddddddddddd datalabelFormat:', datalabelFormat );
+
+	    var cb = function cb(item, key, pnt, datapath) {
+
+	        var label = '' + prefix + key;
+
+	        if (datalabelFormat) {
+	            label = datalabelFormat;
+	            label = label.replace(/{key}/gi, key);
+	            if (datapath && datapath.length) {
+	                label = label.replace(/{path}/gi, datapath.join('.'));
+	            }
+	        }
 
 	        switch (Object.prototype.toString.call(item)) {
 	            case '[object Array]':
@@ -17144,14 +17155,14 @@
 	                    var tmp = item;
 	                    if (item.length && Object.prototype.toString.call(item[0]) == '[object Object]') {
 	                        var _tmp2 = JSON.parse(JSON.stringify(item[0]));
-	                        (0, _jsonTraverser2.default)(_tmp2, cb);
-	                        pnt[key] = { _array: _tmp2, "label": '' + prefix + key };
+	                        jsonTraverser(_tmp2, cb);
+	                        pnt[key] = { _array: _tmp2, "label": label };
 	                    } else {
 	                        pnt[key] = {
 	                            _array: {
-	                                "label": '' + prefix + key
+	                                "label": label
 	                            },
-	                            "label": '' + prefix + key
+	                            "label": label
 	                        };
 	                    }
 
@@ -17160,26 +17171,46 @@
 	            case '[object Object]':
 	                {
 	                    //console.log( key, item );
-	                    item.label = '' + prefix + key;
+	                    item.label = label;
 	                    break;
 	                }
 	            default:
 	                {
 	                    if (key == 'label') return;
 	                    pnt[key] = {
-	                        "label": '' + prefix + key
+	                        "label": label
 	                    };
 	                    break;
 	                }
 	        }
 	    };
 
-	    (0, _jsonTraverser2.default)(combData, cb);
+	    jsonTraverser(combData, cb);
 
 	    r = Object.assign(combData, ddata);
 
 	    return r;
 	};
+
+	function jsonTraverser(json, cb) {
+	    var datapath = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+	    var keys = Object.keys(json);
+	    keys.map(function (key) {
+	        var nextPath = datapath.slice();
+	        nextPath.push(key);
+	        var item = json[key];
+	        switch (Object.prototype.toString.call(item)) {
+	            case '[object Array]':
+	            case '[object Object]':
+	                {
+	                    jsonTraverser(item, cb, nextPath.slice());
+	                    break;
+	                }
+	        }
+	        cb && cb(item, key, json, nextPath);
+	    });
+	}
 
 /***/ },
 /* 156 */,
@@ -17757,32 +17788,7 @@
 
 
 /***/ },
-/* 173 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = jsonTraverser;
-	function jsonTraverser(json, cb) {
-	    var keys = Object.keys(json);
-	    keys.map(function (key) {
-	        var item = json[key];
-	        switch (Object.prototype.toString.call(item)) {
-	            case '[object Array]':
-	            case '[object Object]':
-	                {
-	                    jsonTraverser(item, cb);
-	                    break;
-	                }
-	        }
-	        cb && cb(item, key, json);
-	    });
-	}
-
-/***/ },
+/* 173 */,
 /* 174 */
 /***/ function(module, exports) {
 
