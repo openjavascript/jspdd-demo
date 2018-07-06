@@ -16,6 +16,7 @@ export default class DemoBase {
         this.userName = $( '#userName' )
         this.userId = $( '#userId' )
         this.outputText = $( '#outputText' )
+        this.datalabelFormat = $( '#datalabelFormat' )
 
         this.demo = new Example();
     }
@@ -99,6 +100,10 @@ export default class DemoBase {
         demo.alldata = _this.alldata.prop( 'checked' ) ? 1 : 0;
         demo.userName = ( _this.userName.val() || '' ).trim();
         demo.userId = ( _this.userId.val() || '' ).trim();
+
+        if( this.datalabelFormat && this.datalabelFormat.length ){
+            demo.datalabelFormat = this.datalabelFormat.val().trim();
+        }
 
         if( $.isEmptyObject( tmpSrc ) && $.isEmptyObject( tmpNew ) ){
             return;
