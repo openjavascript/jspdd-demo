@@ -1900,7 +1900,7 @@
 	            try {
 	                oldLocale = globalLocale._abbr;
 	                var aliasedRequire = require;
-	                __webpack_require__(175)("./" + name);
+	                __webpack_require__(176)("./" + name);
 	                getSetGlobalLocale(oldLocale);
 	            } catch (e) {}
 	        }
@@ -4572,7 +4572,7 @@
 
 	})));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(176)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(171)(module)))
 
 /***/ },
 /* 2 */
@@ -16873,41 +16873,69 @@
 
 	'use strict';
 
+	var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+	} : function (obj) {
+	    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+	};
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = function () {
+	    function defineProperties(target, props) {
+	        for (var i = 0; i < props.length; i++) {
+	            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	        }
+	    }return function (Constructor, protoProps, staticProps) {
+	        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	    };
+	}();
 
 	var _moment = __webpack_require__(1);
 
 	var _moment2 = _interopRequireDefault(_moment);
 
-	var _deepDiff = __webpack_require__(171);
+	var _deepDiff = __webpack_require__(172);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
-	var _jspddKind = __webpack_require__(174);
+	var _jspddKind = __webpack_require__(175);
 
 	var _jspddKind2 = _interopRequireDefault(_jspddKind);
 
-	var _jspddBasedata = __webpack_require__(173);
+	var _jspddBasedata = __webpack_require__(174);
 
 	var _jspddBasedata2 = _interopRequireDefault(_jspddBasedata);
 
-	var _jsonTraverser = __webpack_require__(172);
+	var _jsonTraverser = __webpack_require__(173);
 
 	var _jsonTraverser2 = _interopRequireDefault(_jsonTraverser);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	function _interopRequireDefault(obj) {
+	    return obj && obj.__esModule ? obj : { default: obj };
+	}
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) {
+	    if (!(instance instanceof Constructor)) {
+	        throw new TypeError("Cannot call a class as a function");
+	    }
+	}
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) {
+	    if (!self) {
+	        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	    }return call && ((typeof call === "undefined" ? "undefined" : _typeof2(call)) === "object" || typeof call === "function") ? call : self;
+	}
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) {
+	    if (typeof superClass !== "function" && superClass !== null) {
+	        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof2(superClass)));
+	    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	}
 
 	/*
 	const KIND = {
@@ -17069,9 +17097,7 @@
 	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
 	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.VAL + ': ' + this.getDataLiteral(r.val));
 
-	            this.RESULT_ALL.push(r);
-	            r.indict && this.RESULT_INDICT.push(r);
-	            !r.indict && this.RESULT_OUTDICT.push(r);
+	            this.itemCommonAction(r, dict, item);
 
 	            return r;
 	        }
@@ -17120,11 +17146,9 @@
 	                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
 	            }
 	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
-	            r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r.val));
+	            r.desc.push(dateItemUnit + "\u503C: " + this.getDataLiteral(r.val));
 
-	            this.RESULT_ALL.push(r);
-	            r.indict && this.RESULT_INDICT.push(r);
-	            !r.indict && this.RESULT_OUTDICT.push(r);
+	            this.itemCommonAction(r, dict, item);
 
 	            return r;
 	        }
@@ -17188,11 +17212,9 @@
 	                r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
 	            }
 	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r._val));
-	            r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r._val));
+	            r.desc.push(dateItemUnit + "\u503C: " + this.getDataLiteral(r._val));
 
-	            this.RESULT_ALL.push(r);
-	            r.indict && this.RESULT_INDICT.push(r);
-	            !r.indict && this.RESULT_OUTDICT.push(r);
+	            this.itemCommonAction(r, dict, item);
 
 	            //console.log( 'when deleting' );
 	            //console.log( item );
@@ -17228,9 +17250,7 @@
 	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDataLiteral(r.val));
 	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDataLiteral(r._val));
 
-	            this.RESULT_ALL.push(r);
-	            r.indict && this.RESULT_INDICT.push(r);
-	            !r.indict && this.RESULT_OUTDICT.push(r);
+	            this.itemCommonAction(r, dict, item);
 
 	            return r;
 	        }
@@ -17272,11 +17292,9 @@
 	                r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
 	            }
 	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r._val));
-	            r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r._val));
+	            r.desc.push(dateItemUnit + "\u503C: " + this.getDataLiteral(r._val));
 
-	            this.RESULT_ALL.push(r);
-	            r.indict && this.RESULT_INDICT.push(r);
-	            !r.indict && this.RESULT_OUTDICT.push(r);
+	            this.itemCommonAction(r, dict, item);
 
 	            return r;
 	        }
@@ -17310,11 +17328,19 @@
 	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDataLiteral(r.val));
 	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDataLiteral(r._val));
 
+	            this.itemCommonAction(r, dict, item);
+
+	            return r;
+	        }
+	    }, {
+	        key: 'itemCommonAction',
+	        value: function itemCommonAction(r, dict, item) {
 	            this.RESULT_ALL.push(r);
 	            r.indict && this.RESULT_INDICT.push(r);
 	            !r.indict && this.RESULT_OUTDICT.push(r);
 
-	            return r;
+	            r.finallabel = {};
+	            dict && dict.item && (r.finallabel = dict.item);
 	        }
 	    }, {
 	        key: 'getDataLiteral',
@@ -17474,7 +17500,6 @@
 	}(_jspddBasedata2.default);
 
 	exports.default = JSPDD;
-
 
 	JSPDD.TEXT = {
 	    "NEW": "新增",
@@ -17839,6 +17864,22 @@
 
 /***/ },
 /* 171 */
+/***/ function(module, exports) {
+
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
+
+/***/ },
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;;(function(root, factory) { // eslint-disable-line no-extra-semi
@@ -18367,7 +18408,7 @@
 
 
 /***/ },
-/* 172 */
+/* 173 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18397,7 +18438,7 @@
 	}
 
 /***/ },
-/* 173 */
+/* 174 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18425,7 +18466,7 @@
 
 
 /***/ },
-/* 174 */
+/* 175 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18441,7 +18482,7 @@
 	};
 
 /***/ },
-/* 175 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
@@ -18703,23 +18744,7 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 175;
-
-
-/***/ },
-/* 176 */
-/***/ function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
+	webpackContext.id = 176;
 
 
 /***/ },

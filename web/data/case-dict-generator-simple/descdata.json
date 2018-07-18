@@ -1,0 +1,8 @@
+{
+    "test1": {
+        "label": "test data"
+    }
+    , "message": {
+        "label": "custom message"
+    }
+}
