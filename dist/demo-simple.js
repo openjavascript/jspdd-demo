@@ -16705,9 +16705,7 @@
 	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
 	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.VAL + ': ' + this.getDataLiteral(r.val));
 
-	            this.RESULT_ALL.push(r);
-	            r.indict && this.RESULT_INDICT.push(r);
-	            !r.indict && this.RESULT_OUTDICT.push(r);
+	            this.itemCommonAction(r, dict, item);
 
 	            return r;
 	        }
@@ -16758,9 +16756,7 @@
 	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
 	            r.desc.push(dateItemUnit + "\u503C: " + this.getDataLiteral(r.val));
 
-	            this.RESULT_ALL.push(r);
-	            r.indict && this.RESULT_INDICT.push(r);
-	            !r.indict && this.RESULT_OUTDICT.push(r);
+	            this.itemCommonAction(r, dict, item);
 
 	            return r;
 	        }
@@ -16826,9 +16822,7 @@
 	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r._val));
 	            r.desc.push(dateItemUnit + "\u503C: " + this.getDataLiteral(r._val));
 
-	            this.RESULT_ALL.push(r);
-	            r.indict && this.RESULT_INDICT.push(r);
-	            !r.indict && this.RESULT_OUTDICT.push(r);
+	            this.itemCommonAction(r, dict, item);
 
 	            //console.log( 'when deleting' );
 	            //console.log( item );
@@ -16864,9 +16858,7 @@
 	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDataLiteral(r.val));
 	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDataLiteral(r._val));
 
-	            this.RESULT_ALL.push(r);
-	            r.indict && this.RESULT_INDICT.push(r);
-	            !r.indict && this.RESULT_OUTDICT.push(r);
+	            this.itemCommonAction(r, dict, item);
 
 	            return r;
 	        }
@@ -16910,9 +16902,7 @@
 	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r._val));
 	            r.desc.push(dateItemUnit + "\u503C: " + this.getDataLiteral(r._val));
 
-	            this.RESULT_ALL.push(r);
-	            r.indict && this.RESULT_INDICT.push(r);
-	            !r.indict && this.RESULT_OUTDICT.push(r);
+	            this.itemCommonAction(r, dict, item);
 
 	            return r;
 	        }
@@ -16946,11 +16936,19 @@
 	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDataLiteral(r.val));
 	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDataLiteral(r._val));
 
+	            this.itemCommonAction(r, dict, item);
+
+	            return r;
+	        }
+	    }, {
+	        key: 'itemCommonAction',
+	        value: function itemCommonAction(r, dict, item) {
 	            this.RESULT_ALL.push(r);
 	            r.indict && this.RESULT_INDICT.push(r);
 	            !r.indict && this.RESULT_OUTDICT.push(r);
 
-	            return r;
+	            r.finallabel = {};
+	            dict && dict.item && (r.finallabel = dict.item);
 	        }
 	    }, {
 	        key: 'getDataLiteral',

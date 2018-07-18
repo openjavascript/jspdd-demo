@@ -1,10 +1,12 @@
 {
     "test1": {
         "label": "test data"
+        , "unit": "testUnit"
     },
     "ar": {
         "_array": {
             "label": "ar desc"
+            , "unit": "testUnit1"
         }
     },
     "data": {
