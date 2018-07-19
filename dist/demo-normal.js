@@ -58,7 +58,7 @@
 
 	(0, _jquery2.default)(document).ready(function () {
 	    var demobase = new _demobase2.default();
-	    demobase.initDict();
+	    demobase.init();
 	});
 
 /***/ },

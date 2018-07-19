@@ -1,0 +1,43 @@
+{
+    "data": {
+        "detail": {
+            "base_config": {
+                "time_sync": {
+                    "interval": {
+                        "label": "终端与控制中心通讯间隔"
+                        , "unit": "秒"
+                    },
+                    "inherit": {
+                        "label": "是否继承"
+                        , "enum": {
+                            "0": "不继承"
+                            , "1": "继承"
+                        }
+                    },
+                    "label": "升级设置"
+                },
+                "upgrade": {
+                    "inherit": {
+                        "label": "继承"
+                        , "enum": {
+                            "0": "不继承"
+                            , "1": "继承"
+                        }
+                    },
+                    "type": {
+                        "label": "自动升级"
+                        , "enum": {
+                            "auto": "自动升级主程序和规则库到最新版"
+                            , "timing": "定时升级"
+                            , "close": "不自动升级"
+                        }
+                    },
+                    "label": "升级设置"
+                },
+                "label": "基本设置"
+            },
+            "label": "终端策略"
+        },
+        "label": "策略中心"
+    }
+}
