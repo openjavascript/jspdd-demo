@@ -14,4 +14,8 @@
   1. 手动设置字典数据
 
       [https://openjavascript.github.io/jspdd-demo/web/demo-case1.html](https://openjavascript.github.io/jspdd-demo/web/demo-case1.html)
+
+  1. 手动设置字典数据 - 添加字段单位(unit) 与 字段枚举值(enum)
+  
+     [https://openjavascript.github.io/jspdd-demo/web/demo-unit-enum.html](https://openjavascript.github.io/jspdd-demo/web/demo-unit-enum.html)
       

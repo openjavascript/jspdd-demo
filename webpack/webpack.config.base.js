@@ -6,8 +6,7 @@ module.exports = {
 
         , 'tools-dict-generator-for-method': './src/tools-dict-generator-for-method.js'
 
-        , 'demo-case1': './src/demo-case1.js'
-        , 'demo-case2': './src/demo-case2.js'
+        , 'demo-normal': './src/demo-normal.js'
 
         , 'demo-simple': './src/demo-simple.js'
     }

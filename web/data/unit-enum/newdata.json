@@ -1,0 +1,15 @@
+{
+    "data": {
+        "detail": {
+            "base_config": {
+                "time_sync": {
+                    "interval": "900",
+                    "inherit": "0"
+                },
+                "upgrade": {
+                    "type": "auto"
+                }
+            }
+        }
+    }
+}
