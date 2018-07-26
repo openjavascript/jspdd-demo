@@ -16620,6 +16620,8 @@
 
 	            !(this.diffData && this.diffData.length) && (this.diffData = []);
 
+	            this.diffData = this.clone(this.diffData);
+
 	            this.diffData.map(function (v, k) {
 	                _this2.resolvePath(v);
 	                _this2.makeMapData(v);
@@ -16974,7 +16976,8 @@
 	            val = this.getDataLiteral(val);
 	            var tmp = void 0;
 
-	            console.log(val, item);
+	            //console.log( val, item );
+
 
 	            //if( common.jsonInData( item, 'finallabel.unit' ) ){
 	            if (item.finallabel && 'unit' in item.finallabel) {
@@ -17180,7 +17183,7 @@
 	            if (datapath && datapath.length) {
 	                label = label.replace(/{path}/gi, datapath.join('.'));
 	            }
-	            console.log(datapath);
+	            //console.log( datapath );
 	        }
 
 	        switch (Object.prototype.toString.call(item)) {

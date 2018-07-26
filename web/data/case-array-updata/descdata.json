@@ -1,0 +1,206 @@
+{
+    "base_config": {
+        "time_sync": {
+            "interval": {
+                "label": "文字描述 interval"
+            },
+            "label": "文字描述 time_sync"
+        },
+        "upgrade": {
+            "timing_config": {
+                "allow_cycle": {
+                    "_array": {
+                        "type": {
+                            "label": "文字描述 type"
+                        },
+                        "week": {
+                            "label": "文字描述 week"
+                        },
+                        "etime": {
+                            "label": "文字描述 etime"
+                        },
+                        "stime": {
+                            "label": "文字描述 stime"
+                        },
+                        "label": "文字描述 0"
+                    },
+                    "label": "文字描述 allow_cycle"
+                },
+                "label": "文字描述 timing_config"
+            },
+            "type": {
+                "label": "文字描述 type"
+            },
+            "label": "文字描述 upgrade"
+        },
+        "label": "文字描述 base_config"
+    },
+    "security_config": {
+        "scene_mode": {
+            "mode": {
+                "label": "文字描述 mode"
+            },
+            "deploy_config": {
+                "scanner_soft": {
+                    "types": {
+                        "_array": {
+                            "label": "文字描述 0"
+                        },
+                        "label": "文字描述 types"
+                    },
+                    "open": {
+                        "label": "文字描述 open"
+                    },
+                    "ban_cycle": {
+                        "_array": {
+                            "type": {
+                                "label": "文字描述 type"
+                            },
+                            "stime": {
+                                "label": "文字描述 stime"
+                            },
+                            "etime": {
+                                "label": "文字描述 etime"
+                            },
+                            "label": "文字描述 0"
+                        },
+                        "label": "文字描述 ban_cycle"
+                    },
+                    "label": "文字描述 scanner_soft"
+                },
+                "label": "文字描述 deploy_config"
+            },
+            "label": "文字描述 scene_mode"
+        },
+        "label": "文字描述 security_config"
+    },
+    "data": {
+        "detail": {
+            "base_config": {
+                "time_sync": {
+                    "interval": {
+                        "label": "文字描述 interval"
+                    },
+                    "inherit": {
+                        "label": "文字描述 inherit"
+                    },
+                    "label": "文字描述 time_sync"
+                },
+                "upgrade": {
+                    "inherit": {
+                        "label": "文字描述 inherit"
+                    },
+                    "type": {
+                        "label": "文字描述 type"
+                    },
+                    "timing_config": {
+                        "allow_cycle": {
+                            "_array": {
+                                "type": {
+                                    "label": "文字描述 type"
+                                },
+                                "week": {
+                                    "label": "文字描述 week"
+                                },
+                                "etime": {
+                                    "label": "文字描述 etime"
+                                },
+                                "stime": {
+                                    "label": "文字描述 stime"
+                                },
+                                "label": "文字描述 0"
+                            },
+                            "label": "文字描述 allow_cycle"
+                        },
+                        "inherit": {
+                            "label": "文字描述 inherit"
+                        },
+                        "label": "文字描述 timing_config"
+                    },
+                    "label": "文字描述 upgrade"
+                },
+                "label": "文字描述 base_config"
+            },
+            "security_config": {
+                "scene_mode": {
+                    "inherit": {
+                        "label": "文字描述 inherit"
+                    },
+                    "mode": {
+                        "label": "文字描述 mode"
+                    },
+                    "deploy_config": {
+                        "scanner_soft": {
+                            "open": {
+                                "label": "文字描述 open"
+                            },
+                            "ban_cycle": {
+                                "_array": {
+                                    "type": {
+                                        "label": "文字描述 type"
+                                    },
+                                    "etime": {
+                                        "label": "文字描述 etime"
+                                    },
+                                    "stime": {
+                                        "label": "文字描述 stime"
+                                    },
+                                    "label": "文字描述 0"
+                                },
+                                "label": "文字描述 ban_cycle"
+                            },
+                            "types": {
+                                "_array": {
+                                    "label": "文字描述 0"
+                                },
+                                "label": "文字描述 types"
+                            },
+                            "inherit": {
+                                "label": "文字描述 inherit"
+                            },
+                            "label": "文字描述 scanner_soft"
+                        },
+                        "label": "文字描述 deploy_config"
+                    },
+                    "production_config": {
+                        "window_notice": {
+                            "type": {
+                                "label": "文字描述 type"
+                            },
+                            "inherit": {
+                                "label": "文字描述 inherit"
+                            },
+                            "label": "文字描述 window_notice"
+                        },
+                        "label": "文字描述 production_config"
+                    },
+                    "label": "文字描述 scene_mode"
+                },
+                "scanner_types": {
+                    "inherit": {
+                        "label": "文字描述 inherit"
+                    },
+                    "types": {
+                        "_array": {
+                            "label": "文字描述 0"
+                        },
+                        "label": "文字描述 types"
+                    },
+                    "label": "文字描述 scanner_types"
+                },
+                "label": "文字描述 security_config"
+            },
+            "label": "文字描述 detail"
+        },
+        "label": "文字描述 data"
+    },
+    "errorCode": {
+        "label": "文字描述 errorCode"
+    },
+    "test1": {
+        "label": "test data"
+    },
+    "message": {
+        "label": "custom message"
+    }
+}
