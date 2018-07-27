@@ -1919,7 +1919,7 @@
 	            try {
 	                oldLocale = globalLocale._abbr;
 	                var aliasedRequire = require;
-	                __webpack_require__(176)("./" + name);
+	                __webpack_require__(177)("./" + name);
 	                getSetGlobalLocale(oldLocale);
 	            } catch (e) {}
 	        }
@@ -16511,17 +16511,21 @@
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
-	var _jspddKind = __webpack_require__(175);
+	var _jspddKind = __webpack_require__(176);
 
 	var _jspddKind2 = _interopRequireDefault(_jspddKind);
 
-	var _jspddBasedata = __webpack_require__(174);
+	var _jspddBasedata = __webpack_require__(175);
 
 	var _jspddBasedata2 = _interopRequireDefault(_jspddBasedata);
 
 	var _jsonTraverser = __webpack_require__(173);
 
 	var _jsonTraverser2 = _interopRequireDefault(_jsonTraverser);
+
+	var _jsonUtilsx = __webpack_require__(174);
+
+	var _jsonUtilsx2 = _interopRequireDefault(_jsonUtilsx);
 
 	function _interopRequireDefault(obj) {
 	    return obj && obj.__esModule ? obj : { default: obj };
@@ -16598,6 +16602,8 @@
 	        _this.srcData = srcData;
 	        _this.newData = newData;
 	        _this.descData = descData;
+
+	        _this.fixArray = 1;
 	        return _this;
 	    }
 
@@ -16612,6 +16618,15 @@
 	            var _this2 = this;
 
 	            this.reset();
+
+	            this.srcDataOrigin = this.clone(this.srcData);
+	            this.newDataOrigin = this.clone(this.newData);
+
+	            this.srcData = this.clone(this.srcData);
+	            this.newData = this.clone(this.newData);
+
+	            this.resolveArray();
+	            //console.log( 1111111111, Utils );
 
 	            //console.log( 'descDAta', this.descData );
 	            this.makeDict(this.descData);
@@ -16630,6 +16645,47 @@
 	            });
 
 	            return this.result();
+	        }
+	    }, {
+	        key: 'resolveArray',
+	        value: function resolveArray() {
+	            var _this3 = this;
+
+	            if (!this.fixArray) return;
+
+	            var cb = function cb(item, key, pnt, datapath) {
+	                switch (Object.prototype.toString.call(item)) {
+	                    case '[object Array]':
+	                        {
+	                            console.log('resolveArray', datapath.join('.'));
+	                            console.log(Object.prototype.toString.call(item), item);
+	                            _this3.cleanArray(_jsonUtilsx2.default.jsonGetData(_this3.srcData, datapath), _jsonUtilsx2.default.jsonGetData(_this3.newData, datapath));
+
+	                            break;
+	                        }
+	                }
+	            };
+	            (0, _jsonTraverser2.default)(this.clone(this.srcData), cb);
+	        }
+	    }, {
+	        key: 'cleanArray',
+	        value: function cleanArray(src, target) {
+	            if (_jsonUtilsx2.default.jsonEqual(src, target)) return;
+	            console.log('need clean~', src, target);
+	            for (var i = src.length - 1; i >= 0; i--) {
+	                var item = src[i],
+	                    targetItem = void 0;
+
+	                for (var j = target.length - 1; j >= 0; j--) {
+	                    targetItem = target[j];
+
+	                    if (_jsonUtilsx2.default.jsonEqual(item, targetItem)) {
+	                        target.splice(j, 1);
+	                        src.splice(i, 1);
+	                        break;
+	                    }
+	                }
+	            }
 	        }
 	    }, {
 	        key: 'procPort',
@@ -16677,40 +16733,6 @@
 	                        break;
 	                    }
 	            }
-	        }
-	    }, {
-	        key: 'procArrayNew',
-	        value: function procArrayNew(item) {
-	            var r = this.descDataItem(item, 1),
-	                dict = this.getDictData(item),
-	                dateItemUnit = this.getDataItemUnit(item);
-	            r.action = 'add';
-	            r.actiontype = 'array';
-
-	            if (dict && dict.fulllabel && dict.fulllabel.length) {
-	                r.label = dict.fulllabel;
-	            }
-	            this.setAdditionData(r, dict, item);
-
-	            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
-
-	            if (r.label.length) {
-	                r.indict = 1;
-
-	                r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
-
-	                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-	                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
-	            } else {
-	                r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-	                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-	            }
-	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
-	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.VAL + ': ' + this.getDescribableVal(r.val, r));
-
-	            this.itemCommonAction(r, dict, item);
-
-	            return r;
 	        }
 	    }, {
 	        key: 'descDataItem',
@@ -16880,6 +16902,40 @@
 	            return r;
 	        }
 	    }, {
+	        key: 'procArrayNew',
+	        value: function procArrayNew(item) {
+	            var r = this.descDataItem(item, 1),
+	                dict = this.getDictData(item),
+	                dateItemUnit = this.getDataItemUnit(item);
+	            r.action = 'add';
+	            r.actiontype = 'array';
+
+	            if (dict && dict.fulllabel && dict.fulllabel.length) {
+	                r.label = dict.fulllabel;
+	            }
+	            this.setAdditionData(r, dict, item);
+
+	            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
+
+	            if (r.label.length) {
+	                r.indict = 1;
+
+	                r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
+
+	                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
+	            } else {
+	                r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
+	                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	            }
+	            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
+	            r.desc.push('' + dateItemUnit + JSPDD.TEXT.VAL + ': ' + this.getDescribableVal(r.val, r));
+
+	            this.itemCommonAction(r, dict, item);
+
+	            return r;
+	        }
+	    }, {
 	        key: 'procArrayDel',
 	        value: function procArrayDel(item) {
 	            var r = this.descDataItem(item, 1),
@@ -17014,7 +17070,7 @@
 	    }, {
 	        key: 'makeDict',
 	        value: function makeDict(data) {
-	            var _this3 = this;
+	            var _this4 = this;
 
 	            var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 	            var label = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -17030,26 +17086,26 @@
 
 	                            var fullpath = spath.join('.');
 
-	                            _this3.DICT[fullpath] = {
+	                            _this4.DICT[fullpath] = {
 	                                item: item
 	                            };
 
 	                            if (item.label) {
 	                                slabel.push(item.label);
-	                                _this3.DICT[fullpath].parentlabel = label;
-	                                _this3.DICT[fullpath].fulllabel = slabel;
+	                                _this4.DICT[fullpath].parentlabel = label;
+	                                _this4.DICT[fullpath].fulllabel = slabel;
 	                            } else {
 	                                if (typeof item == 'string') {
 	                                    slabel.push(item);
-	                                    _this3.DICT[fullpath].parentlabel = label;
-	                                    _this3.DICT[fullpath].fulllabel = slabel;
+	                                    _this4.DICT[fullpath].parentlabel = label;
+	                                    _this4.DICT[fullpath].fulllabel = slabel;
 	                                } else {
-	                                    _this3.DICT[fullpath].parentlabel = label;
-	                                    _this3.DICT[fullpath].fulllabel = slabel;
+	                                    _this4.DICT[fullpath].parentlabel = label;
+	                                    _this4.DICT[fullpath].fulllabel = slabel;
 	                                }
 	                            }
 
-	                            _this3.makeDict(item, spath, slabel);
+	                            _this4.makeDict(item, spath, slabel);
 	                        });
 	                        break;
 	                    }
@@ -17096,8 +17152,8 @@
 	                    'RESULT_OUTDICT': this.RESULT_OUTDICT
 	                },
 	                SRC: {
-	                    srcData: this.srcData,
-	                    newData: this.newData,
+	                    srcData: this.srcDataOrigin,
+	                    newData: this.newDataOrigin,
 	                    descData: this.descData,
 	                    diffData: this.diffData,
 	                    map: this.MAP,
@@ -17838,6 +17894,188 @@
 /* 174 */
 /***/ function(module, exports) {
 
+	/**
+	 * 判断一个属性路径是否存在于 object
+	 * @param {Object}      data        要判断的是否存在属性值的JSON
+	 * @param {string}      keypath     属性路径
+	 * @param {string}      delimiter   属性路径的分隔符，默认: "."
+	 * @return {Boolean}
+	 * @method jsonInData
+	 * @example
+	<pre>
+	    console.log( jsonInData( { 'l1': { 'l2': 1 } }, 'l1.l2' ) ); //return true
+	    console.log( jsonInData( { 'l1': { 'l3': 1 } }, 'l1.l2' ) ) ; //return false
+	</pre>
+	 */
+	function jsonInData(data, keypath, delimiter = '.') {
+	    let r,
+	        tmp = data;
+	    keypath = keypath || [];
+	    typeof keypath == 'string' && (keypath = keypath.split(delimiter));
+
+	    if (!(data && keypath.length)) return r;
+	    keypath.map(val => {
+	        r = 0;
+	        if (val && tmp && val in tmp) {
+	            tmp = tmp[val];
+	            r = 1;
+	        }
+	    });
+
+	    return !!r;
+	}
+	/**
+	 * 从一个属性路径，添加json数据
+	 * @param {Object}      data        要判断的是否存在属性值的JSON
+	 * @param {*}           val         要添加的数据
+	 * @param {string}      keypath     属性路径
+	 * @param {boolean}     appendData  如果父节点不存在是否添加父节点，默认=0(不添加)
+	 * @param {string}      delimiter   属性路径的分隔符，默认: "."
+	 * @return {Object}     data
+	 * @method jsonSetData
+	 * @example
+	<pre>
+	    let data = { "l1": {  "l2": { "k1": 1, "k2": 2 }  } };
+	    
+	    console.log( jsonSetData( data, 'val1', 'l1.l3' ) );
+	    console.log( jsonSetData( data, 'val1', 'l4.l5', 1 ) );
+	</pre>
+	 */
+	function jsonSetData(data, val, keypath, appendData = 0, delimiter = '.') {
+	    let tmp = data,
+	        ignore;
+	    keypath = keypath || [];
+	    typeof keypath == 'string' && (keypath = keypath.split(delimiter));
+
+	    if (!(data && keypath.length)) return tmp;
+	    keypath.slice(0, -1).map(val => {
+	        if (val && tmp && val in tmp) {
+	            tmp = tmp[val];
+	        } else {
+	            if (appendData) {
+	                tmp[val] = {};
+	                tmp = tmp[val];
+	            } else {
+	                ignore = 1;
+	            }
+	        }
+	    });
+	    if (!ignore && tmp && keypath && keypath.length) {
+	        tmp[keypath.slice(-1)] = val;
+	    }
+
+	    return data;
+	}
+	/**
+	 * 从一个属性路径，删除json的属性
+	 * @param {Object}      data        要判断的是否存在属性值的JSON
+	 * @param {string}      keypath     属性路径
+	 * @param {string}      delimiter   属性路径的分隔符，默认: "."
+	 * @return {Object}     data
+	 * @method jsonInData
+	 * @example
+	<pre>
+	    let data = { "l1": {  "l2": { "k1": 1, "k2": 2 }  } };
+	    console.log( jsonDelData( data, 'l1.l2.k1') ); //  { "l1": {  "l2": { "k2": 2 }  } }
+	    console.log( jsonDelData( data, 'l1.l2.k3') ); //  { "l1": {  "l2": { "k2": 2 }  } }
+	</pre>
+	 */
+	function jsonDelData(data, keypath, delimiter = '.') {
+	    let tmp = data;
+	    keypath = keypath || [];
+	    typeof keypath == 'string' && (keypath = keypath.split(delimiter));
+
+	    if (!(data && keypath.length)) return tmp;
+	    keypath.slice(0, -1).map(val => {
+	        if (val && tmp && val in tmp) {
+	            tmp = tmp[val];
+	        }
+	    });
+	    if (tmp && keypath && keypath.length) {
+	        delete tmp[keypath.slice(-1)];
+	    }
+
+	    return data;
+	}
+	/**
+	 * 从一个属性路径，获取json数据
+	 * @param {Object}      data        要判断的是否存在属性值的JSON
+	 * @param {string}      keypath     属性路径
+	 * @param {boolean}     appendData  如果父节点不存在是否添加父节点，默认=0(不添加)
+	 * @param {string}      delimiter   属性路径的分隔符，默认: "."
+	 * @return {*}     
+	 * @method jsonGetData
+	 * @example
+	<pre>
+	    let data = { "l1": {  "l2": { "k1": 1, "k2": 2 }  } };
+	    
+	    console.log( jsonGetData( data, 'l1') )
+	    console.log( jsonGetData( data, 'l1.l2') )
+	    console.log( jsonGetData( data, 'l1.l3') )
+	</pre>
+	 */
+	function jsonGetData(data, keypath, appendData = 0, delimiter = '.') {
+	    let tmp = data,
+	        ignore,
+	        r;
+	    keypath = keypath || [];
+	    typeof keypath == 'string' && (keypath = keypath.split(delimiter));
+
+	    if (!(data && keypath.length)) return r;
+	    keypath.slice(0, -1).map(val => {
+	        if (val && tmp && val in tmp) {
+	            tmp = tmp[val];
+	        } else {
+	            if (appendData) {
+	                tmp[val] = {};
+	                tmp = tmp[val];
+	            } else {
+	                ignore = 1;
+	            }
+	        }
+	    });
+	    if (!ignore && tmp && keypath && keypath.length) {
+	        r = tmp[keypath.slice(-1)];
+	    }
+
+	    return r;
+	}
+
+	/**
+	 * 判断一个object是否空对象(没有任何属性值)
+	 * @param {Object}      obj     要判断的obejct
+	 * @return {boolean}
+	 * @method isEmpty
+	 */
+	function isEmpty(obj) {
+	    for (var x in obj) {
+	        if (obj.hasOwnProperty(x)) return false;
+	    }
+	    return true;
+	}
+	/**
+	 * 对比2个JSON对象是否相等
+	 * @param {Object}      json1   要判断的obejct
+	 * @param {Object}      json2   要判断的obejct
+	 * @return {boolean}
+	 * @method jsonEqual
+	 */
+	function jsonEqual(json1, json2) {
+	    return JSON.stringify(json1, null, 1) == JSON.stringify(json2, null, 1);
+	}
+	module.exports = {
+	    jsonDelData: jsonDelData,
+	    jsonInData: jsonInData,
+	    jsonSetData: jsonSetData,
+	    jsonGetData: jsonGetData,
+	    jsonEqual: jsonEqual,
+	    isEmpty: isEmpty
+	};
+
+/***/ },
+/* 175 */
+/***/ function(module, exports) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -17863,7 +18101,7 @@
 
 
 /***/ },
-/* 175 */
+/* 176 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -17879,7 +18117,7 @@
 	};
 
 /***/ },
-/* 176 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
@@ -18141,7 +18379,7 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 176;
+	webpackContext.id = 177;
 
 
 /***/ }
