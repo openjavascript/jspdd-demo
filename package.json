@@ -31,20 +31,8 @@
     "jspdd"
   ],
   "scripts": {
-    "clean": "rimraf lib dist coverage",
-    "lint": "eslint src test --fix",
-    "test": "mocha",
-    "test:karma": "karma start karma.conf.js",
-    "test:watch": "karma start karma.conf.js --auto-watch --no-single-run",
-    "coverage": "babel-node node_modules/isparta/bin/isparta cover node_modules/mocha/bin/_mocha",
-    "coveralls": "istanbul-coveralls",
-    "check": "npm run lint && npm run coverage",
     "dev": "webpack --config webpack/webpack.config.development.js --watch",
-    "build": "webpack --config webpack/webpack.config.production.js",
-    "preversion": "npm run clean && npm run check",
-    "version": "npm run build",
-    "postversion": "git push && git push --tags && npm run clean",
-    "prepublish": "npm run clean && npm run build"
+    "build": "webpack --config webpack/webpack.config.production.js"
   },
   "devDependencies": {
     "babel-cli": "^6.4.0",
@@ -80,7 +68,6 @@
   },
   "dependencies": {
     "deep-diff": "^1.0.1",
-    "json-utilsx": "^1.0.5",
     "jspdd": "^1.0.16",
     "jspdd-basedata": "^1.0.1",
     "jspdd-kind": "^1.0.1",
