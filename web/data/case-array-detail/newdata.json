@@ -1,0 +1,68 @@
+{
+    "base_config": {
+        "time_sync": {
+            "interval": "900"
+        },
+        "upgrade": {
+            "timing_config": {
+                "allow_cycle": [
+                    {
+                        "type": "0",
+                        "week": "3",
+                        "etime": "01:00",
+                        "stime": "01:00"
+                    }
+                ]
+            },
+            "type": "timing"
+        }
+    },
+    "security_config": {
+        "scene_mode": {
+            "mode": "deploy",
+            "deploy_config": {
+                "scanner_soft": {
+                    "types": [
+                        "exe",
+                        "bat",
+                        "msi"
+                    ],
+                    "open": "1",
+                    "ban_cycle": [
+                        {
+                            "type": "0",
+                            "stime": "00:00",
+                            "etime": "01:00"
+                        },
+                        {
+                            "type": "0",
+                            "stime": "02:00",
+                            "etime": "03:00"
+                            , "forunit": 5
+                        }
+                        , {
+                            "type": "0",
+                            "stime": "04:00",
+                            "etime": "05:00"
+                        }
+                        , {
+                            "type": "0",
+                            "stime": "06:00",
+                            "etime": "07:00"
+                        }
+                        , {
+                            "type": "0",
+                            "stime": "07:30",
+                            "etime": "08:00"
+                        }
+                        , {
+                            "type": "0",
+                            "stime": "08:01",
+                            "etime": "09:00"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
