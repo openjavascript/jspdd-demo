@@ -1,0 +1,249 @@
+{
+    "data": {
+        "user_setting": {
+            "roles": [
+                {
+                    "id": 189,
+                    "name": "text_00",
+                    "permissions": [
+                        "vis",
+                        "alarm_statistics",
+                        "alarm_examine",
+                        "alarm_distr",
+                        "monitoring",
+                        "device_list",
+                        "device",
+                        "file_identification",
+                        "setting_upgrade",
+                        "setting_tools",
+                        "log"
+                    ]
+                },
+                {
+                    "id": 191,
+                    "name": "test_02",
+                    "permissions": [
+                        "vis",
+                        "alarm_statistics",
+                        "alarm_examine",
+                        "client_policy",
+                        "file_identification",
+                        "policy",
+                        "setting_user",
+                        "log"
+                    ]
+                },
+
+                {
+                    "id": 188,
+                    "name": "test_01",
+                    "permissions": [
+                        "vis",
+                        "alarm_statistics",
+                        "alarm_examine",
+                        "alarm_distr",
+                        "monitoring",
+                        "device_list",
+                        "device",
+                        "client_policy",
+                        "file_identification",
+                        "policy",
+                        "setting_user",
+                        "setting_upgrade",
+                        "setting_tools",
+                        "log",
+                        "setting"
+                    ]
+                },
+                {
+                    "id": 187,
+                    "name": "testx6",
+                    "permissions": [
+                        "setting_tools",
+                        "log"
+                    ]
+                },
+                {
+                    "id": 126,
+                    "name": "test_h",
+                    "permissions": [
+                        "alarm_statistics",
+                        "alarm_examine",
+                        "alarm_distr",
+                        "monitoring",
+                        "device_list",
+                        "device",
+                        "client_policy",
+                        "setting_user",
+                        "setting_upgrade",
+                        "setting_tools",
+                        "log",
+                        "setting"
+                    ]
+                },
+                {
+                    "id": 124,
+                    "name": "ly",
+                    "permissions": [
+                        "alarm_statistics",
+                        "alarm_examine",
+                        "alarm_distr",
+                        "monitoring",
+                        "device_list",
+                        "device",
+                        "client_policy",
+                        "file_identification",
+                        "policy",
+                        "setting_user",
+                        "setting_upgrade",
+                        "setting_tools",
+                        "log",
+                        "setting"
+                    ]
+                },
+                {
+                    "id": 123,
+                    "name": "luy",
+                    "permissions": [
+                        "device_list",
+                        "device",
+                        "client_policy",
+                        "file_identification",
+                        "policy",
+                        "setting_user",
+                        "setting_upgrade"
+                    ]
+                },
+                {
+                    "id": 63,
+                    "name": "超级管理员d",
+                    "permissions": [
+                        "vis",
+                        "alarm_statistics",
+                        "alarm_distr",
+                        "device_list",
+                        "device",
+                        "client_policy",
+                        "file_identification",
+                        "policy",
+                        "setting_user",
+                        "setting_upgrade",
+                        "setting_tools",
+                        "log",
+                        "setting"
+                    ]
+                },
+                {
+                    "id": 62,
+                    "name": "testnew",
+                    "permissions": [
+                        "vis",
+                        "alarm_statistics",
+                        "alarm_examine",
+                        "alarm_distr",
+                        "monitoring",
+                        "device_list",
+                        "device",
+                        "client_policy",
+                        "file_identification",
+                        "policy",
+                        "setting_user",
+                        "setting_upgrade",
+                        "setting_tools",
+                        "log",
+                        "setting"
+                    ]
+                },
+                {
+                    "id": 61,
+                    "name": "tewt",
+                    "permissions": [
+                        "vis",
+                        "client_policy",
+                        "file_identification",
+                        "policy",
+                        "setting_user",
+                        "setting_upgrade",
+                        "setting_tools",
+                        "log",
+                        "setting"
+                    ]
+                },
+                {
+                    "id": 60,
+                    "name": "日志管理员测试",
+                    "permissions": [
+                        "setting_upgrade",
+                        "log"
+                    ]
+                },
+                {
+                    "id": 59,
+                    "name": "liukelin",
+                    "permissions": [
+                        "vis",
+                        "alarm_statistics",
+                        "alarm_examine",
+                        "alarm_distr",
+                        "monitoring",
+                        "device",
+                        "logreport_logreport",
+                        "logreport",
+                        "client_policy",
+                        "file_identification",
+                        "policy",
+                        "setting_user",
+                        "setting_upgrade",
+                        "setting"
+                    ]
+                },
+                {
+                    "id": 58,
+                    "name": "testx2-1",
+                    "permissions": [
+                        "vis",
+                        "alarm_statistics",
+                        "alarm_examine",
+                        "alarm_distr",
+                        "monitoring",
+                        "device_list",
+                        "device",
+                        "client_policy",
+                        "file_identification",
+                        "policy",
+                        "setting_user",
+                        "setting_upgrade",
+                        "setting_tools",
+                        "log",
+                        "setting"
+                    ]
+                },
+                {
+                    "id": 56,
+                    "name": "unit",
+                    "permissions": [
+                        "vis",
+                        "alarm_distr",
+                        "client_policy",
+                        "file_identification",
+                        "policy",
+                        "setting_user",
+                        "setting_upgrade",
+                        "setting_tools",
+                        "log",
+                        "setting"
+                    ]
+                },
+                {
+                    "id": 55,
+                    "name": "ld",
+                    "permissions": [
+                        "vis",
+                        "alarm_examine",
+                        "alarm_distr"
+                    ]
+                }
+            ]
+        }
+    }
+}
