@@ -16630,8 +16630,9 @@
 	            this.newData = this.clone(this.newData);
 
 	            //console.log( 'source', diff( this.clone( this.srcData ), this.clone( this.newData ) ) );
-
-	            this.resolveArray();
+	            //console.log( 'source 1', this.clone( this.srcData ), this.clone( this.newData ) );
+	            //this.resolveArray();
+	            //console.log( 'source 2', this.clone( this.srcData ), this.clone( this.newData ) );
 	            //console.log( 1111111111, Utils );
 
 	            //console.log( 'descDAta', this.descData );
