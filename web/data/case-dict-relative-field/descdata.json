@@ -2,6 +2,9 @@
     "message": {
         "label": "文字描述 message"
     },
+    "test": {
+        "label": "nothing"
+    },
     "data": {
         "server_bandwidth_limit": {
             "connection": {

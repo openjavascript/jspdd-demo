@@ -32,7 +32,7 @@
   ],
   "scripts": {
     "dev": "webpack --config webpack/webpack.config.development.js --watch",
-    "build": "webpack --config webpack/webpack.config.production.js"
+    "public": "webpack --config webpack/webpack.config.production.js"
   },
   "devDependencies": {
     "babel-cli": "^6.4.0",
@@ -44,22 +44,10 @@
     "babel-preset-es2015-loose": "^7.0.0",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
-    "es5-shim": "^4.3.1",
-    "eslint": "^1.7.1",
-    "eslint-config-rackt": "^1.1.1",
-    "eslint-plugin-react": "^3.16.1",
     "chai": "^3.5.0",
+    "es5-shim": "^4.3.1",
     "isparta": "^4.0.0",
     "istanbul-coveralls": "^1.0.3",
-    "karma": "^0.13.21",
-    "karma-mocha": "^0.2.2",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^1.7.0",
-    "mocha": "^2.2.5",
-    "phantomjs": "^1.9.19",
-    "phantomjs-prebuilt": "^2.1.4",
-    "rimraf": "^2.3.4",
     "webpack": "<=1.12.12"
   },
   "devEngines": {
@@ -68,6 +56,7 @@
   },
   "dependencies": {
     "deep-diff": "^1.0.1",
+    "deepmerge": "^3.0.0",
     "json-utilsx": "^1.0.5",
     "jspdd": "^1.0.17",
     "jspdd-basedata": "^1.0.1",

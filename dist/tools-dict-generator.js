@@ -46,11 +46,11 @@
 
 	'use strict';
 
-	var _demobase = __webpack_require__(179);
+	var _demobase = __webpack_require__(180);
 
 	var _demobase2 = _interopRequireDefault(_demobase);
 
-	var _jquery = __webpack_require__(156);
+	var _jquery = __webpack_require__(157);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -1326,7 +1326,7 @@
 
 	    var defaultLocaleWeek = {
 	        dow : 0, // Sunday is the first day of the week.
-	        doy : 6  // The week that contains Jan 1st is the first week of the year.
+	        doy : 6  // The week that contains Jan 6th is the first week of the year.
 	    };
 
 	    function localeFirstDayOfWeek () {
@@ -1900,7 +1900,7 @@
 	            try {
 	                oldLocale = globalLocale._abbr;
 	                var aliasedRequire = require;
-	                __webpack_require__(177)("./" + name);
+	                __webpack_require__(178)("./" + name);
 	                getSetGlobalLocale(oldLocale);
 	            } catch (e) {}
 	        }
@@ -2202,13 +2202,13 @@
 	                    weekdayOverflow = true;
 	                }
 	            } else if (w.e != null) {
-	                // local weekday -- counting starts from begining of week
+	                // local weekday -- counting starts from beginning of week
 	                weekday = w.e + dow;
 	                if (w.e < 0 || w.e > 6) {
 	                    weekdayOverflow = true;
 	                }
 	            } else {
-	                // default to begining of week
+	                // default to beginning of week
 	                weekday = dow;
 	            }
 	        }
@@ -2802,7 +2802,7 @@
 	            years = normalizedInput.year || 0,
 	            quarters = normalizedInput.quarter || 0,
 	            months = normalizedInput.month || 0,
-	            weeks = normalizedInput.week || 0,
+	            weeks = normalizedInput.week || normalizedInput.isoWeek || 0,
 	            days = normalizedInput.day || 0,
 	            hours = normalizedInput.hour || 0,
 	            minutes = normalizedInput.minute || 0,
@@ -3106,7 +3106,7 @@
 	                ms : toInt(absRound(match[MILLISECOND] * 1000)) * sign // the millisecond decimal point is included in the match
 	            };
 	        } else if (!!(match = isoRegex.exec(input))) {
-	            sign = (match[1] === '-') ? -1 : (match[1] === '+') ? 1 : 1;
+	            sign = (match[1] === '-') ? -1 : 1;
 	            duration = {
 	                y : parseIso(match[2], sign),
 	                M : parseIso(match[3], sign),
@@ -3257,7 +3257,7 @@
 	        if (!(this.isValid() && localInput.isValid())) {
 	            return false;
 	        }
-	        units = normalizeUnits(!isUndefined(units) ? units : 'millisecond');
+	        units = normalizeUnits(units) || 'millisecond';
 	        if (units === 'millisecond') {
 	            return this.valueOf() > localInput.valueOf();
 	        } else {
@@ -3270,7 +3270,7 @@
 	        if (!(this.isValid() && localInput.isValid())) {
 	            return false;
 	        }
-	        units = normalizeUnits(!isUndefined(units) ? units : 'millisecond');
+	        units = normalizeUnits(units) || 'millisecond';
 	        if (units === 'millisecond') {
 	            return this.valueOf() < localInput.valueOf();
 	        } else {
@@ -3279,9 +3279,14 @@
 	    }
 
 	    function isBetween (from, to, units, inclusivity) {
+	        var localFrom = isMoment(from) ? from : createLocal(from),
+	            localTo = isMoment(to) ? to : createLocal(to);
+	        if (!(this.isValid() && localFrom.isValid() && localTo.isValid())) {
+	            return false;
+	        }
 	        inclusivity = inclusivity || '()';
-	        return (inclusivity[0] === '(' ? this.isAfter(from, units) : !this.isBefore(from, units)) &&
-	            (inclusivity[1] === ')' ? this.isBefore(to, units) : !this.isAfter(to, units));
+	        return (inclusivity[0] === '(' ? this.isAfter(localFrom, units) : !this.isBefore(localFrom, units)) &&
+	            (inclusivity[1] === ')' ? this.isBefore(localTo, units) : !this.isAfter(localTo, units));
 	    }
 
 	    function isSame (input, units) {
@@ -3290,7 +3295,7 @@
 	        if (!(this.isValid() && localInput.isValid())) {
 	            return false;
 	        }
-	        units = normalizeUnits(units || 'millisecond');
+	        units = normalizeUnits(units) || 'millisecond';
 	        if (units === 'millisecond') {
 	            return this.valueOf() === localInput.valueOf();
 	        } else {
@@ -3300,11 +3305,11 @@
 	    }
 
 	    function isSameOrAfter (input, units) {
-	        return this.isSame(input, units) || this.isAfter(input,units);
+	        return this.isSame(input, units) || this.isAfter(input, units);
 	    }
 
 	    function isSameOrBefore (input, units) {
-	        return this.isSame(input, units) || this.isBefore(input,units);
+	        return this.isSame(input, units) || this.isBefore(input, units);
 	    }
 
 	    function diff (input, units, asFloat) {
@@ -4523,7 +4528,7 @@
 	    // Side effect imports
 
 
-	    hooks.version = '2.22.2';
+	    hooks.version = '2.23.0';
 
 	    setHookCallback(createLocal);
 
@@ -4564,7 +4569,7 @@
 	        TIME: 'HH:mm',                                  // <input type="time" />
 	        TIME_SECONDS: 'HH:mm:ss',                       // <input type="time" step="1" />
 	        TIME_MS: 'HH:mm:ss.SSS',                        // <input type="time" step="0.001" />
-	        WEEK: 'YYYY-[W]WW',                             // <input type="week" />
+	        WEEK: 'GGGG-[W]WW',                             // <input type="week" />
 	        MONTH: 'YYYY-MM'                                // <input type="month" />
 	    };
 
@@ -4572,13 +4577,13 @@
 
 	})));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(171)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(172)(module)))
 
 /***/ },
 /* 2 */
 /***/ function(module, exports) {
 
-	var core = module.exports = { version: '2.5.7' };
+	var core = module.exports = { version: '2.6.2' };
 	if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -4642,7 +4647,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var anObject = __webpack_require__(11);
-	var IE8_DOM_DEFINE = __webpack_require__(161);
+	var IE8_DOM_DEFINE = __webpack_require__(162);
 	var toPrimitive = __webpack_require__(29);
 	var dP = Object.defineProperty;
 
@@ -4664,7 +4669,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	// to indexed object, toObject with fallback for non-array-like ES3 strings
-	var IObject = __webpack_require__(162);
+	var IObject = __webpack_require__(163);
 	var defined = __webpack_require__(20);
 	module.exports = function (it) {
 	  return IObject(defined(it));
@@ -4705,7 +4710,7 @@
 
 	var global = __webpack_require__(3);
 	var core = __webpack_require__(2);
-	var ctx = __webpack_require__(159);
+	var ctx = __webpack_require__(160);
 	var hide = __webpack_require__(6);
 	var has = __webpack_require__(4);
 	var PROTOTYPE = 'prototype';
@@ -4792,7 +4797,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-	var $keys = __webpack_require__(166);
+	var $keys = __webpack_require__(167);
 	var enumBugKeys = __webpack_require__(21);
 
 	module.exports = Object.keys || function keys(O) {
@@ -4880,7 +4885,7 @@
 
 	// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 	var anObject = __webpack_require__(11);
-	var dPs = __webpack_require__(203);
+	var dPs = __webpack_require__(204);
 	var enumBugKeys = __webpack_require__(21);
 	var IE_PROTO = __webpack_require__(26)('IE_PROTO');
 	var Empty = function () { /* empty */ };
@@ -4889,13 +4894,13 @@
 	// Create object with fake `null` prototype: use iframe Object with cleared prototype
 	var createDict = function () {
 	  // Thrash, waste and sodomy: IE GC bug
-	  var iframe = __webpack_require__(160)('iframe');
+	  var iframe = __webpack_require__(161)('iframe');
 	  var i = enumBugKeys.length;
 	  var lt = '<';
 	  var gt = '>';
 	  var iframeDocument;
 	  iframe.style.display = 'none';
-	  __webpack_require__(197).appendChild(iframe);
+	  __webpack_require__(198).appendChild(iframe);
 	  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
 	  // createDict = iframe.contentWindow.Object;
 	  // html.removeChild(iframe);
@@ -4966,7 +4971,7 @@
 	})('versions', []).push({
 	  version: core.version,
 	  mode: __webpack_require__(14) ? 'pure' : 'global',
-	  copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
+	  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
 	});
 
 
@@ -5153,7 +5158,7 @@
 	        },
 	        week : {
 	            dow : 0, // Sunday is the first day of the week.
-	            doy : 4  // The week that contains Jan 1st is the first week of the year.
+	            doy : 4  // The week that contains Jan 4th is the first week of the year.
 	        }
 	    });
 
@@ -5216,7 +5221,7 @@
 	        },
 	        week : {
 	            dow : 0, // Sunday is the first day of the week.
-	            doy : 12  // The week that contains Jan 1st is the first week of the year.
+	            doy : 12  // The week that contains Jan 12th is the first week of the year.
 	        }
 	    });
 
@@ -5342,7 +5347,7 @@
 	        },
 	        week : {
 	            dow : 6, // Saturday is the first day of the week.
-	            doy : 12  // The week that contains Jan 1st is the first week of the year.
+	            doy : 12  // The week that contains Jan 12th is the first week of the year.
 	        }
 	    });
 
@@ -5405,7 +5410,7 @@
 	        },
 	        week : {
 	            dow : 6, // Saturday is the first day of the week.
-	            doy : 12  // The week that contains Jan 1st is the first week of the year.
+	            doy : 12  // The week that contains Jan 12th is the first week of the year.
 	        }
 	    });
 
@@ -5513,7 +5518,7 @@
 	        },
 	        week : {
 	            dow : 0, // Sunday is the first day of the week.
-	            doy : 6  // The week that contains Jan 1st is the first week of the year.
+	            doy : 6  // The week that contains Jan 6th is the first week of the year.
 	        }
 	    });
 
@@ -5715,7 +5720,7 @@
 	        },
 	        week : {
 	            dow : 6, // Saturday is the first day of the week.
-	            doy : 12  // The week that contains Jan 1st is the first week of the year.
+	            doy : 12  // The week that contains Jan 12th is the first week of the year.
 	        }
 	    });
 
@@ -5824,7 +5829,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -5960,7 +5965,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -6054,7 +6059,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -6239,7 +6244,7 @@
 	        },
 	        week : {
 	            dow : 0, // Sunday is the first day of the week.
-	            doy : 6  // The week that contains Jan 1st is the first week of the year.
+	            doy : 6  // The week that contains Jan 6th is the first week of the year.
 	        }
 	    });
 
@@ -6362,7 +6367,7 @@
 	        },
 	        week : {
 	            dow : 0, // Sunday is the first day of the week.
-	            doy : 6  // The week that contains Jan 1st is the first week of the year.
+	            doy : 6  // The week that contains Jan 6th is the first week of the year.
 	        }
 	    });
 
@@ -6629,7 +6634,7 @@
 	        ordinal : '%d.',
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -6971,7 +6976,7 @@
 	        ordinal : '%d-мӗш',
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -7462,7 +7467,7 @@
 	        },
 	        week : {
 	            dow : 7,  // Sunday is the first day of the week.
-	            doy : 12  // The week that contains Jan 1st is the first week of the year.
+	            doy : 12  // The week that contains Jan 12th is the first week of the year.
 	        }
 	    });
 
@@ -8058,7 +8063,7 @@
 	        ordinal : '%da',
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -8241,7 +8246,7 @@
 	        ordinal : '%dº',
 	        week : {
 	            dow : 0, // Sunday is the first day of the week.
-	            doy : 6  // The week that contains Jan 1st is the first week of the year.
+	            doy : 6  // The week that contains Jan 6th is the first week of the year.
 	        }
 	    });
 
@@ -8491,7 +8496,7 @@
 	        ordinal : '%d.',
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -8601,7 +8606,7 @@
 	        ordinal : '%dم',
 	        week : {
 	            dow : 6, // Saturday is the first day of the week.
-	            doy : 12 // The week that contains Jan 1st is the first week of the year.
+	            doy : 12 // The week that contains Jan 12th is the first week of the year.
 	        }
 	    });
 
@@ -9520,7 +9525,7 @@
 	        },
 	        week: {
 	            dow: 0, // Sunday is the first day of the week.
-	            doy: 6 // The week that contains Jan 1st is the first week of the year.
+	            doy: 6 // The week that contains Jan 6th is the first week of the year.
 	        }
 	    });
 
@@ -9749,7 +9754,7 @@
 	        },
 	        week : {
 	            dow : 0, // Sunday is the first day of the week.
-	            doy : 6  // The week that contains Jan 1st is the first week of the year.
+	            doy : 6  // The week that contains Jan 6th is the first week of the year.
 	        }
 	    });
 
@@ -9907,7 +9912,7 @@
 	        ordinal : '%d.',
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -10120,7 +10125,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -10206,7 +10211,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -10597,7 +10602,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -10781,7 +10786,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -11025,7 +11030,7 @@
 	        },
 	        week : {
 	            dow : 0, // Sunday is the first day of the week.
-	            doy : 6  // The week that contains Jan 1st is the first week of the year.
+	            doy : 6  // The week that contains Jan 6th is the first week of the year.
 	        }
 	    });
 
@@ -11132,6 +11137,129 @@
 	}(this, (function (moment) { 'use strict';
 
 
+	    var symbolMap = {
+	        '1': '١',
+	        '2': '٢',
+	        '3': '٣',
+	        '4': '٤',
+	        '5': '٥',
+	        '6': '٦',
+	        '7': '٧',
+	        '8': '٨',
+	        '9': '٩',
+	        '0': '٠'
+	    }, numberMap = {
+	        '١': '1',
+	        '٢': '2',
+	        '٣': '3',
+	        '٤': '4',
+	        '٥': '5',
+	        '٦': '6',
+	        '٧': '7',
+	        '٨': '8',
+	        '٩': '9',
+	        '٠': '0'
+	    },
+	    months = [
+	        'کانونی دووەم',
+	        'شوبات',
+	        'ئازار',
+	        'نیسان',
+	        'ئایار',
+	        'حوزەیران',
+	        'تەمموز',
+	        'ئاب',
+	        'ئەیلوول',
+	        'تشرینی یەكەم',
+	        'تشرینی دووەم',
+	        'كانونی یەکەم'
+	    ];
+
+
+	    var ku = moment.defineLocale('ku', {
+	        months : months,
+	        monthsShort : months,
+	        weekdays : 'یه‌كشه‌ممه‌_دووشه‌ممه‌_سێشه‌ممه‌_چوارشه‌ممه‌_پێنجشه‌ممه‌_هه‌ینی_شه‌ممه‌'.split('_'),
+	        weekdaysShort : 'یه‌كشه‌م_دووشه‌م_سێشه‌م_چوارشه‌م_پێنجشه‌م_هه‌ینی_شه‌ممه‌'.split('_'),
+	        weekdaysMin : 'ی_د_س_چ_پ_ه_ش'.split('_'),
+	        weekdaysParseExact : true,
+	        longDateFormat : {
+	            LT : 'HH:mm',
+	            LTS : 'HH:mm:ss',
+	            L : 'DD/MM/YYYY',
+	            LL : 'D MMMM YYYY',
+	            LLL : 'D MMMM YYYY HH:mm',
+	            LLLL : 'dddd, D MMMM YYYY HH:mm'
+	        },
+	        meridiemParse: /ئێواره‌|به‌یانی/,
+	        isPM: function (input) {
+	            return /ئێواره‌/.test(input);
+	        },
+	        meridiem : function (hour, minute, isLower) {
+	            if (hour < 12) {
+	                return 'به‌یانی';
+	            } else {
+	                return 'ئێواره‌';
+	            }
+	        },
+	        calendar : {
+	            sameDay : '[ئه‌مرۆ كاتژمێر] LT',
+	            nextDay : '[به‌یانی كاتژمێر] LT',
+	            nextWeek : 'dddd [كاتژمێر] LT',
+	            lastDay : '[دوێنێ كاتژمێر] LT',
+	            lastWeek : 'dddd [كاتژمێر] LT',
+	            sameElse : 'L'
+	        },
+	        relativeTime : {
+	            future : 'له‌ %s',
+	            past : '%s',
+	            s : 'چه‌ند چركه‌یه‌ك',
+	            ss : 'چركه‌ %d',
+	            m : 'یه‌ك خوله‌ك',
+	            mm : '%d خوله‌ك',
+	            h : 'یه‌ك كاتژمێر',
+	            hh : '%d كاتژمێر',
+	            d : 'یه‌ك ڕۆژ',
+	            dd : '%d ڕۆژ',
+	            M : 'یه‌ك مانگ',
+	            MM : '%d مانگ',
+	            y : 'یه‌ك ساڵ',
+	            yy : '%d ساڵ'
+	        },
+	        preparse: function (string) {
+	            return string.replace(/[١٢٣٤٥٦٧٨٩٠]/g, function (match) {
+	                return numberMap[match];
+	            }).replace(/،/g, ',');
+	        },
+	        postformat: function (string) {
+	            return string.replace(/\d/g, function (match) {
+	                return symbolMap[match];
+	            }).replace(/,/g, '،');
+	        },
+	        week : {
+	            dow : 6, // Saturday is the first day of the week.
+	            doy : 12 // The week that contains Jan 12th is the first week of the year.
+	        }
+	    });
+
+	    return ku;
+
+	})));
+
+
+/***/ },
+/* 97 */
+/***/ function(module, exports, __webpack_require__) {
+
+	//! moment.js locale configuration
+
+	;(function (global, factory) {
+	    true ? factory(__webpack_require__(1)) :
+	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
+	   factory(global.moment)
+	}(this, (function (moment) { 'use strict';
+
+
 	    var suffixes = {
 	        0: '-чү',
 	        1: '-чи',
@@ -11173,8 +11301,8 @@
 	            sameDay : '[Бүгүн саат] LT',
 	            nextDay : '[Эртең саат] LT',
 	            nextWeek : 'dddd [саат] LT',
-	            lastDay : '[Кече саат] LT',
-	            lastWeek : '[Өткен аптанын] dddd [күнү] [саат] LT',
+	            lastDay : '[Кечээ саат] LT',
+	            lastWeek : '[Өткөн аптанын] dddd [күнү] [саат] LT',
 	            sameElse : 'L'
 	        },
 	        relativeTime : {
@@ -11201,7 +11329,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -11211,7 +11339,7 @@
 
 
 /***/ },
-/* 97 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11351,7 +11479,7 @@
 
 
 /***/ },
-/* 98 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11425,7 +11553,7 @@
 
 
 /***/ },
-/* 99 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11547,7 +11675,7 @@
 
 
 /***/ },
-/* 100 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11648,7 +11776,7 @@
 
 
 /***/ },
-/* 101 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11754,7 +11882,7 @@
 	        ordinal : '%d.',
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -11764,7 +11892,7 @@
 
 
 /***/ },
-/* 102 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11832,7 +11960,7 @@
 
 
 /***/ },
-/* 103 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11916,7 +12044,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -11926,7 +12054,7 @@
 
 
 /***/ },
-/* 104 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12011,7 +12139,7 @@
 
 
 /***/ },
-/* 105 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12119,7 +12247,7 @@
 
 
 /***/ },
-/* 106 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12273,7 +12401,7 @@
 	        },
 	        week : {
 	            dow : 0, // Sunday is the first day of the week.
-	            doy : 6  // The week that contains Jan 1st is the first week of the year.
+	            doy : 6  // The week that contains Jan 6th is the first week of the year.
 	        }
 	    });
 
@@ -12283,7 +12411,7 @@
 
 
 /***/ },
-/* 107 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12359,7 +12487,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -12369,7 +12497,7 @@
 
 
 /***/ },
-/* 108 */
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12445,7 +12573,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -12455,7 +12583,7 @@
 
 
 /***/ },
-/* 109 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12519,7 +12647,7 @@
 
 
 /***/ },
-/* 110 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12606,7 +12734,7 @@
 	        },
 	        week: {
 	            dow: 1, // Monday is the first day of the week.
-	            doy: 4 // The week that contains Jan 1st is the first week of the year.
+	            doy: 4 // The week that contains Jan 4th is the first week of the year.
 	        }
 	    });
 
@@ -12616,7 +12744,7 @@
 
 
 /***/ },
-/* 111 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12682,7 +12810,7 @@
 
 
 /***/ },
-/* 112 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12799,7 +12927,7 @@
 	        },
 	        week : {
 	            dow : 0, // Sunday is the first day of the week.
-	            doy : 6  // The week that contains Jan 1st is the first week of the year.
+	            doy : 6  // The week that contains Jan 6th is the first week of the year.
 	        }
 	    });
 
@@ -12809,7 +12937,7 @@
 
 
 /***/ },
-/* 113 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12825,7 +12953,7 @@
 	        monthsShortWithoutDots = 'jan_feb_mrt_apr_mei_jun_jul_aug_sep_okt_nov_dec'.split('_');
 
 	    var monthsParse = [/^jan/i, /^feb/i, /^maart|mrt.?$/i, /^apr/i, /^mei$/i, /^jun[i.]?$/i, /^jul[i.]?$/i, /^aug/i, /^sep/i, /^okt/i, /^nov/i, /^dec/i];
-	    var monthsRegex = /^(januari|februari|maart|april|mei|april|ju[nl]i|augustus|september|oktober|november|december|jan\.?|feb\.?|mrt\.?|apr\.?|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i;
+	    var monthsRegex = /^(januari|februari|maart|april|mei|ju[nl]i|augustus|september|oktober|november|december|jan\.?|feb\.?|mrt\.?|apr\.?|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i;
 
 	    var nlBe = moment.defineLocale('nl-be', {
 	        months : 'januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december'.split('_'),
@@ -12841,7 +12969,7 @@
 
 	        monthsRegex: monthsRegex,
 	        monthsShortRegex: monthsRegex,
-	        monthsStrictRegex: /^(januari|februari|maart|mei|ju[nl]i|april|augustus|september|oktober|november|december)/i,
+	        monthsStrictRegex: /^(januari|februari|maart|april|mei|ju[nl]i|augustus|september|oktober|november|december)/i,
 	        monthsShortStrictRegex: /^(jan\.?|feb\.?|mrt\.?|apr\.?|mei|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i,
 
 	        monthsParse : monthsParse,
@@ -12900,7 +13028,7 @@
 
 
 /***/ },
-/* 114 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12916,7 +13044,7 @@
 	        monthsShortWithoutDots = 'jan_feb_mrt_apr_mei_jun_jul_aug_sep_okt_nov_dec'.split('_');
 
 	    var monthsParse = [/^jan/i, /^feb/i, /^maart|mrt.?$/i, /^apr/i, /^mei$/i, /^jun[i.]?$/i, /^jul[i.]?$/i, /^aug/i, /^sep/i, /^okt/i, /^nov/i, /^dec/i];
-	    var monthsRegex = /^(januari|februari|maart|april|mei|april|ju[nl]i|augustus|september|oktober|november|december|jan\.?|feb\.?|mrt\.?|apr\.?|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i;
+	    var monthsRegex = /^(januari|februari|maart|april|mei|ju[nl]i|augustus|september|oktober|november|december|jan\.?|feb\.?|mrt\.?|apr\.?|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i;
 
 	    var nl = moment.defineLocale('nl', {
 	        months : 'januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december'.split('_'),
@@ -12932,7 +13060,7 @@
 
 	        monthsRegex: monthsRegex,
 	        monthsShortRegex: monthsRegex,
-	        monthsStrictRegex: /^(januari|februari|maart|mei|ju[nl]i|april|augustus|september|oktober|november|december)/i,
+	        monthsStrictRegex: /^(januari|februari|maart|april|mei|ju[nl]i|augustus|september|oktober|november|december)/i,
 	        monthsShortStrictRegex: /^(jan\.?|feb\.?|mrt\.?|apr\.?|mei|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i,
 
 	        monthsParse : monthsParse,
@@ -12991,7 +13119,7 @@
 
 
 /***/ },
-/* 115 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13055,7 +13183,7 @@
 
 
 /***/ },
-/* 116 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13093,7 +13221,7 @@
 	    };
 
 	    var paIn = moment.defineLocale('pa-in', {
-	        // There are months name as per Nanakshahi Calender but they are not used as rigidly in modern Punjabi.
+	        // There are months name as per Nanakshahi Calendar but they are not used as rigidly in modern Punjabi.
 	        months : 'ਜਨਵਰੀ_ਫ਼ਰਵਰੀ_ਮਾਰਚ_ਅਪ੍ਰੈਲ_ਮਈ_ਜੂਨ_ਜੁਲਾਈ_ਅਗਸਤ_ਸਤੰਬਰ_ਅਕਤੂਬਰ_ਨਵੰਬਰ_ਦਸੰਬਰ'.split('_'),
 	        monthsShort : 'ਜਨਵਰੀ_ਫ਼ਰਵਰੀ_ਮਾਰਚ_ਅਪ੍ਰੈਲ_ਮਈ_ਜੂਨ_ਜੁਲਾਈ_ਅਗਸਤ_ਸਤੰਬਰ_ਅਕਤੂਬਰ_ਨਵੰਬਰ_ਦਸੰਬਰ'.split('_'),
 	        weekdays : 'ਐਤਵਾਰ_ਸੋਮਵਾਰ_ਮੰਗਲਵਾਰ_ਬੁਧਵਾਰ_ਵੀਰਵਾਰ_ਸ਼ੁੱਕਰਵਾਰ_ਸ਼ਨੀਚਰਵਾਰ'.split('_'),
@@ -13173,7 +13301,7 @@
 	        },
 	        week : {
 	            dow : 0, // Sunday is the first day of the week.
-	            doy : 6  // The week that contains Jan 1st is the first week of the year.
+	            doy : 6  // The week that contains Jan 6th is the first week of the year.
 	        }
 	    });
 
@@ -13183,7 +13311,7 @@
 
 
 /***/ },
-/* 117 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13313,7 +13441,7 @@
 
 
 /***/ },
-/* 118 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13378,7 +13506,7 @@
 
 
 /***/ },
-/* 119 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13447,7 +13575,7 @@
 
 
 /***/ },
-/* 120 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13516,7 +13644,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -13526,7 +13654,7 @@
 
 
 /***/ },
-/* 121 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13712,7 +13840,7 @@
 
 
 /***/ },
-/* 122 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13814,7 +13942,7 @@
 
 
 /***/ },
-/* 123 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13878,7 +14006,7 @@
 
 
 /***/ },
-/* 124 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13953,7 +14081,7 @@
 
 
 /***/ },
-/* 125 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14113,7 +14241,7 @@
 
 
 /***/ },
-/* 126 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14138,7 +14266,7 @@
 	                } else if (number < 5) {
 	                    result += withoutSuffix || isFuture ? 'sekunde' : 'sekundah';
 	                } else {
-	                    result += withoutSuffix || isFuture ? 'sekund' : 'sekund';
+	                    result += 'sekund';
 	                }
 	                return result;
 	            case 'm':
@@ -14280,7 +14408,7 @@
 	        ordinal : '%d.',
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -14290,7 +14418,7 @@
 
 
 /***/ },
-/* 127 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14362,7 +14490,7 @@
 
 
 /***/ },
-/* 128 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14467,7 +14595,7 @@
 	        ordinal : '%d.',
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -14477,7 +14605,7 @@
 
 
 /***/ },
-/* 129 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14582,7 +14710,7 @@
 	        ordinal : '%d.',
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -14592,7 +14720,7 @@
 
 
 /***/ },
-/* 130 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14684,7 +14812,7 @@
 
 
 /***/ },
-/* 131 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14757,7 +14885,7 @@
 
 
 /***/ },
-/* 132 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14810,7 +14938,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -14820,7 +14948,7 @@
 
 
 /***/ },
-/* 133 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14943,7 +15071,7 @@
 	        },
 	        week : {
 	            dow : 0, // Sunday is the first day of the week.
-	            doy : 6  // The week that contains Jan 1st is the first week of the year.
+	            doy : 6  // The week that contains Jan 6th is the first week of the year.
 	        }
 	    });
 
@@ -14953,7 +15081,7 @@
 
 
 /***/ },
-/* 134 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15036,7 +15164,7 @@
 	        },
 	        week : {
 	            dow : 0, // Sunday is the first day of the week.
-	            doy : 6  // The week that contains Jan 1st is the first week of the year.
+	            doy : 6  // The week that contains Jan 6th is the first week of the year.
 	        }
 	    });
 
@@ -15046,7 +15174,7 @@
 
 
 /***/ },
-/* 135 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15117,7 +15245,7 @@
 
 
 /***/ },
-/* 136 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15237,7 +15365,7 @@
 
 
 /***/ },
-/* 137 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15308,7 +15436,7 @@
 
 
 /***/ },
-/* 138 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15374,7 +15502,7 @@
 
 
 /***/ },
-/* 139 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15500,7 +15628,7 @@
 
 
 /***/ },
-/* 140 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -15588,7 +15716,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -15598,7 +15726,7 @@
 
 
 /***/ },
-/* 141 */
+/* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15693,7 +15821,7 @@
 
 
 /***/ },
-/* 142 */
+/* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15745,7 +15873,7 @@
 	        },
 	        week : {
 	            dow : 6, // Saturday is the first day of the week.
-	            doy : 12  // The week that contains Jan 1st is the first week of the year.
+	            doy : 12  // The week that contains Jan 12th is the first week of the year.
 	        }
 	    });
 
@@ -15755,7 +15883,7 @@
 
 
 /***/ },
-/* 143 */
+/* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15807,7 +15935,7 @@
 	        },
 	        week : {
 	            dow : 6, // Saturday is the first day of the week.
-	            doy : 12  // The week that contains Jan 1st is the first week of the year.
+	            doy : 12  // The week that contains Jan 12th is the first week of the year.
 	        }
 	    });
 
@@ -15817,7 +15945,7 @@
 
 
 /***/ },
-/* 144 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js language configuration
@@ -15940,7 +16068,7 @@
 
 
 /***/ },
-/* 145 */
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16085,7 +16213,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -16095,7 +16223,7 @@
 
 
 /***/ },
-/* 146 */
+/* 147 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16197,7 +16325,7 @@
 
 
 /***/ },
-/* 147 */
+/* 148 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16249,7 +16377,7 @@
 	        },
 	        week : {
 	            dow : 1, // Monday is the first day of the week.
-	            doy : 7  // The week that contains Jan 1st is the first week of the year.
+	            doy : 7  // The week that contains Jan 7th is the first week of the year.
 	        }
 	    });
 
@@ -16259,7 +16387,7 @@
 
 
 /***/ },
-/* 148 */
+/* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16321,7 +16449,7 @@
 
 
 /***/ },
-/* 149 */
+/* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16404,7 +16532,7 @@
 
 
 /***/ },
-/* 150 */
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16476,7 +16604,7 @@
 
 
 /***/ },
-/* 151 */
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16540,7 +16668,7 @@
 
 
 /***/ },
-/* 152 */
+/* 153 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16654,7 +16782,7 @@
 
 
 /***/ },
-/* 153 */
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16761,7 +16889,7 @@
 
 
 /***/ },
-/* 154 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16868,7 +16996,7 @@
 
 
 /***/ },
-/* 155 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16893,23 +17021,23 @@
 
 	var _moment2 = _interopRequireDefault(_moment);
 
-	var _deepDiff = __webpack_require__(172);
+	var _deepDiff = __webpack_require__(173);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
-	var _jspddKind = __webpack_require__(176);
+	var _jspddKind = __webpack_require__(177);
 
 	var _jspddKind2 = _interopRequireDefault(_jspddKind);
 
-	var _jspddBasedata = __webpack_require__(175);
+	var _jspddBasedata = __webpack_require__(176);
 
 	var _jspddBasedata2 = _interopRequireDefault(_jspddBasedata);
 
-	var _jsonTraverser = __webpack_require__(173);
+	var _jsonTraverser = __webpack_require__(174);
 
 	var _jsonTraverser2 = _interopRequireDefault(_jsonTraverser);
 
-	var _jsonUtilsx = __webpack_require__(174);
+	var _jsonUtilsx = __webpack_require__(175);
 
 	var _jsonUtilsx2 = _interopRequireDefault(_jsonUtilsx);
 
@@ -17780,13 +17908,14 @@
 
 	    (0, _jsonTraverser2.default)(combData, cb);
 
+	    //TODO: replace to lodash.merge
 	    r = Object.assign(combData, ddata);
 
 	    return r;
 	};
 
 /***/ },
-/* 156 */
+/* 157 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -17798,18 +17927,18 @@
 	exports.default = jQuery;
 
 /***/ },
-/* 157 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _iterator = __webpack_require__(185);
+	var _iterator = __webpack_require__(186);
 
 	var _iterator2 = _interopRequireDefault(_iterator);
 
-	var _symbol = __webpack_require__(184);
+	var _symbol = __webpack_require__(185);
 
 	var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -17824,7 +17953,7 @@
 	};
 
 /***/ },
-/* 158 */
+/* 159 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -17835,11 +17964,11 @@
 
 
 /***/ },
-/* 159 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// optional / simple context binding
-	var aFunction = __webpack_require__(193);
+	var aFunction = __webpack_require__(194);
 	module.exports = function (fn, that, length) {
 	  aFunction(fn);
 	  if (that === undefined) return fn;
@@ -17861,7 +17990,7 @@
 
 
 /***/ },
-/* 160 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var isObject = __webpack_require__(7);
@@ -17874,20 +18003,20 @@
 
 
 /***/ },
-/* 161 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = !__webpack_require__(5) && !__webpack_require__(13)(function () {
-	  return Object.defineProperty(__webpack_require__(160)('div'), 'a', { get: function () { return 7; } }).a != 7;
+	  return Object.defineProperty(__webpack_require__(161)('div'), 'a', { get: function () { return 7; } }).a != 7;
 	});
 
 
 /***/ },
-/* 162 */
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// fallback for non-array-like ES3 and non-enumerable old V8 strings
-	var cof = __webpack_require__(158);
+	var cof = __webpack_require__(159);
 	// eslint-disable-next-line no-prototype-builtins
 	module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 	  return cof(it) == 'String' ? it.split('') : Object(it);
@@ -17895,18 +18024,18 @@
 
 
 /***/ },
-/* 163 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	var LIBRARY = __webpack_require__(14);
 	var $export = __webpack_require__(12);
-	var redefine = __webpack_require__(167);
+	var redefine = __webpack_require__(168);
 	var hide = __webpack_require__(6);
 	var Iterators = __webpack_require__(22);
-	var $iterCreate = __webpack_require__(199);
+	var $iterCreate = __webpack_require__(200);
 	var setToStringTag = __webpack_require__(25);
-	var getPrototypeOf = __webpack_require__(205);
+	var getPrototypeOf = __webpack_require__(206);
 	var ITERATOR = __webpack_require__(10)('iterator');
 	var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
 	var FF_ITERATOR = '@@iterator';
@@ -17970,7 +18099,7 @@
 
 
 /***/ },
-/* 164 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var pIE = __webpack_require__(16);
@@ -17978,7 +18107,7 @@
 	var toIObject = __webpack_require__(9);
 	var toPrimitive = __webpack_require__(29);
 	var has = __webpack_require__(4);
-	var IE8_DOM_DEFINE = __webpack_require__(161);
+	var IE8_DOM_DEFINE = __webpack_require__(162);
 	var gOPD = Object.getOwnPropertyDescriptor;
 
 	exports.f = __webpack_require__(5) ? gOPD : function getOwnPropertyDescriptor(O, P) {
@@ -17992,11 +18121,11 @@
 
 
 /***/ },
-/* 165 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-	var $keys = __webpack_require__(166);
+	var $keys = __webpack_require__(167);
 	var hiddenKeys = __webpack_require__(21).concat('length', 'prototype');
 
 	exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
@@ -18005,12 +18134,12 @@
 
 
 /***/ },
-/* 166 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var has = __webpack_require__(4);
 	var toIObject = __webpack_require__(9);
-	var arrayIndexOf = __webpack_require__(195)(false);
+	var arrayIndexOf = __webpack_require__(196)(false);
 	var IE_PROTO = __webpack_require__(26)('IE_PROTO');
 
 	module.exports = function (object, names) {
@@ -18028,14 +18157,14 @@
 
 
 /***/ },
-/* 167 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__(6);
 
 
 /***/ },
-/* 168 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.13 ToObject(argument)
@@ -18046,13 +18175,13 @@
 
 
 /***/ },
-/* 169 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(170), __esModule: true };
+	module.exports = { "default": __webpack_require__(171), __esModule: true };
 
 /***/ },
-/* 170 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var core = __webpack_require__(2);
@@ -18063,7 +18192,7 @@
 
 
 /***/ },
-/* 171 */
+/* 172 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -18079,7 +18208,7 @@
 
 
 /***/ },
-/* 172 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;;(function(root, factory) { // eslint-disable-line no-extra-semi
@@ -18090,8 +18219,8 @@
 	      !(__WEBPACK_AMD_DEFINE_RESULT__ = function() { // eslint-disable-line no-undef
 	          return deepDiff;
 	      }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	  } else if (typeof exports === 'object') {
-	      // Node.js
+	  } else if (typeof exports === 'object' || typeof navigator === 'object' && navigator.product.match(/ReactNative/i)) {
+	      // Node.js or ReactNative
 	      module.exports = deepDiff;
 	  } else {
 	      // Browser globals
@@ -18602,13 +18731,16 @@
 	  // const DeepDiff = require('deep-diff');
 	  // const { DeepDiff } = require('deep-diff');
 
-	  root.DeepDiff = accumulateDiff;
+	  if (root) {
+	    root.DeepDiff = accumulateDiff;
+	  }
+
 	  return accumulateDiff;
 	}));
 
 
 /***/ },
-/* 173 */
+/* 174 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18638,7 +18770,7 @@
 	}
 
 /***/ },
-/* 174 */
+/* 175 */
 /***/ function(module, exports) {
 
 	/**
@@ -18810,7 +18942,17 @@
 	function jsonEqual(json1, json2) {
 	    return JSON.stringify(json1, null, 1) == JSON.stringify(json2, null, 1);
 	}
+	/**
+	 * 复制JSON对象
+	 * @param {Object}      json   要复制的json
+	 * @return {Object}
+	 * @method clone
+	 */
+	function clone(json) {
+	    return JSON.parse(JSON.stringify(json));
+	}
 	module.exports = {
+	    clone: clone,
 	    jsonDelData: jsonDelData,
 	    jsonInData: jsonInData,
 	    jsonSetData: jsonSetData,
@@ -18820,7 +18962,7 @@
 	};
 
 /***/ },
-/* 175 */
+/* 176 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18848,7 +18990,7 @@
 
 
 /***/ },
-/* 176 */
+/* 177 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18864,7 +19006,7 @@
 	};
 
 /***/ },
-/* 177 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
@@ -18996,124 +19138,126 @@
 		"./kn.js": 94,
 		"./ko": 95,
 		"./ko.js": 95,
-		"./ky": 96,
-		"./ky.js": 96,
-		"./lb": 97,
-		"./lb.js": 97,
-		"./lo": 98,
-		"./lo.js": 98,
-		"./lt": 99,
-		"./lt.js": 99,
-		"./lv": 100,
-		"./lv.js": 100,
-		"./me": 101,
-		"./me.js": 101,
-		"./mi": 102,
-		"./mi.js": 102,
-		"./mk": 103,
-		"./mk.js": 103,
-		"./ml": 104,
-		"./ml.js": 104,
-		"./mn": 105,
-		"./mn.js": 105,
-		"./mr": 106,
-		"./mr.js": 106,
-		"./ms": 108,
-		"./ms-my": 107,
-		"./ms-my.js": 107,
-		"./ms.js": 108,
-		"./mt": 109,
-		"./mt.js": 109,
-		"./my": 110,
-		"./my.js": 110,
-		"./nb": 111,
-		"./nb.js": 111,
-		"./ne": 112,
-		"./ne.js": 112,
-		"./nl": 114,
-		"./nl-be": 113,
-		"./nl-be.js": 113,
-		"./nl.js": 114,
-		"./nn": 115,
-		"./nn.js": 115,
-		"./pa-in": 116,
-		"./pa-in.js": 116,
-		"./pl": 117,
-		"./pl.js": 117,
-		"./pt": 119,
-		"./pt-br": 118,
-		"./pt-br.js": 118,
-		"./pt.js": 119,
-		"./ro": 120,
-		"./ro.js": 120,
-		"./ru": 121,
-		"./ru.js": 121,
-		"./sd": 122,
-		"./sd.js": 122,
-		"./se": 123,
-		"./se.js": 123,
-		"./si": 124,
-		"./si.js": 124,
-		"./sk": 125,
-		"./sk.js": 125,
-		"./sl": 126,
-		"./sl.js": 126,
-		"./sq": 127,
-		"./sq.js": 127,
-		"./sr": 129,
-		"./sr-cyrl": 128,
-		"./sr-cyrl.js": 128,
-		"./sr.js": 129,
-		"./ss": 130,
-		"./ss.js": 130,
-		"./sv": 131,
-		"./sv.js": 131,
-		"./sw": 132,
-		"./sw.js": 132,
-		"./ta": 133,
-		"./ta.js": 133,
-		"./te": 134,
-		"./te.js": 134,
-		"./tet": 135,
-		"./tet.js": 135,
-		"./tg": 136,
-		"./tg.js": 136,
-		"./th": 137,
-		"./th.js": 137,
-		"./tl-ph": 138,
-		"./tl-ph.js": 138,
-		"./tlh": 139,
-		"./tlh.js": 139,
-		"./tr": 140,
-		"./tr.js": 140,
-		"./tzl": 141,
-		"./tzl.js": 141,
-		"./tzm": 143,
-		"./tzm-latn": 142,
-		"./tzm-latn.js": 142,
-		"./tzm.js": 143,
-		"./ug-cn": 144,
-		"./ug-cn.js": 144,
-		"./uk": 145,
-		"./uk.js": 145,
-		"./ur": 146,
-		"./ur.js": 146,
-		"./uz": 148,
-		"./uz-latn": 147,
-		"./uz-latn.js": 147,
-		"./uz.js": 148,
-		"./vi": 149,
-		"./vi.js": 149,
-		"./x-pseudo": 150,
-		"./x-pseudo.js": 150,
-		"./yo": 151,
-		"./yo.js": 151,
-		"./zh-cn": 152,
-		"./zh-cn.js": 152,
-		"./zh-hk": 153,
-		"./zh-hk.js": 153,
-		"./zh-tw": 154,
-		"./zh-tw.js": 154
+		"./ku": 96,
+		"./ku.js": 96,
+		"./ky": 97,
+		"./ky.js": 97,
+		"./lb": 98,
+		"./lb.js": 98,
+		"./lo": 99,
+		"./lo.js": 99,
+		"./lt": 100,
+		"./lt.js": 100,
+		"./lv": 101,
+		"./lv.js": 101,
+		"./me": 102,
+		"./me.js": 102,
+		"./mi": 103,
+		"./mi.js": 103,
+		"./mk": 104,
+		"./mk.js": 104,
+		"./ml": 105,
+		"./ml.js": 105,
+		"./mn": 106,
+		"./mn.js": 106,
+		"./mr": 107,
+		"./mr.js": 107,
+		"./ms": 109,
+		"./ms-my": 108,
+		"./ms-my.js": 108,
+		"./ms.js": 109,
+		"./mt": 110,
+		"./mt.js": 110,
+		"./my": 111,
+		"./my.js": 111,
+		"./nb": 112,
+		"./nb.js": 112,
+		"./ne": 113,
+		"./ne.js": 113,
+		"./nl": 115,
+		"./nl-be": 114,
+		"./nl-be.js": 114,
+		"./nl.js": 115,
+		"./nn": 116,
+		"./nn.js": 116,
+		"./pa-in": 117,
+		"./pa-in.js": 117,
+		"./pl": 118,
+		"./pl.js": 118,
+		"./pt": 120,
+		"./pt-br": 119,
+		"./pt-br.js": 119,
+		"./pt.js": 120,
+		"./ro": 121,
+		"./ro.js": 121,
+		"./ru": 122,
+		"./ru.js": 122,
+		"./sd": 123,
+		"./sd.js": 123,
+		"./se": 124,
+		"./se.js": 124,
+		"./si": 125,
+		"./si.js": 125,
+		"./sk": 126,
+		"./sk.js": 126,
+		"./sl": 127,
+		"./sl.js": 127,
+		"./sq": 128,
+		"./sq.js": 128,
+		"./sr": 130,
+		"./sr-cyrl": 129,
+		"./sr-cyrl.js": 129,
+		"./sr.js": 130,
+		"./ss": 131,
+		"./ss.js": 131,
+		"./sv": 132,
+		"./sv.js": 132,
+		"./sw": 133,
+		"./sw.js": 133,
+		"./ta": 134,
+		"./ta.js": 134,
+		"./te": 135,
+		"./te.js": 135,
+		"./tet": 136,
+		"./tet.js": 136,
+		"./tg": 137,
+		"./tg.js": 137,
+		"./th": 138,
+		"./th.js": 138,
+		"./tl-ph": 139,
+		"./tl-ph.js": 139,
+		"./tlh": 140,
+		"./tlh.js": 140,
+		"./tr": 141,
+		"./tr.js": 141,
+		"./tzl": 142,
+		"./tzl.js": 142,
+		"./tzm": 144,
+		"./tzm-latn": 143,
+		"./tzm-latn.js": 143,
+		"./tzm.js": 144,
+		"./ug-cn": 145,
+		"./ug-cn.js": 145,
+		"./uk": 146,
+		"./uk.js": 146,
+		"./ur": 147,
+		"./ur.js": 147,
+		"./uz": 149,
+		"./uz-latn": 148,
+		"./uz-latn.js": 148,
+		"./uz.js": 149,
+		"./vi": 150,
+		"./vi.js": 150,
+		"./x-pseudo": 151,
+		"./x-pseudo.js": 151,
+		"./yo": 152,
+		"./yo.js": 152,
+		"./zh-cn": 153,
+		"./zh-cn.js": 153,
+		"./zh-hk": 154,
+		"./zh-hk.js": 154,
+		"./zh-tw": 155,
+		"./zh-tw.js": 155
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -19126,11 +19270,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 177;
+	webpackContext.id = 178;
 
 
 /***/ },
-/* 178 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19157,14 +19301,14 @@
 	exports.default = BaseData;
 
 /***/ },
-/* 179 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _stringify = __webpack_require__(169);
+	var _stringify = __webpack_require__(170);
 
 	var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -19172,19 +19316,21 @@
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _example = __webpack_require__(180);
+	var _example = __webpack_require__(181);
 
 	var _example2 = _interopRequireDefault(_example);
 
-	var _jquery = __webpack_require__(156);
+	var _jquery = __webpack_require__(157);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _jspdd = __webpack_require__(155);
+	var _jspdd = __webpack_require__(156);
 
 	var _jspdd2 = _interopRequireDefault(_jspdd);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var merge = __webpack_require__(222);
 
 	var DemoBase = function () {
 	    function DemoBase() {
@@ -19245,6 +19391,9 @@
 
 	        demo.fetchData(function (data) {
 
+	            console.log('fetech data', Date.now());
+	            console.log(data);
+
 	            data[0] = _this2.clone(data[0] || {});
 	            data[1] = _this2.clone(data[1] || {});
 	            data[2] = _this2.clone(data[2] || {});
@@ -19276,9 +19425,12 @@
 	            tmpNew = JSON.parse(_this.getFormJsonVal(_this.newData)),
 	            tmpDesc = JSON.parse(_this.getFormJsonVal(_this.descData));
 
-	        if (window.IGNORE_DEFAULT_DESC) {
+	        /*
+	        if( window.IGNORE_DEFAULT_DESC ){
 	            tmpDesc = {};
+	            console.info( 'ignore default desc' );
 	        }
+	        */
 
 	        tmpDesc = _jspdd2.default.generatorDict(this.clone(tmpSrc), this.clone(tmpNew), this.clone(tmpDesc));
 	        _this.descData.val((0, _stringify2.default)(tmpDesc, null, 4));
@@ -19423,7 +19575,7 @@
 	exports.default = DemoBase;
 
 /***/ },
-/* 180 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19434,25 +19586,25 @@
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(187);
+	var _possibleConstructorReturn2 = __webpack_require__(188);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(186);
+	var _inherits2 = __webpack_require__(187);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _assign = __webpack_require__(181);
+	var _assign = __webpack_require__(182);
 
 	var _assign2 = _interopRequireDefault(_assign);
 
-	__webpack_require__(220);
+	__webpack_require__(221);
 
-	var _basedata = __webpack_require__(178);
+	var _basedata = __webpack_require__(179);
 
 	var _basedata2 = _interopRequireDefault(_basedata);
 
-	var _jspdd = __webpack_require__(155);
+	var _jspdd = __webpack_require__(156);
 
 	var _jspdd2 = _interopRequireDefault(_jspdd);
 
@@ -19577,12 +19729,6 @@
 	exports.default = Example;
 
 /***/ },
-/* 181 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(188), __esModule: true };
-
-/***/ },
 /* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -19610,19 +19756,25 @@
 /* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = { "default": __webpack_require__(193), __esModule: true };
+
+/***/ },
+/* 187 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _setPrototypeOf = __webpack_require__(183);
+	var _setPrototypeOf = __webpack_require__(184);
 
 	var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
 
-	var _create = __webpack_require__(182);
+	var _create = __webpack_require__(183);
 
 	var _create2 = _interopRequireDefault(_create);
 
-	var _typeof2 = __webpack_require__(157);
+	var _typeof2 = __webpack_require__(158);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -19645,14 +19797,14 @@
 	};
 
 /***/ },
-/* 187 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _typeof2 = __webpack_require__(157);
+	var _typeof2 = __webpack_require__(158);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -19667,22 +19819,11 @@
 	};
 
 /***/ },
-/* 188 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(211);
-	module.exports = __webpack_require__(2).Object.assign;
-
-
-/***/ },
 /* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(212);
-	var $Object = __webpack_require__(2).Object;
-	module.exports = function create(P, D) {
-	  return $Object.create(P, D);
-	};
+	module.exports = __webpack_require__(2).Object.assign;
 
 
 /***/ },
@@ -19690,31 +19831,42 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(213);
-	module.exports = __webpack_require__(2).Object.setPrototypeOf;
+	var $Object = __webpack_require__(2).Object;
+	module.exports = function create(P, D) {
+	  return $Object.create(P, D);
+	};
 
 
 /***/ },
 /* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(216);
 	__webpack_require__(214);
-	__webpack_require__(217);
-	__webpack_require__(218);
-	module.exports = __webpack_require__(2).Symbol;
+	module.exports = __webpack_require__(2).Object.setPrototypeOf;
 
 
 /***/ },
 /* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
+	__webpack_require__(217);
 	__webpack_require__(215);
+	__webpack_require__(218);
 	__webpack_require__(219);
-	module.exports = __webpack_require__(31).f('iterator');
+	module.exports = __webpack_require__(2).Symbol;
 
 
 /***/ },
 /* 193 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(216);
+	__webpack_require__(220);
+	module.exports = __webpack_require__(31).f('iterator');
+
+
+/***/ },
+/* 194 */
 /***/ function(module, exports) {
 
 	module.exports = function (it) {
@@ -19724,21 +19876,21 @@
 
 
 /***/ },
-/* 194 */
+/* 195 */
 /***/ function(module, exports) {
 
 	module.exports = function () { /* empty */ };
 
 
 /***/ },
-/* 195 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// false -> Array#indexOf
 	// true  -> Array#includes
 	var toIObject = __webpack_require__(9);
-	var toLength = __webpack_require__(209);
-	var toAbsoluteIndex = __webpack_require__(208);
+	var toLength = __webpack_require__(210);
+	var toAbsoluteIndex = __webpack_require__(209);
 	module.exports = function (IS_INCLUDES) {
 	  return function ($this, el, fromIndex) {
 	    var O = toIObject($this);
@@ -19760,7 +19912,7 @@
 
 
 /***/ },
-/* 196 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// all enumerable object keys, includes symbols
@@ -19781,7 +19933,7 @@
 
 
 /***/ },
-/* 197 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var document = __webpack_require__(3).document;
@@ -19789,18 +19941,18 @@
 
 
 /***/ },
-/* 198 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.2.2 IsArray(argument)
-	var cof = __webpack_require__(158);
+	var cof = __webpack_require__(159);
 	module.exports = Array.isArray || function isArray(arg) {
 	  return cof(arg) == 'Array';
 	};
 
 
 /***/ },
-/* 199 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19819,7 +19971,7 @@
 
 
 /***/ },
-/* 200 */
+/* 201 */
 /***/ function(module, exports) {
 
 	module.exports = function (done, value) {
@@ -19828,7 +19980,7 @@
 
 
 /***/ },
-/* 201 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var META = __webpack_require__(18)('meta');
@@ -19887,7 +20039,7 @@
 
 
 /***/ },
-/* 202 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19895,8 +20047,8 @@
 	var getKeys = __webpack_require__(15);
 	var gOPS = __webpack_require__(24);
 	var pIE = __webpack_require__(16);
-	var toObject = __webpack_require__(168);
-	var IObject = __webpack_require__(162);
+	var toObject = __webpack_require__(169);
+	var IObject = __webpack_require__(163);
 	var $assign = Object.assign;
 
 	// should work with symbols and should have deterministic property order (V8 bug)
@@ -19927,7 +20079,7 @@
 
 
 /***/ },
-/* 203 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var dP = __webpack_require__(8);
@@ -19946,12 +20098,12 @@
 
 
 /***/ },
-/* 204 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 	var toIObject = __webpack_require__(9);
-	var gOPN = __webpack_require__(165).f;
+	var gOPN = __webpack_require__(166).f;
 	var toString = {}.toString;
 
 	var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -19971,12 +20123,12 @@
 
 
 /***/ },
-/* 205 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 	var has = __webpack_require__(4);
-	var toObject = __webpack_require__(168);
+	var toObject = __webpack_require__(169);
 	var IE_PROTO = __webpack_require__(26)('IE_PROTO');
 	var ObjectProto = Object.prototype;
 
@@ -19990,7 +20142,7 @@
 
 
 /***/ },
-/* 206 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -20005,7 +20157,7 @@
 	  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
 	    function (test, buggy, set) {
 	      try {
-	        set = __webpack_require__(159)(Function.call, __webpack_require__(164).f(Object.prototype, '__proto__').set, 2);
+	        set = __webpack_require__(160)(Function.call, __webpack_require__(165).f(Object.prototype, '__proto__').set, 2);
 	        set(test, []);
 	        buggy = !(test instanceof Array);
 	      } catch (e) { buggy = true; }
@@ -20021,7 +20173,7 @@
 
 
 /***/ },
-/* 207 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var toInteger = __webpack_require__(28);
@@ -20044,7 +20196,7 @@
 
 
 /***/ },
-/* 208 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var toInteger = __webpack_require__(28);
@@ -20057,7 +20209,7 @@
 
 
 /***/ },
-/* 209 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.15 ToLength
@@ -20069,12 +20221,12 @@
 
 
 /***/ },
-/* 210 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var addToUnscopables = __webpack_require__(194);
-	var step = __webpack_require__(200);
+	var addToUnscopables = __webpack_require__(195);
+	var step = __webpack_require__(201);
 	var Iterators = __webpack_require__(22);
 	var toIObject = __webpack_require__(9);
 
@@ -20082,7 +20234,7 @@
 	// 22.1.3.13 Array.prototype.keys()
 	// 22.1.3.29 Array.prototype.values()
 	// 22.1.3.30 Array.prototype[@@iterator]()
-	module.exports = __webpack_require__(163)(Array, 'Array', function (iterated, kind) {
+	module.exports = __webpack_require__(164)(Array, 'Array', function (iterated, kind) {
 	  this._t = toIObject(iterated); // target
 	  this._i = 0;                   // next index
 	  this._k = kind;                // kind
@@ -20109,17 +20261,17 @@
 
 
 /***/ },
-/* 211 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.3.1 Object.assign(target, source)
 	var $export = __webpack_require__(12);
 
-	$export($export.S + $export.F, 'Object', { assign: __webpack_require__(202) });
+	$export($export.S + $export.F, 'Object', { assign: __webpack_require__(203) });
 
 
 /***/ },
-/* 212 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $export = __webpack_require__(12);
@@ -20128,29 +20280,29 @@
 
 
 /***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.3.19 Object.setPrototypeOf(O, proto)
 	var $export = __webpack_require__(12);
-	$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(206).set });
+	$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(207).set });
 
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports) {
 
 	
 
 /***/ },
-/* 215 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var $at = __webpack_require__(207)(true);
+	var $at = __webpack_require__(208)(true);
 
 	// 21.1.3.27 String.prototype[@@iterator]()
-	__webpack_require__(163)(String, 'String', function (iterated) {
+	__webpack_require__(164)(String, 'String', function (iterated) {
 	  this._t = String(iterated); // target
 	  this._i = 0;                // next index
 	// 21.1.5.2.1 %StringIteratorPrototype%.next()
@@ -20166,7 +20318,7 @@
 
 
 /***/ },
-/* 216 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20175,8 +20327,8 @@
 	var has = __webpack_require__(4);
 	var DESCRIPTORS = __webpack_require__(5);
 	var $export = __webpack_require__(12);
-	var redefine = __webpack_require__(167);
-	var META = __webpack_require__(201).KEY;
+	var redefine = __webpack_require__(168);
+	var META = __webpack_require__(202).KEY;
 	var $fails = __webpack_require__(13);
 	var shared = __webpack_require__(27);
 	var setToStringTag = __webpack_require__(25);
@@ -20184,16 +20336,16 @@
 	var wks = __webpack_require__(10);
 	var wksExt = __webpack_require__(31);
 	var wksDefine = __webpack_require__(30);
-	var enumKeys = __webpack_require__(196);
-	var isArray = __webpack_require__(198);
+	var enumKeys = __webpack_require__(197);
+	var isArray = __webpack_require__(199);
 	var anObject = __webpack_require__(11);
 	var isObject = __webpack_require__(7);
 	var toIObject = __webpack_require__(9);
 	var toPrimitive = __webpack_require__(29);
 	var createDesc = __webpack_require__(17);
 	var _create = __webpack_require__(23);
-	var gOPNExt = __webpack_require__(204);
-	var $GOPD = __webpack_require__(164);
+	var gOPNExt = __webpack_require__(205);
+	var $GOPD = __webpack_require__(165);
 	var $DP = __webpack_require__(8);
 	var $keys = __webpack_require__(15);
 	var gOPD = $GOPD.f;
@@ -20318,7 +20470,7 @@
 
 	  $GOPD.f = $getOwnPropertyDescriptor;
 	  $DP.f = $defineProperty;
-	  __webpack_require__(165).f = gOPNExt.f = $getOwnPropertyNames;
+	  __webpack_require__(166).f = gOPNExt.f = $getOwnPropertyNames;
 	  __webpack_require__(16).f = $propertyIsEnumerable;
 	  __webpack_require__(24).f = $getOwnPropertySymbols;
 
@@ -20406,24 +20558,24 @@
 
 
 /***/ },
-/* 217 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(30)('asyncIterator');
 
 
 /***/ },
-/* 218 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(30)('observable');
 
 
 /***/ },
-/* 219 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(210);
+	__webpack_require__(211);
 	var global = __webpack_require__(3);
 	var hide = __webpack_require__(6);
 	var Iterators = __webpack_require__(22);
@@ -20445,7 +20597,7 @@
 
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -20914,6 +21066,109 @@
 	  }
 	  self.fetch.polyfill = true
 	})(typeof self !== 'undefined' ? self : this);
+
+
+/***/ },
+/* 222 */
+/***/ function(module, exports, __webpack_require__) {
+
+	(function (global, factory) {
+		 true ? module.exports = factory() :
+		typeof define === 'function' && define.amd ? define(factory) :
+		(global.deepmerge = factory());
+	}(this, (function () { 'use strict';
+
+	var isMergeableObject = function isMergeableObject(value) {
+		return isNonNullObject(value)
+			&& !isSpecial(value)
+	};
+
+	function isNonNullObject(value) {
+		return !!value && typeof value === 'object'
+	}
+
+	function isSpecial(value) {
+		var stringValue = Object.prototype.toString.call(value);
+
+		return stringValue === '[object RegExp]'
+			|| stringValue === '[object Date]'
+			|| isReactElement(value)
+	}
+
+	// see https://github.com/facebook/react/blob/b5ac963fb791d1298e7f396236383bc955f916c1/src/isomorphic/classic/element/ReactElement.js#L21-L25
+	var canUseSymbol = typeof Symbol === 'function' && Symbol.for;
+	var REACT_ELEMENT_TYPE = canUseSymbol ? Symbol.for('react.element') : 0xeac7;
+
+	function isReactElement(value) {
+		return value.$$typeof === REACT_ELEMENT_TYPE
+	}
+
+	function emptyTarget(val) {
+		return Array.isArray(val) ? [] : {}
+	}
+
+	function cloneUnlessOtherwiseSpecified(value, options) {
+		return (options.clone !== false && options.isMergeableObject(value))
+			? deepmerge(emptyTarget(value), value, options)
+			: value
+	}
+
+	function defaultArrayMerge(target, source, options) {
+		return target.concat(source).map(function(element) {
+			return cloneUnlessOtherwiseSpecified(element, options)
+		})
+	}
+
+	function mergeObject(target, source, options) {
+		var destination = {};
+		if (options.isMergeableObject(target)) {
+			Object.keys(target).forEach(function(key) {
+				destination[key] = cloneUnlessOtherwiseSpecified(target[key], options);
+			});
+		}
+		Object.keys(source).forEach(function(key) {
+			if (!options.isMergeableObject(source[key]) || !target[key]) {
+				destination[key] = cloneUnlessOtherwiseSpecified(source[key], options);
+			} else {
+				destination[key] = deepmerge(target[key], source[key], options);
+			}
+		});
+		return destination
+	}
+
+	function deepmerge(target, source, options) {
+		options = options || {};
+		options.arrayMerge = options.arrayMerge || defaultArrayMerge;
+		options.isMergeableObject = options.isMergeableObject || isMergeableObject;
+
+		var sourceIsArray = Array.isArray(source);
+		var targetIsArray = Array.isArray(target);
+		var sourceAndTargetTypesMatch = sourceIsArray === targetIsArray;
+
+		if (!sourceAndTargetTypesMatch) {
+			return cloneUnlessOtherwiseSpecified(source, options)
+		} else if (sourceIsArray) {
+			return options.arrayMerge(target, source, options)
+		} else {
+			return mergeObject(target, source, options)
+		}
+	}
+
+	deepmerge.all = function deepmergeAll(array, options) {
+		if (!Array.isArray(array)) {
+			throw new Error('first argument should be an array')
+		}
+
+		return array.reduce(function(prev, next) {
+			return deepmerge(prev, next, options)
+		}, {})
+	};
+
+	var deepmerge_1 = deepmerge;
+
+	return deepmerge_1;
+
+	})));
 
 
 /***/ }
