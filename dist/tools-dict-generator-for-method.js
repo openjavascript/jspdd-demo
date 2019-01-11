@@ -17160,6 +17160,12 @@
 
 	            this.diffData = (0, _deepDiff2.default)(this.srcData, this.newData);
 
+	            console.log('src diff', Date.now());
+	            console.log(this.diffData);
+	            console.log(this.DICT);
+
+	            this.filterIgnore(this.diffData, this.DICT);
+
 	            !(this.diffData && this.diffData.length) && (this.diffData = []);
 
 	            this.diffData = this.clone(this.diffData);
@@ -17179,6 +17185,37 @@
 	            });
 
 	            return this.result();
+	        }
+	    }, {
+	        key: 'filterIgnore',
+	        value: function filterIgnore(data, dict) {
+	            data = data || [];
+	            dict = dict || {};
+
+	            var _loop = function _loop(i) {
+	                var item = data[i];
+	                if (!(item && item.path && item.path.length)) return 'continue';
+	                var tmp = [],
+	                    isIgnore = void 0;
+	                item.path.map(function (sitem) {
+	                    tmp.push(sitem);
+	                    var tmpKey = tmp.join('.') + '.is_ignore_field';
+	                    if (dict[tmpKey] && dict[tmpKey].item === true) {
+	                        isIgnore = true;
+	                        return false;
+	                    }
+	                });
+	                if (isIgnore) {
+	                    data.splice(i, 1);
+	                    return 'continue';
+	                }
+	            };
+
+	            for (var i = data.length - 1; i >= 0; i--) {
+	                var _ret = _loop(i);
+
+	                if (_ret === 'continue') continue;
+	            }
 	        }
 	    }, {
 	        key: 'getParentDict',
@@ -17566,25 +17603,25 @@
 	            var r = this.DICT[item.fullpath] || null;
 
 	            if (!r && /[0-9]/.test(item.fullpath)) {
-	                var tmp = [];
+	                var _tmp = [];
 	                item.path.map(function (v) {
-	                    typeof v == 'string' && tmp.push(v);
-	                    typeof v == 'number' && tmp.push('_array');
+	                    typeof v == 'string' && _tmp.push(v);
+	                    typeof v == 'number' && _tmp.push('_array');
 	                });
 	                /*
 	                if( 'index' in item && typeof item.index == 'number' ) {
 	                    tmp.push( '_array' );
 	                }
 	                */
-	                tmp.length && (item.abspath = tmp.join('.'));
+	                _tmp.length && (item.abspath = _tmp.join('.'));
 
 	                item.abspath && (r = this.DICT[item.abspath]);
 	            }
 
 	            if (!(r && r.fulllabel && r.fulllabel.length) && item.fullpath) {
-	                var _tmp = this.DICT[item.fullpath + '._array'];
-	                if (_tmp && _tmp.fulllabel && _tmp.fulllabel.length) {
-	                    r = _tmp;
+	                var _tmp2 = this.DICT[item.fullpath + '._array'];
+	                if (_tmp2 && _tmp2.fulllabel && _tmp2.fulllabel.length) {
+	                    r = _tmp2;
 	                }
 	            }
 
@@ -17629,18 +17666,18 @@
 	                case '[object Object]':
 	                    {
 
-	                        var tmp = {};
+	                        var _tmp3 = {};
 
 	                        Object.keys(val).map(function (key, ix) {
 	                            var subItem = _this4.makeSubDictItem(dataItem, key);
 	                            var subDict = _this4.getDictData(subItem) || { item: {} };
 	                            subDict.finallabel = subDict.item;
 	                            //console.log( key, ix,  Object.keys( val ), subItem, subDict );
-	                            tmp[subDict.item ? subDict.item.label : key] = _this4.getDescribableVal(val[key], subDict, subDict, subItem, 1);
+	                            _tmp3[subDict.item ? subDict.item.label : key] = _this4.getDescribableVal(val[key], subDict, subDict, subItem, 1);
 	                        });
 
-	                        r = '\n' + JSON.stringify(tmp, null, 4);
-	                        ingoreEncode && (r = tmp);
+	                        r = '\n' + JSON.stringify(_tmp3, null, 4);
+	                        ingoreEncode && (r = _tmp3);
 
 	                        return r;
 	                    }
@@ -17873,11 +17910,11 @@
 	        switch (Object.prototype.toString.call(item)) {
 	            case '[object Array]':
 	                {
-	                    var tmp = item;
+	                    var _tmp4 = item;
 	                    if (item.length && Object.prototype.toString.call(item[0]) == '[object Object]') {
-	                        var _tmp2 = JSON.parse(JSON.stringify(item[0]));
-	                        (0, _jsonTraverser2.default)(_tmp2, cb);
-	                        pnt[key] = { _array: _tmp2, "label": label };
+	                        var _tmp5 = JSON.parse(JSON.stringify(item[0]));
+	                        (0, _jsonTraverser2.default)(_tmp5, cb);
+	                        pnt[key] = { _array: _tmp5, "label": label };
 	                    } else {
 	                        pnt[key] = {
 	                            _array: {
@@ -19330,8 +19367,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var merge = __webpack_require__(222);
-
 	var DemoBase = function () {
 	    function DemoBase() {
 	        (0, _classCallCheck3.default)(this, DemoBase);
@@ -19391,9 +19426,6 @@
 
 	        demo.fetchData(function (data) {
 
-	            console.log('fetech data', Date.now());
-	            console.log(data);
-
 	            data[0] = _this2.clone(data[0] || {});
 	            data[1] = _this2.clone(data[1] || {});
 	            data[2] = _this2.clone(data[2] || {});
@@ -19425,12 +19457,9 @@
 	            tmpNew = JSON.parse(_this.getFormJsonVal(_this.newData)),
 	            tmpDesc = JSON.parse(_this.getFormJsonVal(_this.descData));
 
-	        /*
-	        if( window.IGNORE_DEFAULT_DESC ){
+	        if (window.IGNORE_DEFAULT_DESC) {
 	            tmpDesc = {};
-	            console.info( 'ignore default desc' );
 	        }
-	        */
 
 	        tmpDesc = _jspdd2.default.generatorDict(this.clone(tmpSrc), this.clone(tmpNew), this.clone(tmpDesc));
 	        _this.descData.val((0, _stringify2.default)(tmpDesc, null, 4));
@@ -21066,109 +21095,6 @@
 	  }
 	  self.fetch.polyfill = true
 	})(typeof self !== 'undefined' ? self : this);
-
-
-/***/ },
-/* 222 */
-/***/ function(module, exports, __webpack_require__) {
-
-	(function (global, factory) {
-		 true ? module.exports = factory() :
-		typeof define === 'function' && define.amd ? define(factory) :
-		(global.deepmerge = factory());
-	}(this, (function () { 'use strict';
-
-	var isMergeableObject = function isMergeableObject(value) {
-		return isNonNullObject(value)
-			&& !isSpecial(value)
-	};
-
-	function isNonNullObject(value) {
-		return !!value && typeof value === 'object'
-	}
-
-	function isSpecial(value) {
-		var stringValue = Object.prototype.toString.call(value);
-
-		return stringValue === '[object RegExp]'
-			|| stringValue === '[object Date]'
-			|| isReactElement(value)
-	}
-
-	// see https://github.com/facebook/react/blob/b5ac963fb791d1298e7f396236383bc955f916c1/src/isomorphic/classic/element/ReactElement.js#L21-L25
-	var canUseSymbol = typeof Symbol === 'function' && Symbol.for;
-	var REACT_ELEMENT_TYPE = canUseSymbol ? Symbol.for('react.element') : 0xeac7;
-
-	function isReactElement(value) {
-		return value.$$typeof === REACT_ELEMENT_TYPE
-	}
-
-	function emptyTarget(val) {
-		return Array.isArray(val) ? [] : {}
-	}
-
-	function cloneUnlessOtherwiseSpecified(value, options) {
-		return (options.clone !== false && options.isMergeableObject(value))
-			? deepmerge(emptyTarget(value), value, options)
-			: value
-	}
-
-	function defaultArrayMerge(target, source, options) {
-		return target.concat(source).map(function(element) {
-			return cloneUnlessOtherwiseSpecified(element, options)
-		})
-	}
-
-	function mergeObject(target, source, options) {
-		var destination = {};
-		if (options.isMergeableObject(target)) {
-			Object.keys(target).forEach(function(key) {
-				destination[key] = cloneUnlessOtherwiseSpecified(target[key], options);
-			});
-		}
-		Object.keys(source).forEach(function(key) {
-			if (!options.isMergeableObject(source[key]) || !target[key]) {
-				destination[key] = cloneUnlessOtherwiseSpecified(source[key], options);
-			} else {
-				destination[key] = deepmerge(target[key], source[key], options);
-			}
-		});
-		return destination
-	}
-
-	function deepmerge(target, source, options) {
-		options = options || {};
-		options.arrayMerge = options.arrayMerge || defaultArrayMerge;
-		options.isMergeableObject = options.isMergeableObject || isMergeableObject;
-
-		var sourceIsArray = Array.isArray(source);
-		var targetIsArray = Array.isArray(target);
-		var sourceAndTargetTypesMatch = sourceIsArray === targetIsArray;
-
-		if (!sourceAndTargetTypesMatch) {
-			return cloneUnlessOtherwiseSpecified(source, options)
-		} else if (sourceIsArray) {
-			return options.arrayMerge(target, source, options)
-		} else {
-			return mergeObject(target, source, options)
-		}
-	}
-
-	deepmerge.all = function deepmergeAll(array, options) {
-		if (!Array.isArray(array)) {
-			throw new Error('first argument should be an array')
-		}
-
-		return array.reduce(function(prev, next) {
-			return deepmerge(prev, next, options)
-		}, {})
-	};
-
-	var deepmerge_1 = deepmerge;
-
-	return deepmerge_1;
-
-	})));
 
 
 /***/ }
