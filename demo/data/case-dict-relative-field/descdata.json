@@ -1,0 +1,46 @@
+{
+    "message": {
+        "label": "文字描述 message"
+    },
+    "test": {
+        "label": "nothing"
+    },
+    "data": {
+        "server_bandwidth_limit": {
+            "connection": {
+                "types": {
+                    "_array": {
+                       "type": {
+                            "label": "业务"
+                            , "enum": {
+                                "eventhandle": "违规事件上报"    
+                                , "cloudquery": "行为与文件查询"    
+                                , "policytask": "策略与任务"    
+                                , "uploadlog": "终端日志上报"    
+                                , "client": "终端管理"    
+                                , "datadownload": "数据下载请求"    
+                                , "": "关闭"
+                            }
+                            , "prefix_edit": "开启"
+                        },
+                        "limit": {
+                            "label": "并发数"
+                            , "enum": {
+                                "": "0"
+                            }
+                            , "relative_field": "type"
+                        },
+                        "label": "文字描述 0"
+                    },
+                    "label": "文字描述 types"
+                },
+                "label": "文字描述 connection"
+            },
+            "label": "文字描述 server_bandwidth_limit"
+        },
+        "label": "文字描述 data"
+    },
+    "errorCode": {
+        "label": "文字描述 errorCode"
+    }
+}

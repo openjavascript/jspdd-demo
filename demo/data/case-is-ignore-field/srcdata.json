@@ -1,0 +1,165 @@
+{
+    "base_config": {
+        "time_sync": {
+            "interval": "60"
+        },
+        "bandwidth": {
+            "upload": {
+                "speed_limit": "100",
+                "types": [
+                    "eventhandle"
+                ]
+            },
+            "download": {
+                "speed_limit": "100",
+                "schedules": [
+                    {
+                        "type": "1",
+                        "week": "3",
+                        "etime": "01:00",
+                        "stime": "00:00"
+                    }
+                ]
+            }
+        },
+        "upgrade": {
+            "timing_config": {
+                "allow_cycle": []
+            },
+            "type": "auto"
+        }
+    },
+    "security_config": {
+        "scene_mode": {
+            "mode": "production",
+            "production_config": {
+                "window_notice": {
+                    "type": "0"
+                },
+                "violation_disposal": {
+                    "type": "1"
+                },
+                "network_anomalies": {
+                    "limit": "4",
+                    "interval": "6"
+                }
+            }
+        },
+        "window_contact": {
+            "content": "0111"
+        },
+        "risk_control": {
+            "disk_rw": "1",
+            "removable": "1",
+            "browser": "0",
+            "driver_loaded": "1",
+            "office": "1"
+        },
+        "files_protect": {
+            "open": "0",
+            "files": [
+                "csv",
+                "doc",
+                "msg",
+                "ost",
+                "pdf",
+                "ppt",
+                "pptx",
+                "pst",
+                "vsd",
+                "vsdx",
+                "xls",
+                "xlsx"
+            ]
+        }
+    },
+    "other_config": {
+        "deploy_config": {
+            "violation_limited": {
+                "open": "0",
+                "5d_day_limit": "50"
+            },
+            "logs_limited": {
+                "open": "1",
+                "risk_control": {
+                    "open": "1",
+                    "limit": "500"
+                },
+                "bypass_monitor": {
+                    "open": "1",
+                    "limit": "500"
+                },
+                "soft_permis": {
+                    "open": "1",
+                    "limit": "1500"
+                },
+                "soft_using": {
+                    "open": "1",
+                    "limit": "500"
+                },
+                "suffix_permissions_stop": {
+                    "open": "1",
+                    "limit": "500"
+                },
+                "suffix_risk_stop": {
+                    "open": "1",
+                    "limit": "500"
+                }
+            }
+        },
+        "production_config": {
+            "violation_limited": {
+                "open": "1",
+                "5d_day_limit": "50",
+                "5d_minute_limit": "30"
+            },
+            "logs_limited": {
+                "open": "1",
+                "risk_control": {
+                    "open": "1",
+                    "limit": "500"
+                },
+                "bypass_monitor": {
+                    "open": "1",
+                    "limit": "500"
+                },
+                "soft_permis": {
+                    "open": "1",
+                    "limit": "1000"
+                },
+                "soft_using": {
+                    "open": "1",
+                    "limit": "500"
+                },
+                "timeout_stop": {
+                    "open": "1",
+                    "limit": "1000"
+                },
+                "audit_stop": {
+                    "open": "1",
+                    "limit": "500"
+                },
+                "suffix_permissions_stop": {
+                    "open": "1",
+                    "limit": "500"
+                },
+                "suffix_risk_stop": {
+                    "open": "1",
+                    "limit": "500"
+                }
+            }
+        },
+        "stack_features": {
+            "open": "0",
+            "limit": "1000"
+        },
+        "bypass_using": {
+            "soft_using": {
+                "open": "1"
+            },
+            "bypass": {
+                "open": "1"
+            }
+        }
+    }
+}

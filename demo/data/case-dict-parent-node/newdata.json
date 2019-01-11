@@ -1,0 +1,29 @@
+{
+    "message": "",
+    "data": {
+        "common_setting": {
+            "common_setting": {
+                "cloud_model": {
+                    "file_safe_model": "0"
+                }
+            }
+        },
+        "server_bandwidth_limit": {
+            "connection": {
+                "types": [
+                    {
+                        "type": "policytask",
+                        "limit": "2"
+                    },
+                    {
+                        "type": "cloudquery",
+                        "limit": "19"
+                    }
+                ],
+                "connection_limit": "100"
+            },
+            "server_number": "1"
+        }
+    },
+    "errorCode": 0
+}

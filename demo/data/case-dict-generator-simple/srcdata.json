@@ -1,9 +1,10 @@
 {
+    "testa": [ ],
     "data": {
         "detail": {
             "base_config": {
                 "time_sync": {
-                    "interval": "90",
+                    "interval": "60",
                     "inherit": "0"
                 },
                 "upgrade": {

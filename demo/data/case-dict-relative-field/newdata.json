@@ -1,0 +1,36 @@
+{
+    "message": "获取数据成功",
+    "data": {
+        "server_bandwidth_limit": {
+            "connection": {
+                "types": [
+                    {
+                        "type": "",
+                        "limit": "0"
+                    },
+                    {
+                        "type": "",
+                        "limit": "0"
+                    },
+                    {
+                        "type": "eventhandle",
+                        "limit": "1"
+                    },
+                    {
+                        "type": "",
+                        "limit": "0"
+                    },
+                    {
+                        "type": "",
+                        "limit": "0"
+                    },
+                    {
+                        "type": "",
+                        "limit": "0"
+                    }
+                ]
+            }
+        }
+    },
+    "errorCode": 0
+}

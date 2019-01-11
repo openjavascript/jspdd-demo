@@ -11,10 +11,11 @@
                     "interval": "900",
                     "inherit": "0"
                     , "testar": [ { "t": 1 } ]
-                    , "testar1": [ 12 ]
+                    , "testar1": []
                     , "testar2": [ { "a": 112 } ]
-                    , "testar3": [ 1111, 1114 ]
-                    , "testar4": [ [11112] ]
+                    , "testar3": [ 1111, 1114, 555 ]
+                    , "testar4": [ [11112323] ]
+                    , "dar": [ [ null, { "k1": 1 } ] ]
                 },
                 "testNew": "new item"
             },

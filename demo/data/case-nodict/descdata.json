@@ -1,0 +1,310 @@
+{
+    "data": {
+        "detail": {
+            "base_config": {
+                "time_sync": {
+                    "interval": {
+                        "label": "终端与运营中心通讯间隔",
+                        "unit": "秒"
+                    },
+                    "inherit": {
+                        "label": "继承",
+                        "enum": {
+                            "0": "不继承",
+                            "1": "继承"
+                        }
+                    },
+                    "label": "通讯设置"
+                },
+                "upgrade": {
+                    "inherit": {
+                        "label": "继承",
+                        "enum": {
+                            "0": "不继承",
+                            "1": "继承"
+                        }
+                    },
+                    "type": {
+                        "label": "自动升级",
+                        "enum": {
+                            "auto": "自动升级主程序和规则库到最新版",
+                            "timing": "定时升级",
+                            "close": "不自动升级"
+                        }
+                    },
+                    "timing_config": {
+                        "allow_cycle": {
+                            "_array": {
+                                "label": "定时升级内容",
+                                "type": {
+                                    "label": "日期类型",
+                                    "enum": {
+                                        "0": "每天",
+                                        "1": "每周"
+                                    }
+                                },
+                                "week": {
+                                    "label": "星期",
+                                    "enum": {
+                                        "0": "日",
+                                        "1": "一",
+                                        "2": "二",
+                                        "3": "三",
+                                        "4": "四",
+                                        "5": "五",
+                                        "6": "六"
+                                    }
+                                },
+                                "etime": {
+                                    "label": "结束时间"
+                                },
+                                "stime": {
+                                    "label": "开始时间"
+                                }
+                            }
+                        },
+                        "inherit": {
+                            "label": "继承",
+                            "enum": {
+                                "0": "不继承",
+                                "1": "继承"
+                            }
+                        }
+                    },
+                    "label": "升级设置"
+                },
+                "bandwidth": {
+                    "inherit": {
+                        "label": "继承",
+                        "enum": {
+                            "0": "不继承",
+                            "1": "继承"
+                        }
+                    },
+                    "upload": {
+                        "types": {
+                            "_array": {
+                                "label": "上传限速的业务",
+                                "enum": {
+                                    "eventhandle": "违规事件上报",
+                                    "cloudquery": "行为与文件查询",
+                                    "uploadlog": "终端日志上报"
+                                }
+                            },
+                            "label": ""
+                        },
+                        "speed_limit": {
+                            "label": "终端上传业务限速",
+                            "unit": "KB/s"
+                        },
+                        "inherit": {
+                            "label": "继承",
+                            "enum": {
+                                "0": "不继承",
+                                "1": "继承"
+                            }
+                        },
+                        "label": ""
+                    },
+                    "download": {
+                        "schedules": {
+                            "_array": {
+                                "label": "设置下载限速时间",
+                                "type": {
+                                    "label": "日期类型",
+                                    "enum": {
+                                        "0": "每天",
+                                        "1": "每周"
+                                    }
+                                },
+                                "week": {
+                                    "label": "星期",
+                                    "enum": {
+                                        "0": "日",
+                                        "1": "一",
+                                        "2": "二",
+                                        "3": "三",
+                                        "4": "四",
+                                        "5": "五",
+                                        "6": "六"
+                                    }
+                                },
+                                "etime": {
+                                    "label": "结束时间"
+                                },
+                                "stime": {
+                                    "label": "开始时间"
+                                }
+                            },
+                            "label": ""
+                        },
+                        "speed_limit": {
+                            "label": "终端升级数据下载限速",
+                            "unit": "KB/s"
+                        },
+                        "inherit": {
+                            "label": "继承",
+                            "enum": {
+                                "0": "不继承",
+                                "1": "继承"
+                            }
+                        },
+                        "label": ""
+                    },
+                    "label": "带宽设置"
+                },
+                "label": "基本设置"
+            },
+            "security_config": {
+                "scene_mode": {
+                    "inherit": {
+                        "label": "继承",
+                        "enum": {
+                            "0": "不继承",
+                            "1": "继承"
+                        }
+                    },
+                    "mode": {
+                        "label": "模式变更",
+                        "enum": {
+                            "emergency": "应急模式",
+                            "production": "生产模式",
+                            "deploy": "部署模式"
+                        }
+                    },
+                    "production_config": {
+                        "label": "生产模式配置",
+                        "window_notice": {
+                            "type": {
+                                "label": "弹窗模式设置",
+                                "enum": {
+                                    "0": "智能模式",
+                                    "1": "免打扰模式"
+                                }
+                            }
+                        },
+                        "violation_disposal": {
+                            "type": {
+                                "label": "违规行为异常处理",
+                                "enum": {
+                                    "0": "安全优先",
+                                    "1": "稳定优先"
+                                }
+                            }
+                        }
+                    },
+                    "deploy_config": {
+                        "scanner_soft": {
+                            "open": {
+                                "inherit": {
+                                    "label": "继承",
+                                    "enum": {
+                                        "0": "不继承",
+                                        "1": "继承"
+                                    }
+                                },
+                                "label": "软件信息收集",
+                                "enum": {
+                                    "0": "关闭",
+                                    "1": "开启"
+                                }
+                            },
+                            "ban_cycle": {
+                                "_array": {
+                                    "type": {
+                                        "label": "周期",
+                                        "enum": {
+                                            "0": "每天"
+                                        }
+                                    },
+                                    "etime": {
+                                        "label": "结束时间"
+                                    },
+                                    "stime": {
+                                        "label": "开始时间"
+                                    },
+                                    "label": "设置限制扫描及上报的时间"
+                                }
+                            },
+                            "types": {
+                                "_array": {
+                                    "label": "添加需要扫描的文件类型"
+                                }
+                            }
+                        },
+                        "label": "部署模式"
+                    },
+                    "label": "场景模式"
+                },
+                "risk_control": {
+                    "label": "风险控制",
+                    "inherit": {
+                        "label": "继承",
+                        "enum": {
+                            "0": "不继承",
+                            "1": "继承"
+                        }
+                    },
+                    "disk_rw": {
+                        "label": "磁盘风险防护",
+                        "enum": {
+                            "0": "关闭",
+                            "1": "开启"
+                        }
+                    },
+                    "removable": {
+                        "label": "移动介质风险防护",
+                        "enum": {
+                            "0": "关闭",
+                            "1": "开启"
+                        }
+                    },
+                    "browser": {
+                        "label": "浏览器风险防护",
+                        "enum": {
+                            "0": "关闭",
+                            "1": "开启"
+                        }
+                    },
+                    "driver_loaded": {
+                        "label": "驱动防护",
+                        "enum": {
+                            "0": "关闭",
+                            "1": "开启"
+                        }
+                    }
+                },
+                "files_protect": {
+                    "label": "数据防护",
+                    "inherit": {
+                        "label": "继承",
+                        "enum": {
+                            "0": "不继承",
+                            "1": "继承"
+                        }
+                    },
+                    "open": {
+                        "label": "启用文件保护",
+                        "enum": {
+                            "0": "关闭",
+                            "1": "开启"
+                        }
+                    },
+                    "files": {
+                        "_array": {
+                            "label": "后缀"
+                        },
+                        "label": "文件类型"
+                    }
+                },
+                "label": "安全防护"
+            },
+            "other_config": {
+                "is_ignore": true,
+                "label": "其他设置"
+            },
+            "label": "终端策略"
+        },
+        "label": "策略中心"
+    }
+}
