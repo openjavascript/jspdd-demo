@@ -35,7 +35,7 @@ export default class DemoBase {
             this.demo.userId = window.USERID;
         }
 
-        if( window.ALLDATA ) {
+        if( typeof window.ALLDATA != 'undefined' ) {
             this.demo.alldata = window.ALLDATA;
         }
     }
